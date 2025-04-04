@@ -129,13 +129,13 @@ it { is_expected.to have_line_text_message(/Nice to meet you!/) }
 | Location | ❌        |
 | Imagemap | ❌        |
 | Template | ❌        |
-| Flex     | ❌        |
+| Flex     | 🚧        |
 
 ### Actions
 
 | Action Type     | Supported |
 | -----------     | --------- |
-| Postback        | ✅        |
+| Postback        | 🚧        |
 | Message         | ✅        |
 | Uri             | ❌        |
 | Datetime        | ❌        |
