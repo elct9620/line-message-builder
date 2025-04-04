@@ -38,7 +38,8 @@ RSpec.describe Line::Message::Builder::QuickReply::Builder do
       before do
         builder.postback data: "action=buy&itemid=123", label: "Buy"
         builder.postback data: "action=add&itemid=123", label: "Add to Cart",
-                         text: "Added to cart", image_url: "https://example.com/cart.png"
+                         display_text: "Added to cart",
+                         image_url: "https://example.com/cart.png"
       end
 
       it { is_expected.to include(items: be_an(Array)) }
@@ -51,11 +52,12 @@ RSpec.describe Line::Message::Builder::QuickReply::Builder do
         )
       end
 
-      it "formats the postback action with text and image correctly" do
+      it "formats the postback action with text and image correctly" do # rubocop:disable RSpec/ExampleLength
         expect(result[:items][1]).to include(
           type: "action",
           imageUrl: "https://example.com/cart.png",
-          action: { type: "postback", label: "Add to Cart", data: "action=add&itemid=123", text: "Added to cart" }
+          action: { type: "postback", label: "Add to Cart", data: "action=add&itemid=123",
+                    displayText: "Added to cart" }
         )
       end
     end

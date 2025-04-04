@@ -12,25 +12,16 @@ module Line
             super
           end
 
-          def message(text, label:, image_url: nil)
+          def message(text, label:, image_url: nil, &)
             action(
-              {
-                type: "message",
-                label: label,
-                text: text
-              },
+              Actions::Message.new(text: text, label: label, &).to_h,
               image_url
             )
           end
 
-          def postback(data:, label:, text: nil, image_url: nil)
+          def postback(data:, label: nil, display_text: nil, image_url: nil, &)
             action(
-              {
-                type: "postback",
-                label: label,
-                data: data,
-                text: text
-              }.compact,
+              Actions::Postback.new(data: data, label: label, display_text: display_text, &).to_h,
               image_url
             )
           end

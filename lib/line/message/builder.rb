@@ -9,6 +9,7 @@ module Line
       class Error < StandardError; end
 
       require_relative "builder/base"
+      require_relative "builder/actions"
       require_relative "builder/quick_reply"
       require_relative "builder/text"
 
