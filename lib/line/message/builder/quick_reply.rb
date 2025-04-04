@@ -8,7 +8,7 @@ module Line
         require_relative "quick_reply/builder"
 
         def quick_reply(&)
-          @quick_reply ||= Builder.new(context, &)
+          @quick_reply ||= Builder.new(context: context, &)
         end
       end
     end

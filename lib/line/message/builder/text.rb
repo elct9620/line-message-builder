@@ -18,7 +18,7 @@ module Line
             type: "text",
             text: @text,
             quickReply: @quick_reply&.to_h
-          }.compact!
+          }.compact
         end
       end
     end

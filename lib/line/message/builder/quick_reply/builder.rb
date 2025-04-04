@@ -6,7 +6,7 @@ module Line
       module QuickReply
         # The Builder class is used to build quick reply buttons.
         class Builder < Line::Message::Builder::Base
-          def initialize(context = nil, &)
+          def initialize(context: nil, &)
             @items = []
 
             super
@@ -46,7 +46,7 @@ module Line
               type: "action",
               imageUrl: image_url,
               action: action
-            }.compact!
+            }.compact
           end
         end
       end
