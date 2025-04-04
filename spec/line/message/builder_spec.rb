@@ -3,6 +3,7 @@
 RSpec.describe Line::Message::Builder do
   describe "VERSION" do
     subject { Line::Message::Builder::VERSION }
+
     it { is_expected.not_to be_nil }
   end
 
@@ -12,28 +13,26 @@ RSpec.describe Line::Message::Builder do
       require "line/message/builder/text"
     end
 
-    describe "with a single text message" do
+    context "with a single text message" do
       subject(:builder) do
         described_class.new do
           text "Hello, world!"
         end
       end
 
-      describe "result" do
-        subject { builder.build }
+      context "when building messages" do
+        subject(:result) { builder.build }
 
         it { is_expected.to be_an(Array) }
         it { is_expected.to have_attributes(size: 1) }
 
-        describe "first message" do
-          subject { builder.build.first }
-
-          it { is_expected.to eq({ type: "text", text: "Hello, world!" }) }
+        it "formats the message correctly" do
+          expect(result.first).to eq({ type: "text", text: "Hello, world!" })
         end
       end
     end
 
-    describe "with multiple text messages" do
+    context "with multiple text messages" do
       subject(:builder) do
         described_class.new do
           text "First message"
@@ -41,27 +40,21 @@ RSpec.describe Line::Message::Builder do
         end
       end
 
-      describe "result" do
-        subject { builder.build }
+      subject(:result) { builder.build }
 
-        it { is_expected.to be_an(Array) }
-        it { is_expected.to have_attributes(size: 2) }
+      it { is_expected.to be_an(Array) }
+      it { is_expected.to have_attributes(size: 2) }
+
+      it "formats the first message correctly" do
+        expect(result[0]).to include(text: "First message")
       end
 
-      describe "first message" do
-        subject { builder.build[0] }
-
-        it { is_expected.to include(text: "First message") }
-      end
-
-      describe "second message" do
-        subject { builder.build[1] }
-
-        it { is_expected.to include(text: "Second message") }
+      it "formats the second message correctly" do
+        expect(result[1]).to include(text: "Second message")
       end
     end
 
-    describe "with context" do
+    context "with context" do
       subject(:builder) do
         described_class.new(ctx) do
           text "Hello with context"
@@ -70,14 +63,12 @@ RSpec.describe Line::Message::Builder do
 
       let(:ctx) { { user_id: "U123456789" } }
 
-      describe "context" do
-        subject { builder.context }
-
-        it { is_expected.to eq(ctx) }
+      it "passes context to the builder" do
+        expect(builder.context).to eq(ctx)
       end
     end
 
-    describe "with context methods" do
+    context "with context methods" do
       subject(:builder) do
         described_class.new(ctx) do
           text "#{greeting}, #{user_name}!"
@@ -96,10 +87,8 @@ RSpec.describe Line::Message::Builder do
         end.new
       end
 
-      describe "message text" do
-        subject { builder.build.first[:text] }
-
-        it { is_expected.to eq("Hello, John Doe!") }
+      it "allows calling methods from context" do
+        expect(builder.build.first[:text]).to eq("Hello, John Doe!")
       end
     end
   end
