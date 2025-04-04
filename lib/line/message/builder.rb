@@ -22,8 +22,8 @@ module Line
         instance_eval(&) if ::Kernel.block_given?
       end
 
-      def text(text)
-        @messages << Text.new(text, context: context)
+      def text(text, &)
+        @messages << Text.new(text, context: context, &)
       end
 
       def build
