@@ -6,6 +6,10 @@ RSpec.describe Line::Message::Builder do
   end
 
   describe "#build" do
+    before do
+      # 確保 Text 類被加載
+      require "line/message/builder/text"
+    end
     describe "with a single text message" do
       let(:builder) do
         described_class.new do
@@ -59,21 +63,21 @@ RSpec.describe Line::Message::Builder do
     end
 
     describe "with context" do
-      let(:context) { { user_id: "U123456789" } }
+      let(:ctx) { { user_id: "U123456789" } }
 
       let(:builder) do
-        described_class.new(context) do
+        described_class.new(ctx) do
           text "Hello with context"
         end
       end
 
       it "passes context to the builder" do
-        expect(builder.context).to eq(context)
+        expect(builder.context).to eq(ctx)
       end
     end
 
     describe "with context methods" do
-      let(:context) do
+      let(:ctx) do
         Class.new do
           def user_name
             "John Doe"
@@ -86,7 +90,7 @@ RSpec.describe Line::Message::Builder do
       end
 
       let(:builder) do
-        described_class.new(context) do
+        described_class.new(ctx) do
           text "#{greeting}, #{user_name}!"
         end
       end
