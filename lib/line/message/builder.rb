@@ -12,6 +12,7 @@ module Line
       require_relative "builder/actions"
       require_relative "builder/quick_reply"
       require_relative "builder/text"
+      require_relative "builder/flex"
 
       attr_reader :context
 
@@ -24,6 +25,10 @@ module Line
 
       def text(text, &)
         @messages << Text.new(text, context: context, &)
+      end
+
+      def flex(&)
+        @messages << Flex::Builder.new(context: context, &)
       end
 
       def build
