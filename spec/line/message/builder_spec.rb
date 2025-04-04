@@ -11,41 +11,70 @@ RSpec.describe Line::Message::Builder do
       require "line/message/builder/text"
     end
 
-    it "builds a single text message" do
-      builder = described_class.new do
-        text "Hello, world!"
+    describe "with a single text message" do
+      let(:builder) do
+        described_class.new do
+          text "Hello, world!"
+        end
+      end
+      
+      let(:result) { builder.build }
+
+      it "returns an array" do
+        expect(result).to be_an(Array)
       end
 
-      result = builder.build
-      expect(result).to be_an(Array)
-      expect(result.size).to eq(1)
-      expect(result.first).to eq({
-                                   type: "text",
-                                   text: "Hello, world!"
-                                 })
+      it "contains one message" do
+        expect(result.size).to eq(1)
+      end
+
+      it "has the correct message format" do
+        expect(result.first).to eq({
+          type: "text",
+          text: "Hello, world!"
+        })
+      end
     end
 
-    it "builds multiple text messages" do
-      builder = described_class.new do
-        text "First message"
-        text "Second message"
+    describe "with multiple text messages" do
+      let(:builder) do
+        described_class.new do
+          text "First message"
+          text "Second message"
+        end
+      end
+      
+      let(:result) { builder.build }
+
+      it "returns an array" do
+        expect(result).to be_an(Array)
       end
 
-      result = builder.build
-      expect(result).to be_an(Array)
-      expect(result.size).to eq(2)
-      expect(result[0][:text]).to eq("First message")
-      expect(result[1][:text]).to eq("Second message")
+      it "contains two messages" do
+        expect(result.size).to eq(2)
+      end
+
+      it "has the correct first message text" do
+        expect(result[0][:text]).to eq("First message")
+      end
+
+      it "has the correct second message text" do
+        expect(result[1][:text]).to eq("Second message")
+      end
     end
 
-    it "passes context to messages" do
-      context = { user_id: "U123456789" }
-      builder = described_class.new(context) do
-        text "Hello with context"
+    describe "with context" do
+      let(:context) { { user_id: "U123456789" } }
+      
+      let(:builder) do
+        described_class.new(context) do
+          text "Hello with context"
+        end
       end
 
-      # 驗證 context 被正確傳遞
-      expect(builder.context).to eq(context)
+      it "passes context to the builder" do
+        expect(builder.context).to eq(context)
+      end
     end
   end
 end
