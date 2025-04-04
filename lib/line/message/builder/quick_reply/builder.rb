@@ -19,7 +19,7 @@ module Line
             )
           end
 
-          def postback(data:, label: nil, display_text: nil, image_url: nil, &)
+          def postback(data, label: nil, display_text: nil, image_url: nil, &)
             action(
               Actions::Postback.new(data: data, label: label, display_text: display_text, &).to_h,
               image_url

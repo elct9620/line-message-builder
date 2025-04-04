@@ -36,10 +36,10 @@ RSpec.describe Line::Message::Builder::QuickReply::Builder do
 
     context "with postback actions" do
       before do
-        builder.postback data: "action=buy&itemid=123", label: "Buy"
-        builder.postback data: "action=add&itemid=123", label: "Add to Cart",
-                         display_text: "Added to cart",
-                         image_url: "https://example.com/cart.png"
+        builder.postback "action=buy&itemid=123", label: "Buy"
+        builder.postback "action=add&itemid=123", label: "Add to Cart",
+                                                  display_text: "Added to cart",
+                                                  image_url: "https://example.com/cart.png"
       end
 
       it { is_expected.to include(items: be_an(Array)) }
