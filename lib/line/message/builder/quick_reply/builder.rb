@@ -30,7 +30,7 @@ module Line
                 label: label,
                 data: data,
                 text: text
-              },
+              }.compact,
               image_url
             )
           end
