@@ -89,6 +89,30 @@ builder = Line::MessageBuilder::Builder.new(context) do
 end
 ```
 
+### RSpec Matcher
+
+Add `line/message/rspec` to your `spec_helper.rb` or `rails_helper.rb`:
+
+```ruby
+require "line/message/rspec"
+```
+
+Then the matchers are available in your specs:
+
+```ruby
+let(:builder) do
+    Line::MessageBuilder::Builder.new do
+        text "Hello, world!"
+        text "Nice to meet you!"
+    end
+end
+
+subject { builder.build }
+
+it { is_expected.to have_line_text_message("Hello, world!") }
+it { is_expected.to have_line_text_message(/Nice to meet you!/) }
+```
+
 ## Capabilities
 
 ### Message Types
