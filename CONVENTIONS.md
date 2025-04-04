@@ -18,18 +18,21 @@ Only use comments for RDoc documentation. Do not use comments to explain anythin
 
 ## RSpec
 
+- Don't require any files in your spec files. RSpec will automatically require the necessary files for you.
 - Each example should only have one assertion.
 - Prefer `it { is_expected.to ... }` over `expect(...)` syntax.
 - Use `subject` to define the object under test.
-
 ```ruby
 describe "#build" do
   subject { builder.build }
 end
 ```
+- Use `let` to override the subject if needed.
+```ruby
+let(:builder) { described_class.new }
+```
 
 - Name subject if needed.
-
 ```ruby
 subject(:builder) { described_class.new }
 

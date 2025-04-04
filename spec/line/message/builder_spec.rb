@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe Line::Message::Builder do
+  subject(:builder) do
+    described_class.new do
+      text "Hello, world!"
+    end
+  end
+
   describe "VERSION" do
     subject { Line::Message::Builder::VERSION }
 
@@ -8,39 +14,22 @@ RSpec.describe Line::Message::Builder do
   end
 
   describe "#build" do
-    before do
-      # 確保 Text 類被加載
-      require "line/message/builder/text"
-    end
+    subject(:result) { builder.build }
 
     context "with a single text message" do
-      subject(:builder) do
-        described_class.new do
-          text "Hello, world!"
-        end
-      end
+      it { is_expected.to be_an(Array) }
+      it { is_expected.to have_attributes(size: 1) }
 
-      context "when building messages" do
-        subject(:result) { builder.build }
-
-        it { is_expected.to be_an(Array) }
-        it { is_expected.to have_attributes(size: 1) }
-
-        it "formats the message correctly" do
-          expect(result.first).to eq({ type: "text", text: "Hello, world!" })
-        end
-      end
+      it { is_expected.to include({ type: "text", text: "Hello, world!" }) }
     end
 
     context "with multiple text messages" do
-      subject(:builder) do
+      let(:builder) do
         described_class.new do
           text "First message"
           text "Second message"
         end
       end
-
-      subject(:result) { builder.build }
 
       it { is_expected.to be_an(Array) }
       it { is_expected.to have_attributes(size: 2) }
@@ -55,21 +44,7 @@ RSpec.describe Line::Message::Builder do
     end
 
     context "with context" do
-      subject(:builder) do
-        described_class.new(ctx) do
-          text "Hello with context"
-        end
-      end
-
-      let(:ctx) { { user_id: "U123456789" } }
-
-      it "passes context to the builder" do
-        expect(builder.context).to eq(ctx)
-      end
-    end
-
-    context "with context methods" do
-      subject(:builder) do
+      let(:builder) do
         described_class.new(ctx) do
           text "#{greeting}, #{user_name}!"
         end
@@ -88,7 +63,7 @@ RSpec.describe Line::Message::Builder do
       end
 
       it "allows calling methods from context" do
-        expect(builder.build.first[:text]).to eq("Hello, John Doe!")
+        expect(result.first[:text]).to eq("Hello, John Doe!")
       end
     end
   end
