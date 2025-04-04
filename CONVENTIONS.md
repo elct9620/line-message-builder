@@ -18,6 +18,7 @@ Only use comments for RDoc documentation. Do not use comments to explain anythin
 
 ## RSpec
 
+- Write feature tests instead of unit tests, use `Line::Message::Builder` as test subject to verify the behavior of the DSL.
 - Don't require any files in your spec files. RSpec will automatically require the necessary files for you.
 - Each example should only have one assertion.
 - Prefer `it { is_expected.to ... }` over `expect(...)` syntax.
