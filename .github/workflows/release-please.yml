@@ -17,10 +17,5 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - uses: googleapis/release-please-action@v4
-        id: release
-
-  release-gem:
-    if: ${{ needs.release-please.outputs.release_created }}
-    needs: release-please
-    uses: ./.github/workflows/release.yml
-    secrets: inherit
+      - uses: rubygems/release-gem@v1
+        if: ${{ steps.release.outputs.release_created }}
