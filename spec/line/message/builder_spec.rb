@@ -71,5 +71,31 @@ RSpec.describe Line::Message::Builder do
         expect(builder.context).to eq(context)
       end
     end
+
+    describe "with context methods" do
+      let(:context) do
+        Class.new do
+          def user_name
+            "John Doe"
+          end
+
+          def greeting
+            "Hello"
+          end
+        end.new
+      end
+
+      let(:builder) do
+        described_class.new(context) do
+          text "#{greeting}, #{user_name}!"
+        end
+      end
+
+      let(:result) { builder.build }
+
+      it "allows calling methods from context" do
+        expect(result.first[:text]).to eq("Hello, John Doe!")
+      end
+    end
   end
 end
