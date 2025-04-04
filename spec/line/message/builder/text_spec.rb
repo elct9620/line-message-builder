@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe Line::Message::Builder::Text do
-  subject(:text_builder) { described_class.new(message_text, context: context) }
+  subject(:text_builder) { described_class.new(message_text, context: ctx) }
 
   let(:message_text) { "Hello, world!" }
-  let(:context) { nil }
+  let(:ctx) { nil }
 
   describe "#to_h" do
     subject { text_builder.to_h }
@@ -15,7 +15,7 @@ RSpec.describe Line::Message::Builder::Text do
   end
 
   context "with context" do
-    let(:context) do
+    let(:ctx) do
       Class.new do
         def user_name
           "John Doe"
