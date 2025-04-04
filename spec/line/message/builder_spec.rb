@@ -6,18 +6,13 @@ RSpec.describe Line::Message::Builder do
   end
 
   describe "#build" do
-    before do
-      # 確保 Text 類被加載
-      require "line/message/builder/text"
-    end
-
     describe "with a single text message" do
       let(:builder) do
         described_class.new do
           text "Hello, world!"
         end
       end
-      
+
       let(:result) { builder.build }
 
       it "returns an array" do
@@ -30,9 +25,9 @@ RSpec.describe Line::Message::Builder do
 
       it "has the correct message format" do
         expect(result.first).to eq({
-          type: "text",
-          text: "Hello, world!"
-        })
+                                     type: "text",
+                                     text: "Hello, world!"
+                                   })
       end
     end
 
@@ -43,7 +38,7 @@ RSpec.describe Line::Message::Builder do
           text "Second message"
         end
       end
-      
+
       let(:result) { builder.build }
 
       it "returns an array" do
@@ -65,7 +60,7 @@ RSpec.describe Line::Message::Builder do
 
     describe "with context" do
       let(:context) { { user_id: "U123456789" } }
-      
+
       let(:builder) do
         described_class.new(context) do
           text "Hello with context"
