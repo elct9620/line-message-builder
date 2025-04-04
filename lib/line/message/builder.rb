@@ -4,9 +4,40 @@ require_relative "builder/version"
 
 module Line
   module Message
-    module Builder
+    # The Builder module provides a DSL for building LINE messages.
+    class Builder
       class Error < StandardError; end
-      # Your code goes here...
+
+      autoload :Base, "line/message/builder/base"
+
+      attr_reader :context
+
+      def initialize(context = nil, &)
+        @messages = []
+        @context = context
+
+        instance_eval(&) if ::Kernel.block_given?
+      end
+
+      def text(text)
+        @messages << Text.new(text, context: context)
+      end
+
+      def build
+        @messages.map(&:to_h)
+      end
+
+      def respond_to_missing?(method_name, include_private = false)
+        context.respond_to?(method_name, include_private) || super
+      end
+
+      def method_missing(method_name, ...)
+        if context.respond_to?(method_name)
+          context.public_send(method_name, ...)
+        else
+          super
+        end
+      end
     end
   end
 end
