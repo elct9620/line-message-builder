@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe Line::Message::Builder do
-  it "has a version number" do
-    expect(Line::Message::Builder::VERSION).not_to be_nil
+  describe "VERSION" do
+    subject { Line::Message::Builder::VERSION }
+    it { is_expected.not_to be_nil }
   end
 
   describe "#build" do
@@ -10,73 +11,79 @@ RSpec.describe Line::Message::Builder do
       # 確保 Text 類被加載
       require "line/message/builder/text"
     end
+
     describe "with a single text message" do
-      let(:builder) do
+      subject(:builder) do
         described_class.new do
           text "Hello, world!"
         end
       end
 
-      let(:result) { builder.build }
+      describe "result" do
+        subject { builder.build }
 
-      it "returns an array" do
-        expect(result).to be_an(Array)
-      end
+        it { is_expected.to be_an(Array) }
+        it { is_expected.to have_attributes(size: 1) }
 
-      it "contains one message" do
-        expect(result.size).to eq(1)
-      end
+        describe "first message" do
+          subject { builder.build.first }
 
-      it "has the correct message format" do
-        expect(result.first).to eq({
-                                     type: "text",
-                                     text: "Hello, world!"
-                                   })
+          it { is_expected.to eq({ type: "text", text: "Hello, world!" }) }
+        end
       end
     end
 
     describe "with multiple text messages" do
-      let(:builder) do
+      subject(:builder) do
         described_class.new do
           text "First message"
           text "Second message"
         end
       end
 
-      let(:result) { builder.build }
+      describe "result" do
+        subject { builder.build }
 
-      it "returns an array" do
-        expect(result).to be_an(Array)
+        it { is_expected.to be_an(Array) }
+        it { is_expected.to have_attributes(size: 2) }
       end
 
-      it "contains two messages" do
-        expect(result.size).to eq(2)
+      describe "first message" do
+        subject { builder.build[0] }
+
+        it { is_expected.to include(text: "First message") }
       end
 
-      it "has the correct first message text" do
-        expect(result[0][:text]).to eq("First message")
-      end
+      describe "second message" do
+        subject { builder.build[1] }
 
-      it "has the correct second message text" do
-        expect(result[1][:text]).to eq("Second message")
+        it { is_expected.to include(text: "Second message") }
       end
     end
 
     describe "with context" do
-      let(:ctx) { { user_id: "U123456789" } }
-
-      let(:builder) do
+      subject(:builder) do
         described_class.new(ctx) do
           text "Hello with context"
         end
       end
 
-      it "passes context to the builder" do
-        expect(builder.context).to eq(ctx)
+      let(:ctx) { { user_id: "U123456789" } }
+
+      describe "context" do
+        subject { builder.context }
+
+        it { is_expected.to eq(ctx) }
       end
     end
 
     describe "with context methods" do
+      subject(:builder) do
+        described_class.new(ctx) do
+          text "#{greeting}, #{user_name}!"
+        end
+      end
+
       let(:ctx) do
         Class.new do
           def user_name
@@ -89,16 +96,10 @@ RSpec.describe Line::Message::Builder do
         end.new
       end
 
-      let(:builder) do
-        described_class.new(ctx) do
-          text "#{greeting}, #{user_name}!"
-        end
-      end
+      describe "message text" do
+        subject { builder.build.first[:text] }
 
-      let(:result) { builder.build }
-
-      it "allows calling methods from context" do
-        expect(result.first[:text]).to eq("Hello, John Doe!")
+        it { is_expected.to eq("Hello, John Doe!") }
       end
     end
   end
