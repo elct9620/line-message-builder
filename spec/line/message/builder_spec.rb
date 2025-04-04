@@ -12,7 +12,7 @@ RSpec.describe Line::Message::Builder do
     end
 
     it "builds a single text message" do
-      builder = Line::Message::Builder.new do
+      builder = described_class.new do
         text "Hello, world!"
       end
 
@@ -20,13 +20,13 @@ RSpec.describe Line::Message::Builder do
       expect(result).to be_an(Array)
       expect(result.size).to eq(1)
       expect(result.first).to eq({
-        type: "text",
-        text: "Hello, world!"
-      })
+                                   type: "text",
+                                   text: "Hello, world!"
+                                 })
     end
 
     it "builds multiple text messages" do
-      builder = Line::Message::Builder.new do
+      builder = described_class.new do
         text "First message"
         text "Second message"
       end
@@ -40,7 +40,7 @@ RSpec.describe Line::Message::Builder do
 
     it "passes context to messages" do
       context = { user_id: "U123456789" }
-      builder = Line::Message::Builder.new(context) do
+      builder = described_class.new(context) do
         text "Hello with context"
       end
 
