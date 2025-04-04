@@ -17,5 +17,10 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - uses: googleapis/release-please-action@v4
+      - uses: ruby/setup-ruby@v1
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          ruby-version: 3.1
+          bundler-cache: true
       - uses: rubygems/release-gem@v1
         if: ${{ steps.release.outputs.release_created }}
