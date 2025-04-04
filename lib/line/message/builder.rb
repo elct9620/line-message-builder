@@ -9,6 +9,7 @@ module Line
       class Error < StandardError; end
 
       autoload :Base, "line/message/builder/base"
+      autoload :QuickReply, "line/message/builder/quick_reply"
       autoload :Text, "line/message/builder/text"
 
       attr_reader :context
