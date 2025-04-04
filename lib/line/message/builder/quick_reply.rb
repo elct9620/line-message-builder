@@ -5,7 +5,7 @@ module Line
     class Builder
       # The QuickReply allows to attach quick reply buttons to a message.
       module QuickReply
-        autoload :Builder, "line/message/builder/quick_reply/builder"
+        require_relative "quick_reply/builder"
 
         def quick_reply(&)
           @quick_reply ||= Builder.new(context, &)

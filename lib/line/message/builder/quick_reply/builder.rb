@@ -12,8 +12,41 @@ module Line
             super
           end
 
+          def message(text, label:, image_url: nil)
+            action(
+              {
+                type: "message",
+                label: label,
+                text: text
+              },
+              image_url
+            )
+          end
+
+          def postback(data:, label:, text: nil, image_url: nil)
+            action(
+              {
+                type: "postback",
+                label: label,
+                data: data,
+                text: text
+              },
+              image_url
+            )
+          end
+
           def to_h
             { items: @items.map(&:to_h) }
+          end
+
+          private
+
+          def action(action, image_url)
+            @items << {
+              type: "action",
+              imageUrl: image_url,
+              action: action
+            }.compact!
           end
         end
       end

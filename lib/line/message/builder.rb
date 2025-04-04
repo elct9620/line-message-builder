@@ -8,9 +8,9 @@ module Line
     class Builder
       class Error < StandardError; end
 
-      autoload :Base, "line/message/builder/base"
-      autoload :QuickReply, "line/message/builder/quick_reply"
-      autoload :Text, "line/message/builder/text"
+      require_relative "builder/base"
+      require_relative "builder/quick_reply"
+      require_relative "builder/text"
 
       attr_reader :context
 
