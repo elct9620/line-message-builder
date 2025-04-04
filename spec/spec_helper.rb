@@ -4,6 +4,7 @@ require "simplecov"
 SimpleCov.start
 
 require "line/message/builder"
+require "line/message/rspec"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

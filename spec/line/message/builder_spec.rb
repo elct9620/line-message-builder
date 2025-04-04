@@ -20,7 +20,7 @@ RSpec.describe Line::Message::Builder do
       it { is_expected.to be_an(Array) }
       it { is_expected.to have_attributes(size: 1) }
 
-      it { is_expected.to include({ type: "text", text: "Hello, world!" }) }
+      it { is_expected.to have_line_text_message(/Hello, world!/) }
     end
 
     context "with multiple text messages" do
@@ -34,13 +34,8 @@ RSpec.describe Line::Message::Builder do
       it { is_expected.to be_an(Array) }
       it { is_expected.to have_attributes(size: 2) }
 
-      it "formats the first message correctly" do
-        expect(result[0]).to include(text: "First message")
-      end
-
-      it "formats the second message correctly" do
-        expect(result[1]).to include(text: "Second message")
-      end
+      it { is_expected.to have_line_text_message(/First message/) }
+      it { is_expected.to have_line_text_message(/Second message/) }
     end
 
     context "with context" do
@@ -62,9 +57,7 @@ RSpec.describe Line::Message::Builder do
         end.new
       end
 
-      it "allows calling methods from context" do
-        expect(result.first[:text]).to eq("Hello, John Doe!")
-      end
+      it { is_expected.to have_line_text_message(/Hello, John Doe!/) }
     end
   end
 end
