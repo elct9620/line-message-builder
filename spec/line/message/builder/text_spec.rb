@@ -6,7 +6,7 @@ RSpec.describe Line::Message::Builder::Text do
   let(:message_text) { "Hello, world!" }
 
   describe "#to_h" do
-    subject(:result) { pp text_builder.to_h }
+    subject(:result) { text_builder.to_h }
 
     it { is_expected.to be_a(Hash) }
     it { is_expected.to include(type: "text") }
