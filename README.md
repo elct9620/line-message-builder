@@ -21,6 +21,106 @@ gem install line-message-builder
 > [!NOTE]
 > Working in progress.
 
+### Builder
+
+```ruby
+builder = Line::MessageBuilder::Builder.new do
+    text "Hello, world!"
+end
+
+pp builder.build
+# => [{ type: "text", text: "Hello, world!" }]
+
+puts builder.to_json
+# => {"type":"text","text":"Hello, world!"}
+```
+
+### Context
+
+The context can make `Builder` to access additional methods and variables.
+
+```ruby
+context = OpenStruct.new(
+    name: "John Doe",
+)
+
+builder = Line::MessageBuilder::Builder.new(context) do
+    text "Hello, #{name}!"
+end
+
+pp builder.build
+# => [{ type: "text", text: "Hello, John Doe!" }]
+
+puts builder.to_json
+# => {"type":"text","text":"Hello, John Doe!"}
+```
+
+For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
+
+```ruby
+# app/controllers/line_controller.rb
+builder = Line::MessageBuilder::Builder.new(view_context) do
+    text "Anything you want?" do
+        quick_reply do
+            action "Yes", label: "Yes", image_url: image_url("yes.png")
+            action "No", label: "No", image_url: image_url("no.png")
+        end
+    end
+end
+```
+
+If not in controller, you can create a `ActionView::Base` instance and pass it to `Builder`.
+
+```ruby
+# app/presenters/line_presenter.rb
+context = ActionView::Base.new(
+    ActionController::Base.view_paths,
+    {},
+    ActionController::Base.new,
+)
+
+builder = Line::MessageBuilder::Builder.new(context) do
+    text "Anything you want?" do
+        quick_reply do
+            action "Yes", label: "Yes", image_url: context.image_url("yes.png")
+            action "No", label: "No", image_url: context.image_url("no.png")
+        end
+    end
+end
+```
+
+## Capabilities
+
+### Message Types
+
+| Type     | Supported |
+| ----     | --------- |
+| Text     | ✅        |
+| Text v2  | ❌        |
+| Sticker  | ❌        |
+| Sticker  | ❌        |
+| Image    | ❌        |
+| Video    | ❌        |
+| Audio    | ❌        |
+| Location | ❌        |
+| Imagemap | ❌        |
+| Template | ❌        |
+| Flex     | ❌        |
+
+### Actions
+
+| Action Type     | Supported |
+| -----------     | --------- |
+| Postback        | ✅        |
+| Message         | ✅        |
+| Uri             | ❌        |
+| Datetime        | ❌        |
+| Camera          | ❌        |
+| CameraRoll      | ❌        |
+| Location        | ❌        |
+| Richmenu Switch | ❌        |
+| Clipboard       | ❌        |
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

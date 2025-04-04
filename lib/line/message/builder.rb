@@ -30,6 +30,10 @@ module Line
         @messages.map(&:to_h)
       end
 
+      def to_json(*args)
+        build.to_json(*args)
+      end
+
       def respond_to_missing?(method_name, include_private = false)
         context.respond_to?(method_name, include_private) || super
       end

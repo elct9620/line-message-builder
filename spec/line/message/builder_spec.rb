@@ -60,4 +60,12 @@ RSpec.describe Line::Message::Builder do
       it { is_expected.to have_line_text_message(/Hello, John Doe!/) }
     end
   end
+
+  describe "#to_json" do
+    subject(:json) { builder.to_json }
+
+    it { is_expected.to be_a(String) }
+    it { is_expected.to include('"type":"text"') }
+    it { is_expected.to include('"text":"Hello, world!"') }
+  end
 end
