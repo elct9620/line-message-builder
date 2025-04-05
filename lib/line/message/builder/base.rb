@@ -5,11 +5,41 @@ module Line
     module Builder
       # The base class to provide DSL functionality.
       class Base
+        class << self
+          def inherited(subclass)
+            super
+            subclass.extend ClassMethods
+          end
+        end
+
+        # :nodoc:
+        module ClassMethods
+          def options
+            @options ||= []
+          end
+
+          def option(name, default: nil)
+            options << name
+
+            define_method name do |*args|
+              if args.empty?
+                instance_variable_get("@#{name}") || default
+              else
+                instance_variable_set("@#{name}", args.first)
+              end
+            end
+          end
+        end
+
         attr_reader :context
 
-        def initialize(context: nil, &block)
+        def initialize(context: nil, **options, &block)
           @context = context
           @quick_reply = nil
+
+          self.class.options.each do |option|
+            instance_variable_set("@#{option}", options[option]) if options.key?(option)
+          end
 
           instance_eval(&block) if ::Kernel.block_given?
         end

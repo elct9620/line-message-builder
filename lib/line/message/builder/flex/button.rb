@@ -6,12 +6,13 @@ module Line
       module Flex
         # The button is a component of the Flex message.
         class Button < Line::Message::Builder::Base
-          def initialize(style: :link, height: :md, context: nil, &)
-            @action = nil
-            @style = style
-            @height = height
+          option :style, default: :link
+          option :height, default: :md
 
-            super(context: context, &)
+          def initialize(context: nil, **options, &)
+            @action = nil
+
+            super
           end
 
           def message(text, label:, display_text: nil, &)

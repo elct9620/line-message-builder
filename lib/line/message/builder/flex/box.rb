@@ -6,27 +6,24 @@ module Line
       module Flex
         # The box is a component for the Flex message.
         class Box < Line::Message::Builder::Base
-          ALLOWED_LAYOUTS = %i[horizontal vertical baseline].freeze
+          option :layout, default: :horizontal
 
-          def initialize(layout: :horizontal, context: nil, &)
-            raise ArgumentError, "Invalid layout" unless ALLOWED_LAYOUTS.include?(layout)
-
-            @layout = layout
+          def initialize(context: nil, **options, &)
             @contents = []
 
-            super(context: context, &)
+            super
           end
 
           def box(**options, &)
-            @contents << Flex::Box.new(**options, context: context, &)
+            @contents << Flex::Box.new(context: context, **options, &)
           end
 
           def text(text, **options, &)
-            @contents << Flex::Text.new(text, **options, context: context, &)
+            @contents << Flex::Text.new(text, context: context, **options, &)
           end
 
           def button(**options, &)
-            @contents << Flex::Button.new(**options, context: context, &)
+            @contents << Flex::Button.new(context: context, **options, &)
           end
 
           def to_h

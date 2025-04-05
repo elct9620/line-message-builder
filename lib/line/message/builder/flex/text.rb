@@ -6,20 +6,21 @@ module Line
       module Flex
         # The text is a component of the Flex message.
         class Text < Line::Message::Builder::Base
-          def initialize(text, wrap: false, line_spacing: nil, context: nil, &)
-            @text = text
-            @wrap = wrap
-            @line_spacing = line_spacing
+          option :wrap, default: false
+          option :line_spacing, default: nil
+          option :color, default: nil
+          option :size, default: nil
+          option :align, default: nil
+          option :flex, default: nil
 
-            super(context: context, &)
+          def initialize(text, context: nil, **options, &)
+            @text = text
+
+            super(context: context, **options, &)
           end
 
           def wrap!
             @wrap = true
-          end
-
-          def line_spacing(value)
-            @line_spacing = value
           end
 
           def to_h
@@ -27,7 +28,11 @@ module Line
               type: "text",
               text: @text,
               wrap: @wrap,
-              lineSpacing: @line_spacing
+              lineSpacing: @line_spacing,
+              color: @color,
+              size: @size,
+              align: @align,
+              flex: @flex
             }.compact
           end
         end

@@ -6,13 +6,14 @@ module Line
       module Flex
         # The image is a component for the Flex message.
         class Image < Line::Message::Builder::Base
-          def initialize(url, size: nil, aspect_ratio: nil, aspect_mode: nil, context: nil, &)
-            @url = url
-            @size = size
-            @aspect_ratio = aspect_ratio
-            @aspect_mode = aspect_mode
+          option :size, default: nil
+          option :aspect_ratio, default: nil
+          option :aspect_mode, default: nil
 
-            super(context: context, &)
+          def initialize(url, context: nil, **options, &)
+            @url = url
+
+            super(context: context, **options, &)
           end
 
           def size(size)
