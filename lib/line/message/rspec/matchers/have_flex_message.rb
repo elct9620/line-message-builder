@@ -12,6 +12,7 @@ module Line
           return false unless container[:contents]
 
           container[:contents].each do |content|
+            return true if content[:contents] && in_content?(content, &)
             return true if yield(content)
           end
 

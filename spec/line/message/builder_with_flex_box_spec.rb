@@ -11,6 +11,11 @@ RSpec.describe Line::Message::Builder do
             text "Hello, world!"
             text "Long text can wrap", wrap: true
           end
+          body do
+            box do
+              text "Nested box"
+            end
+          end
         end
       end
     end
@@ -20,4 +25,5 @@ RSpec.describe Line::Message::Builder do
   it { is_expected.to have_line_flex_message(/Simple Flex Message/) }
   it { is_expected.to have_line_flex_text(/Hello, world!/) }
   it { is_expected.to have_line_flex_text(/Long text can wrap/) }
+  it { is_expected.to have_line_flex_text(/Nested box/) }
 end

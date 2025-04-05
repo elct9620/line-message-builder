@@ -17,6 +17,10 @@ module Line
             super(context: context, &)
           end
 
+          def box(**options, &)
+            @contents << Flex::Box.new(**options, context: context, &)
+          end
+
           def text(text, **options, &)
             @contents << Flex::Text.new(text, **options, context: context, &)
           end
