@@ -89,7 +89,10 @@ module Line
           HaveFlexComponent.new(expected_desc: "#{type} button(#{args.inspect})") do |content|
             next false unless content[:type] == "button"
 
-            ::RSpec::Matchers::BuiltIn::Include.new({ type: type, **args }).matches?(content[:action])
+            ::RSpec::Matchers::BuiltIn::Include.new({ type: type, **args }).matches?(content[:action]) ||
+              ::RSpec::Matchers::BuiltIn::Include.new({ **args, action: ::RSpec::Matchers::BuiltIn::Include.new(
+                type: type
+              ) }).matches?(content)
           end
         end
 
