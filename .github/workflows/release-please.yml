@@ -16,7 +16,7 @@ jobs:
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@v4.1
       - uses: ruby/setup-ruby@v1
         if: ${{ steps.release.outputs.release_created }}
         with:
