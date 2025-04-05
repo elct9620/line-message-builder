@@ -1,24 +1,52 @@
 # frozen_string_literal: true
 
-RSpec::Matchers.define :have_line_quick_reply do |expected|
-  match do |actual|
-    actual.each do |message|
-      reply = message[:quickReply]
-      next unless reply
+module Line
+  module Message
+    module RSpec
+      # :nodoc:
+      module Matchers
+        # The quick reply matcher for RSpec to search for quick reply action in the message array.
+        class HaveQuickReply
+          def initialize(expected)
+            @expected = expected
+          end
 
-      reply[:items].each do |item|
-        action = item[:action]
-        next unless action
+          def description
+            return "have quick reply action" if @expected.nil?
 
-        return true if expected.nil?
-        return true if RSpec::Matchers::BuiltIn::Include.new(expected).matches?(action)
+            "have quick reply action matching #{@expected}"
+          end
+
+          def matches?(actual)
+            @actual = actual
+            @actual.any? { |message| match_message(message) }
+          end
+
+          def failure_message
+            "expected to find a quick reply message matching #{@expected}"
+          end
+
+          private
+
+          def match_message(message)
+            reply = message[:quickReply]
+            return false unless reply
+
+            reply[:items].any? { |item| match_action(item[:action]) }
+          end
+
+          def match_action(action)
+            return true if @expected.nil?
+            return true if ::RSpec::Matchers::BuiltIn::Include.new(@expected).matches?(action)
+
+            false
+          end
+        end
+
+        def have_line_quick_reply(expected = nil) # rubocop:disable Naming/PredicateName
+          HaveQuickReply.new(expected)
+        end
       end
     end
-
-    false
-  end
-
-  failure_message do |_actual|
-    "expected to find a quick reply message matching #{expected}"
   end
 end

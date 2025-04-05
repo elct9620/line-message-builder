@@ -11,6 +11,12 @@ module Line
             @expected = expected
           end
 
+          def description
+            return "have text message" if @expected.nil?
+
+            "have text message matching #{@expected.inspect}"
+          end
+
           def matches?(actual)
             @actual = actual
             @actual.each do |message|
@@ -27,7 +33,7 @@ module Line
           end
         end
 
-        def have_line_text_message(expected) # rubocop:disable Naming/PredicateName
+        def have_line_text_message(expected = nil) # rubocop:disable Naming/PredicateName
           HaveTextMessage.new(expected)
         end
       end
