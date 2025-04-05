@@ -82,8 +82,8 @@ context = ActionView::Base.new(
 builder = Line::MessageBuilder::Builder.new(context) do
     text "Anything you want?" do
         quick_reply do
-            action "Yes", label: "Yes", image_url: context.image_url("yes.png")
-            action "No", label: "No", image_url: context.image_url("no.png")
+            action "Yes", label: "Yes", image_url: image_url("yes.png")
+            action "No", label: "No", image_url: image_url("no.png")
         end
     end
 end
