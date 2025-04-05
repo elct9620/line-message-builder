@@ -62,8 +62,8 @@ For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
 builder = Line::MessageBuilder::Builder.with(view_context) do
     text "Anything you want?" do
         quick_reply do
-            action "Yes", label: "Yes", image_url: image_url("yes.png")
-            action "No", label: "No", image_url: image_url("no.png")
+            message "Yes", label: "Yes", image_url: image_url("yes.png")
+            message "No", label: "No", image_url: image_url("no.png")
         end
     end
 end
@@ -82,14 +82,24 @@ context = ActionView::Base.new(
 builder = Line::MessageBuilder::Builder.with(context) do
     text "Anything you want?" do
         quick_reply do
-            action "Yes", label: "Yes", image_url: image_url("yes.png")
-            action "No", label: "No", image_url: image_url("no.png")
+            message "Yes", label: "Yes", image_url: image_url("yes.png")
+            message "No", label: "No", image_url: image_url("no.png")
         end
     end
 end
 ```
 
 ### RSpec Matcher
+
+| Matcher                     | Description                          |
+| --------------------------- | ------------------------------------ |
+| `have_line_text_message`    | Match a text message                 |
+| `have_line_flex_message`    | Match a flex message                 |
+| `have_line_flex_text`       | Match a flex message with text       |
+| `have_line_flex_image`      | Match a flex message with image      |
+| `have_line_flex_button`     | Match a flex message with button     |
+| `have_line_flex_box`        | Match a flex message with box        |
+
 
 Add `line/message/rspec` to your `spec_helper.rb` or `rails_helper.rb`:
 
@@ -119,6 +129,19 @@ subject { builder.build }
 
 it { is_expected.to have_line_text_message("Hello, world!") }
 it { is_expected.to have_line_text_message(/Nice to meet you!/) }
+```
+
+The matchers can work with webmock `a_request`:
+
+```ruby
+it "reply with message" do
+    expect(a_request(:post, "https://api.line.me/v2/bot/message/reply")
+        .with(
+            body: hash_including({
+                messages: have_line_text_message(/Hello, world!/),
+            },
+        ))).to have_been_made.once
+end
 ```
 
 ## Capabilities
