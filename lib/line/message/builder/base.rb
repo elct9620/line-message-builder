@@ -9,8 +9,13 @@ module Line
 
         def initialize(context: nil, &block)
           @context = context
+          @quick_reply = nil
 
           instance_eval(&block) if ::Kernel.block_given?
+        end
+
+        def quick_reply(&)
+          @quick_reply = QuickReply.new(context: context, &)
         end
 
         def respond_to_missing?(method_name, include_private = false)

@@ -5,8 +5,6 @@ module Line
     class Builder
       # Text message builder.
       class Text < Base
-        include QuickReply
-
         def initialize(text, context: nil, &block)
           @text = text
 
