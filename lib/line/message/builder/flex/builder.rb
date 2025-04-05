@@ -13,6 +13,10 @@ module Line
             super(context: context, &)
           end
 
+          def bubble(&)
+            @contents << Line::Message::Builder::Flex::Bubble.new(context: context, &)
+          end
+
           def to_h
             {
               type: "flex",
