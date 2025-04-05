@@ -6,14 +6,19 @@ module Line
       module Flex
         # The Builder class is used to build quick reply buttons.
         class Builder < Line::Message::Builder::Base
-          def initialize(context: nil, &)
-            @root = nil
+          def initialize(alt_text: nil, context: nil, &)
+            @alt_text = alt_text
+            @contents = []
 
-            super
+            super(context: context, &)
           end
 
           def to_h
-            @root&.to_h
+            {
+              type: "flex",
+              altText: @alt_text,
+              contents: @contents.map(&:to_h)
+            }.compact
           end
         end
       end
