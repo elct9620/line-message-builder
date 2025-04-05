@@ -16,25 +16,13 @@ module Line
             super(context: context, **options, &)
           end
 
-          def size(size)
-            @size = size
-          end
-
-          def aspect_ratio(aspect_ratio)
-            @aspect_ratio = aspect_ratio
-          end
-
-          def aspect_mode(aspect_mode)
-            @aspect_mode = aspect_mode
-          end
-
           def to_h
             {
               type: "image",
               url: @url,
-              size: @size,
-              aspectRatio: @aspect_ratio,
-              aspectMode: @aspect_mode
+              size: size,
+              aspectRatio: aspect_ratio,
+              aspectMode: aspect_mode
             }.compact
           end
         end

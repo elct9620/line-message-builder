@@ -6,7 +6,7 @@ module Line
       module Actions
         # The Message class is used to build message actions for quick replies.
         class Message < Line::Message::Builder::Base
-          def initialize(text: nil, label: nil, context: nil, &)
+          def initialize(text, label: nil, context: nil, &)
             @text = text
             @label = label
 

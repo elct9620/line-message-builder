@@ -6,7 +6,7 @@ module Line
       module Actions
         # The Postback class is used to build postback actions for quick replies.
         class Postback < Line::Message::Builder::Base
-          def initialize(data: nil, label: nil, display_text: nil, context: nil, &)
+          def initialize(data, label: nil, display_text: nil, context: nil, &)
             @data = data
             @label = label
             @display_text = display_text

@@ -27,12 +27,12 @@ module Line
             {
               type: "text",
               text: @text,
-              wrap: @wrap,
-              lineSpacing: @line_spacing,
-              color: @color,
-              size: @size,
-              align: @align,
-              flex: @flex
+              wrap: wrap,
+              lineSpacing: line_spacing,
+              color: color,
+              size: size,
+              align: align,
+              flex: flex
             }.compact
           end
         end

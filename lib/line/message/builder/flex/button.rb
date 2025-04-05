@@ -16,11 +16,11 @@ module Line
           end
 
           def message(text, label:, display_text: nil, &)
-            @action = Actions::Message.new(text: text, label: label, display_text: display_text, &)
+            @action = Actions::Message.new(text, label: label, display_text: display_text, &)
           end
 
           def postback(data, label: nil, display_text: nil, &)
-            @action = Actions::Postback.new(data: data, label: label, display_text: display_text, &)
+            @action = Actions::Postback.new(data, label: label, display_text: display_text, &)
           end
 
           def to_h
@@ -29,8 +29,8 @@ module Line
             {
               type: "button",
               action: @action.to_h,
-              style: @style,
-              height: @height
+              style: style,
+              height: height
             }.compact
           end
         end

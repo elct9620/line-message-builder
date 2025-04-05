@@ -33,7 +33,7 @@ module Line
           def to_h
             {
               type: "box",
-              layout: @layout,
+              layout: layout,
               contents: @contents.map(&:to_h)
             }.compact
           end
