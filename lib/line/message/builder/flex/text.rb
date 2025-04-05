@@ -4,7 +4,7 @@ module Line
   module Message
     module Builder
       module Flex
-        # The bubble is container for the Flex message.
+        # The text is a component of the Flex message.
         class Text < Line::Message::Builder::Base
           def initialize(text, wrap: false, line_spacing: nil, context: nil, &)
             @text = text

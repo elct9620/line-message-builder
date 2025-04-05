@@ -21,6 +21,10 @@ module Line
             @contents << Flex::Text.new(text, **options, context: context, &)
           end
 
+          def button(**options, &)
+            @contents << Flex::Button.new(**options, context: context, &)
+          end
+
           def to_h
             {
               type: "box",

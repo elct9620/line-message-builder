@@ -73,3 +73,29 @@ RSpec::Matchers.define :have_line_flex_text do |text|
     "expected to find a flex text matching #{text}"
   end
 end
+
+RSpec::Matchers.define :have_line_flex_button do |type, **args|
+  match do |actual|
+    actual.each do |message|
+      next unless message[:type] == "flex"
+
+      next unless message[:contents]
+
+      message[:contents].each do |content|
+        is_found = Line::Message::Rspec::Matchers.in_content?(content) do |component|
+          next false unless component[:type] == "button"
+
+          RSpec::Matchers::BuiltIn::Include.new({ type: type, **args }).matches?(component[:action])
+        end
+
+        return true if is_found
+      end
+    end
+
+    false
+  end
+
+  failure_message do |_actual|
+    "expected to find a flex #{type} button matching #{args}"
+  end
+end

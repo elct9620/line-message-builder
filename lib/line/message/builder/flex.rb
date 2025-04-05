@@ -13,6 +13,7 @@ module Line
         # Components
         require_relative "flex/box"
         require_relative "flex/text"
+        require_relative "flex/button"
       end
     end
   end
