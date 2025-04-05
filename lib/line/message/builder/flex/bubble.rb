@@ -15,16 +15,20 @@ module Line
             super
           end
 
-          def header(&)
-            @header = Box.new(context: context, &)
+          def header(**options, &)
+            @header = Box.new(**options, context: context, &)
           end
 
-          def body(&)
-            @body = Box.new(context: context, &)
+          def hero(**options, &)
+            @hero = Box.new(**options, context: context, &)
           end
 
-          def footer(&)
-            @footer = Box.new(context: context, &)
+          def body(**options, &)
+            @body = Box.new(**options, context: context, &)
+          end
+
+          def footer(**options, &)
+            @footer = Box.new(**options, context: context, &)
           end
 
           def to_h
