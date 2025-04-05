@@ -9,20 +9,22 @@ module Line
           option :alt_text, default: nil
 
           def initialize(context: nil, **options, &)
-            @contents = []
+            @contents = nil
 
             super
           end
 
           def bubble(&)
-            @contents << Line::Message::Builder::Flex::Bubble.new(context: context, &)
+            @contents = Line::Message::Builder::Flex::Bubble.new(context: context, &)
           end
 
           def to_h
+            raise Error, "contents should be bubble or carousel" if @contents.nil?
+
             {
               type: "flex",
               altText: @alt_text,
-              contents: @contents.map(&:to_h),
+              contents: @contents.to_h,
               quickReply: @quick_reply&.to_h
             }.compact
           end

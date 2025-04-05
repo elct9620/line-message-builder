@@ -37,7 +37,7 @@ module Line
           def match_flex_component?(message)
             return false unless message["type"] == "flex"
 
-            message["contents"].any? { |content| match_content?(content) }
+            match_content?(message["contents"])
           end
 
           def match_content?(content)

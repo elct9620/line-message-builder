@@ -5,7 +5,9 @@ RSpec.describe Line::Message::Builder do
 
   let(:builder) do
     described_class.with do
-      flex alt_text: "Simple Flex Message"
+      flex alt_text: "Simple Flex Message" do
+        bubble
+      end
     end
   end
 
