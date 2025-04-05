@@ -18,7 +18,7 @@ module Line
           end
 
           def matches?(actual)
-            @actual = actual
+            @actual = Utils.stringify_keys!(actual, deep: true)
             @actual.any? { |message| match_alt_text?(message) }
           end
           alias == matches?
@@ -30,10 +30,10 @@ module Line
           private
 
           def match_alt_text?(message)
-            return false unless message[:type] == "flex"
+            return false unless message["type"] == "flex"
             return true if @expected.nil?
 
-            message[:altText].match?(@expected)
+            message["altText"].match?(@expected)
           end
         end
 

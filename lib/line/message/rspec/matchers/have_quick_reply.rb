@@ -8,7 +8,7 @@ module Line
         # The quick reply matcher for RSpec to search for quick reply action in the message array.
         class HaveQuickReply
           def initialize(expected)
-            @expected = expected
+            @expected = Utils.stringify_keys!(expected, deep: true)
           end
 
           def description
@@ -18,7 +18,7 @@ module Line
           end
 
           def matches?(actual)
-            @actual = actual
+            @actual = Utils.stringify_keys!(actual, deep: true)
             @actual.any? { |message| match_message(message) }
           end
           alias == matches?
@@ -30,10 +30,10 @@ module Line
           private
 
           def match_message(message)
-            reply = message[:quickReply]
+            reply = message["quickReply"]
             return false unless reply
 
-            reply[:items].any? { |item| match_action(item[:action]) }
+            reply["items"].any? { |item| match_action(item["action"]) }
           end
 
           def match_action(action)

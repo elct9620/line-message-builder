@@ -20,7 +20,7 @@ module Line
           end
 
           def matches?(actual)
-            @actual = actual
+            @actual = Utils.stringify_keys!(actual, deep: true)
             @actual.any? { |message| match_flex_component?(message) }
           end
           alias == matches?
@@ -35,16 +35,16 @@ module Line
           private
 
           def match_flex_component?(message)
-            return false unless message[:type] == "flex"
+            return false unless message["type"] == "flex"
 
-            message[:contents].any? { |content| match_content?(content) }
+            message["contents"].any? { |content| match_content?(content) }
           end
 
           def match_content?(content)
-            return match_bubble?(content) if content[:type] == "bubble"
+            return match_bubble?(content) if content["type"] == "bubble"
 
-            if content[:contents]
-              return content[:contents].any? do |nested_content|
+            if content["contents"]
+              return content["contents"].any? do |nested_content|
                 match_content?(nested_content)
               end || @expected.call(content)
             end
@@ -53,7 +53,7 @@ module Line
           end
 
           def match_bubble?(content)
-            %i[header hero body footer].any? do |key|
+            %w[header hero body footer].any? do |key|
               block = content[key]
               next unless block
 
@@ -62,7 +62,7 @@ module Line
           end
 
           def match_bubble_block?(block)
-            return block[:contents].any? { |nested_content| match_content?(nested_content) } if block[:contents]
+            return block["contents"].any? { |nested_content| match_content?(nested_content) } if block["contents"]
 
             match_content?(block)
           end
@@ -73,37 +73,45 @@ module Line
         end
 
         def have_line_flex_box(**options) # rubocop:disable Naming/PredicateName
+          options = Utils.stringify_keys!(options, deep: true)
+
           HaveFlexComponent.new(expected_desc: "box(#{options.inspect})") do |content|
-            next false unless content[:type] == "box"
+            next false unless content["type"] == "box"
 
             ::RSpec::Matchers::BuiltIn::Include.new(options).matches?(content)
           end
         end
 
         def have_line_flex_text(text, **options) # rubocop:disable Naming/PredicateName
-          HaveFlexComponent.new(expected_desc: "text(#{text.inspect})") do |content|
-            next false unless content[:type] == "text"
+          options = Utils.stringify_keys!(options, deep: true)
 
-            content[:text].match?(text) && ::RSpec::Matchers::BuiltIn::Include.new(options).matches?(content)
+          HaveFlexComponent.new(expected_desc: "text(#{text.inspect})") do |content|
+            next false unless content["type"] == "text"
+
+            content["text"].match?(text) && ::RSpec::Matchers::BuiltIn::Include.new(options).matches?(content)
           end
         end
 
         def have_line_flex_button(type, **options) # rubocop:disable Naming/PredicateName
-          HaveFlexComponent.new(expected_desc: "#{type} button(#{options.inspect})") do |content|
-            next false unless content[:type] == "button"
+          options = Utils.stringify_keys!(options, deep: true)
 
-            ::RSpec::Matchers::BuiltIn::Include.new({ type: type, **options }).matches?(content[:action]) ||
-              ::RSpec::Matchers::BuiltIn::Include.new({ **options, action: ::RSpec::Matchers::BuiltIn::Include.new(
-                type: type
+          HaveFlexComponent.new(expected_desc: "#{type} button(#{options.inspect})") do |content|
+            next false unless content["type"] == "button"
+
+            ::RSpec::Matchers::BuiltIn::Include.new({ "type" => type, **options }).matches?(content["action"]) ||
+              ::RSpec::Matchers::BuiltIn::Include.new({ **options, "action" => ::RSpec::Matchers::BuiltIn::Include.new(
+                "type" => type
               ) }).matches?(content)
           end
         end
 
         def have_line_flex_image(url, **options) # rubocop:disable Naming/PredicateName
-          HaveFlexComponent.new(expected_desc: "image(#{url.inspect})") do |content|
-            next false unless content[:type] == "image"
+          options = Utils.stringify_keys!(options, deep: true)
 
-            ::RSpec::Matchers::BuiltIn::Include.new({ url: url, **options }).matches?(content)
+          HaveFlexComponent.new(expected_desc: "image(#{url.inspect})") do |content|
+            next false unless content["type"] == "image"
+
+            ::RSpec::Matchers::BuiltIn::Include.new({ "url" => url, **options }).matches?(content)
           end
         end
       end

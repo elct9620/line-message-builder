@@ -18,11 +18,11 @@ module Line
           end
 
           def matches?(actual)
-            @actual = actual
+            @actual = Utils.stringify_keys!(actual, deep: true)
             @actual.each do |message|
-              next unless message[:type] == "text"
+              next unless message["type"] == "text"
 
-              return true if message[:text].match?(@expected)
+              return true if message["text"].match?(@expected)
             end
 
             false
