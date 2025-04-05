@@ -21,6 +21,7 @@ module Line
             @actual = actual
             @actual.any? { |message| match_alt_text?(message) }
           end
+          alias == matches?
 
           def failure_message
             "expected to find a flex message alt text matching #{@expected}"

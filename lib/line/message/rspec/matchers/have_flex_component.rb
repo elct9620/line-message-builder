@@ -23,6 +23,7 @@ module Line
             @actual = actual
             @actual.any? { |message| match_flex_component?(message) }
           end
+          alias == matches?
 
           def failure_message
             return "expected to find a flex component" if @expected.nil?

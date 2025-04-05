@@ -21,6 +21,7 @@ module Line
             @actual = actual
             @actual.any? { |message| match_message(message) }
           end
+          alias == matches?
 
           def failure_message
             "expected to find a quick reply message matching #{@expected}"

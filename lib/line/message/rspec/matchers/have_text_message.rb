@@ -27,6 +27,7 @@ module Line
 
             false
           end
+          alias == matches?
 
           def failure_message
             "expected to find a text message matching #{@expected}"
