@@ -41,24 +41,42 @@ module Line
 
           def match_content?(content)
             return match_bubble?(content) if content[:type] == "bubble"
-            return content[:contents].any? { |nested_content| match_content?(nested_content) } if content[:contents]
+
+            if content[:contents]
+              return content[:contents].any? do |nested_content|
+                match_content?(nested_content)
+              end || @expected.call(content)
+            end
 
             @expected.call(content)
           end
 
           def match_bubble?(content)
-            %i[header hero body footer].each do |key|
-              next unless content[key]
+            %i[header hero body footer].any? do |key|
+              block = content[key]
+              next unless block
 
-              return true if match_content?(content[key])
+              match_bubble_block?(block)
             end
+          end
 
-            false
+          def match_bubble_block?(block)
+            return block[:contents].any? { |nested_content| match_content?(nested_content) } if block[:contents]
+
+            match_content?(block)
           end
         end
 
         def have_line_flex_component(&) # rubocop:disable Naming/PredicateName
           HaveFlexComponent.new(&)
+        end
+
+        def have_line_flex_box(**args) # rubocop:disable Naming/PredicateName
+          HaveFlexComponent.new(expected_desc: "box(#{args.inspect})") do |content|
+            next false unless content[:type] == "box"
+
+            ::RSpec::Matchers::BuiltIn::Include.new(args).matches?(content)
+          end
         end
 
         def have_line_flex_text(text) # rubocop:disable Naming/PredicateName
