@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       # The base class to provide DSL functionality.
       class Base
         attr_reader :context

@@ -4,7 +4,7 @@ RSpec.describe Line::Message::Builder do
   subject { builder.build }
 
   let(:builder) do
-    described_class.new do
+    described_class.with do
       text "With Quick Reply" do
         quick_reply do
           message "Yes", label: "Yes"

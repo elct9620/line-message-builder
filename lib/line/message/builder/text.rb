@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       # Text message builder.
       class Text < Base
         def initialize(text, context: nil, &block)

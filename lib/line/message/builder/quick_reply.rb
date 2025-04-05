@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       # The QuickReply allows to attach quick reply buttons to a message.
       class QuickReply < Line::Message::Builder::Base
         def initialize(context: nil, &)

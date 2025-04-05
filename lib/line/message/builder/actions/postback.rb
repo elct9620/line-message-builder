@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       module Actions
         # The Postback class is used to build postback actions for quick replies.
         class Postback < Line::Message::Builder::Base

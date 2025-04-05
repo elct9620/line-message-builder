@@ -2,7 +2,7 @@
 
 RSpec.describe Line::Message::Builder do
   subject(:builder) do
-    described_class.new do
+    described_class.with do
       text "Hello, world!"
     end
   end
@@ -25,7 +25,7 @@ RSpec.describe Line::Message::Builder do
 
     context "with multiple text messages" do
       let(:builder) do
-        described_class.new do
+        described_class.with do
           text "First message"
           text "Second message"
         end
@@ -40,7 +40,7 @@ RSpec.describe Line::Message::Builder do
 
     context "with context" do
       let(:builder) do
-        described_class.new(ctx) do
+        described_class.with(ctx) do
           text "#{greeting}, #{user_name}!"
         end
       end

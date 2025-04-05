@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       # The actions module contains classes for building different types of actions
       module Actions
         require_relative "actions/message"

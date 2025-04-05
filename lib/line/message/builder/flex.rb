@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       # The Flex module allows to build Flex messages.
       module Flex
         require_relative "flex/builder"

@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       module Flex
         # The Builder class is used to build quick reply buttons.
         class Builder < Line::Message::Builder::Base

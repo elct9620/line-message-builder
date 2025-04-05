@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       VERSION = "0.1.0"
     end
   end

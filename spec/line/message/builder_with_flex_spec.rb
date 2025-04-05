@@ -4,7 +4,7 @@ RSpec.describe Line::Message::Builder do
   subject { builder.build }
 
   let(:builder) do
-    described_class.new do
+    described_class.with do
       flex alt_text: "Simple Flex Message"
     end
   end

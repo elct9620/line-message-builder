@@ -2,7 +2,7 @@
 
 module Line
   module Message
-    class Builder
+    module Builder
       module Actions
         # The Message class is used to build message actions for quick replies.
         class Message < Line::Message::Builder::Base
