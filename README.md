@@ -144,6 +144,9 @@ it "reply with message" do
 end
 ```
 
+> [!WARNING]
+> The webmock use string key that the matcher not supported yet.
+
 ## Capabilities
 
 - ✅ Supported
