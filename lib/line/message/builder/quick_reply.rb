@@ -13,30 +13,34 @@ module Line
 
         def message(text, label:, image_url: nil, &)
           action(
-            Actions::Message.new(text: text, label: label, &).to_h,
+            Actions::Message.new(text: text, label: label, &),
             image_url
           )
         end
 
         def postback(data, label: nil, display_text: nil, image_url: nil, &)
           action(
-            Actions::Postback.new(data: data, label: label, display_text: display_text, &).to_h,
+            Actions::Postback.new(data: data, label: label, display_text: display_text, &),
             image_url
           )
         end
 
         def to_h
-          { items: @items.map(&:to_h) }
+          {
+            items: @items.map do |item, image_url|
+              {
+                type: "action",
+                imageUrl: image_url,
+                action: item.to_h
+              }
+            end
+          }
         end
 
         private
 
         def action(action, image_url)
-          @items << {
-            type: "action",
-            imageUrl: image_url,
-            action: action
-          }.compact
+          @items << [action, image_url]
         end
       end
     end
