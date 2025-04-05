@@ -23,6 +23,10 @@ module Line
             @hero = Box.new(**options, context: context, &)
           end
 
+          def hero_image(url, **options, &)
+            @hero = Image.new(url, **options, context: context, &)
+          end
+
           def body(**options, &)
             @body = Box.new(**options, context: context, &)
           end

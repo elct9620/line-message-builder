@@ -14,6 +14,7 @@ module Line
         require_relative "flex/box"
         require_relative "flex/text"
         require_relative "flex/button"
+        require_relative "flex/image"
       end
     end
   end

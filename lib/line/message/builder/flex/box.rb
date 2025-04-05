@@ -4,7 +4,7 @@ module Line
   module Message
     module Builder
       module Flex
-        # The bubble is container for the Flex message.
+        # The box is a component for the Flex message.
         class Box < Line::Message::Builder::Base
           ALLOWED_LAYOUTS = %i[horizontal vertical baseline].freeze
 

@@ -26,4 +26,19 @@ RSpec.describe Line::Message::Builder do
   it { is_expected.to have_line_flex_text(/Hello, world!/) }
   it { is_expected.to have_line_flex_text(/Long text can wrap/) }
   it { is_expected.to have_line_flex_text(/Nested box/) }
+
+  context "with hero image" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            hero_image "https://example.com/image.jpg"
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_message }
+    it { is_expected.to have_line_flex_image("https://example.com/image.jpg") }
+  end
 end
