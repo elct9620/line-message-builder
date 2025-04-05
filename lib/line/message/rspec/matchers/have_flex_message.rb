@@ -2,9 +2,44 @@
 
 module Line
   module Message
-    module Rspec
+    module RSpec
       # :nodoc:
       module Matchers
+        # The flex message matcher for RSpec to search for flex messages in the message array.
+        class HaveFlexMessage
+          def initialize(expected)
+            @expected = expected
+          end
+
+          def description
+            return "have flex message" if @expected.nil?
+
+            "have flex message alt text matching #{@expected.inspect}"
+          end
+
+          def matches?(actual)
+            @actual = actual
+            @actual.any? { |message| match_alt_text?(message) }
+          end
+
+          def failure_message
+            "expected to find a flex message alt text matching #{@expected}"
+          end
+
+          private
+
+          def match_alt_text?(message)
+            return false unless message[:type] == "flex"
+            return true if @expected.nil?
+
+            message[:altText].match?(@expected)
+          end
+        end
+
+        def have_line_flex_message(expected = nil) # rubocop:disable Naming/PredicateName
+          HaveFlexMessage.new(expected)
+        end
+
         module_function
 
         def in_content?(container, &)
@@ -32,23 +67,6 @@ module Line
   end
 end
 
-RSpec::Matchers.define :have_line_flex_message do |alt_text|
-  match do |actual|
-    actual.each do |message|
-      next unless message[:type] == "flex"
-
-      return true if alt_text.nil?
-      return true if message[:altText] =~ alt_text
-    end
-
-    false
-  end
-
-  failure_message do |_actual|
-    "expected to find a flex message matching #{alt_text}"
-  end
-end
-
 RSpec::Matchers.define :have_line_flex_text do |text|
   match do |actual|
     actual.each do |message|
@@ -57,7 +75,7 @@ RSpec::Matchers.define :have_line_flex_text do |text|
       next unless message[:contents]
 
       message[:contents].each do |content|
-        is_found = Line::Message::Rspec::Matchers.in_content?(content) do |component|
+        is_found = Line::Message::RSpec::Matchers.in_content?(content) do |component|
           next false unless component[:type] == "text"
 
           component[:text] =~ text
@@ -83,7 +101,7 @@ RSpec::Matchers.define :have_line_flex_button do |type, **args|
       next unless message[:contents]
 
       message[:contents].each do |content|
-        is_found = Line::Message::Rspec::Matchers.in_content?(content) do |component|
+        is_found = Line::Message::RSpec::Matchers.in_content?(content) do |component|
           next false unless component[:type] == "button"
 
           RSpec::Matchers::BuiltIn::Include.new({ type: type, **args }).matches?(component[:action])
@@ -108,7 +126,7 @@ RSpec::Matchers.define :have_line_flex_image do |url, **args|
       next unless message[:contents]
 
       message[:contents].each do |content|
-        is_found = Line::Message::Rspec::Matchers.in_content?(content) do |component|
+        is_found = Line::Message::RSpec::Matchers.in_content?(content) do |component|
           next false unless component[:type] == "image"
 
           RSpec::Matchers::BuiltIn::Include.new({ url: url, **args }).matches?(component)
