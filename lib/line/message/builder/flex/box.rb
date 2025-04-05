@@ -26,6 +26,10 @@ module Line
             @contents << Flex::Button.new(context: context, **options, &)
           end
 
+          def image(url, **options, &)
+            @contents << Flex::Image.new(url, context: context, **options, &)
+          end
+
           def to_h
             {
               type: "box",
