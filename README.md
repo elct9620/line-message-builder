@@ -24,7 +24,7 @@ gem install line-message-builder
 ### Builder
 
 ```ruby
-builder = Line::MessageBuilder::Builder.new do
+builder = Line::MessageBuilder::Builder.with do
     text "Hello, world!"
 end
 
@@ -44,7 +44,7 @@ context = OpenStruct.new(
     name: "John Doe",
 )
 
-builder = Line::MessageBuilder::Builder.new(context) do
+builder = Line::MessageBuilder::Builder.with(context) do
     text "Hello, #{name}!"
 end
 
@@ -59,7 +59,7 @@ For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
 
 ```ruby
 # app/controllers/line_controller.rb
-builder = Line::MessageBuilder::Builder.new(view_context) do
+builder = Line::MessageBuilder::Builder.with(view_context) do
     text "Anything you want?" do
         quick_reply do
             action "Yes", label: "Yes", image_url: image_url("yes.png")
@@ -79,7 +79,7 @@ context = ActionView::Base.new(
     ActionController::Base.new,
 )
 
-builder = Line::MessageBuilder::Builder.new(context) do
+builder = Line::MessageBuilder::Builder.with(context) do
     text "Anything you want?" do
         quick_reply do
             action "Yes", label: "Yes", image_url: image_url("yes.png")
@@ -97,11 +97,19 @@ Add `line/message/rspec` to your `spec_helper.rb` or `rails_helper.rb`:
 require "line/message/rspec"
 ```
 
+Include `Line::Message::RSpec::Matchers` in your RSpec configuration:
+
+```ruby
+RSpec.configure do |config|
+    config.include Line::Message::RSpec::Matchers
+end
+```
+
 Then the matchers are available in your specs:
 
 ```ruby
 let(:builder) do
-    Line::MessageBuilder::Builder.new do
+    Line::MessageBuilder::Builder.with do
         text "Hello, world!"
         text "Nice to meet you!"
     end
@@ -114,6 +122,10 @@ it { is_expected.to have_line_text_message(/Nice to meet you!/) }
 ```
 
 ## Capabilities
+
+- ✅ Supported
+- 🚧 Partially Supported
+- ❌ Not Supported
 
 ### Message Types
 
@@ -131,6 +143,13 @@ it { is_expected.to have_line_text_message(/Nice to meet you!/) }
 | Template | ❌        |
 | Flex     | 🚧        |
 
+### Common Properties
+
+| Property    | Supported |
+| --------    | --------- |
+| Quick Reply | ✅        |
+| Sender      | ❌        |
+
 ### Actions
 
 | Action Type     | Supported |
@@ -144,6 +163,22 @@ it { is_expected.to have_line_text_message(/Nice to meet you!/) }
 | Location        | ❌        |
 | Richmenu Switch | ❌        |
 | Clipboard       | ❌        |
+
+### Flex Components
+
+| Component | Supported |
+| --------- | --------- |
+| Bubble    | 🚧        |
+| Carousel  | ❌        |
+| Box       | 🚧        |
+| Button    | 🚧        |
+| Image     | 🚧        |
+| Video     | ❌        |
+| Icon      | ❌        |
+| Text      | 🚧        |
+| Span      | ❌        |
+| Separator | ❌        |
+| Filler    | ❌        |
 
 ## Development
 
