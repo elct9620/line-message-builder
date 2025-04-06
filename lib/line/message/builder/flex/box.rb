@@ -6,7 +6,11 @@ module Line
       module Flex
         # The box is a component for the Flex message.
         class Box < Line::Message::Builder::Base
+          attr_reader :contents
+
           option :layout, default: :horizontal
+          option :spacing, default: nil
+          option :flex, default: nil
 
           def initialize(context: nil, **options, &)
             @contents = []
@@ -31,10 +35,15 @@ module Line
           end
 
           def to_h
+            raise RequiredError, "layout is required" if layout.nil?
+            raise RequiredError, "contents is required" if contents.empty?
+
             {
               type: "box",
               layout: layout,
-              contents: @contents.map(&:to_h)
+              spacing: spacing,
+              flex: flex,
+              contents: contents.map(&:to_h)
             }.compact
           end
         end
