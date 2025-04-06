@@ -6,26 +6,23 @@ module Line
       module Actions
         # The Message class is used to build message actions for quick replies.
         class Message < Line::Message::Builder::Base
-          def initialize(text, label: nil, context: nil, &)
+          attr_reader :text
+
+          option :label, default: nil
+
+          def initialize(text, context: nil, **options, &)
             @text = text
-            @label = label
 
-            super(context: context, &)
-          end
-
-          def label(label)
-            @label = label
-          end
-
-          def text(text)
-            @text = text
+            super(context: context, **options, &)
           end
 
           def to_h
+            raise RequiredError, "text is required" if text.nil?
+
             {
               type: "message",
-              label: @label,
-              text: @text
+              label: label,
+              text: text
             }.compact
           end
         end

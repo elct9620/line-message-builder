@@ -6,32 +6,25 @@ module Line
       module Actions
         # The Postback class is used to build postback actions for quick replies.
         class Postback < Line::Message::Builder::Base
-          def initialize(data, label: nil, display_text: nil, context: nil, &)
+          attr_reader :data
+
+          option :label, default: nil
+          option :display_text, default: nil
+
+          def initialize(data, context: nil, **options, &)
             @data = data
-            @label = label
-            @display_text = display_text
 
-            super(context: context, &)
-          end
-
-          def label(label)
-            @label = label
-          end
-
-          def data(data)
-            @data = data
-          end
-
-          def display_text(display_text)
-            @display_text = display_text
+            super(context: context, **options, &)
           end
 
           def to_h
+            raise RequiredError, "data is required" if data.nil?
+
             {
               type: "postback",
-              label: @label,
-              data: @data,
-              displayText: @display_text
+              label: label,
+              data: data,
+              displayText: display_text
             }.compact
           end
         end
