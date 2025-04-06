@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/elct9620/line-message-builder/compare/v0.3.0...v0.4.0) (2025-04-06)
+
+
+### Features
+
+* Add flex and margin options to Line Flex Button with improved error handling ([c8cd142](https://github.com/elct9620/line-message-builder/commit/c8cd1427528d5495d13bf93898da4638588065ae))
+* Add flex box options and validation for LINE message builder ([133f87d](https://github.com/elct9620/line-message-builder/commit/133f87ddb3fd2a093947db0aef6363cd4c150701))
+* Add flex bubble options and RSpec matcher for Line message builder ([605ad89](https://github.com/elct9620/line-message-builder/commit/605ad89870a53c55182f96db5f2738b5c347f0dc))
+* Add margin option to flex text builder ([1d44522](https://github.com/elct9620/line-message-builder/commit/1d44522a44218bedab3d2009ef483ed112784248))
+* Add quote token support for Line text messages ([7871999](https://github.com/elct9620/line-message-builder/commit/7871999dfc7032e75e5407c8b16bed7ef7dd28b8))
+* Add support for flex, margin, and align options in Flex image builder ([693d0ab](https://github.com/elct9620/line-message-builder/commit/693d0abf5ef524b2e6d075f3c7e65eca49cf7f27))
+
 ## [0.3.0](https://github.com/elct9620/line-message-builder/compare/v0.2.0...v0.3.0) (2025-04-05)
 
 
