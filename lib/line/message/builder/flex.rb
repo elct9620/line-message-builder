@@ -7,6 +7,7 @@ module Line
       module Flex
         require_relative "flex/builder"
         require_relative "flex/actionable"
+        require_relative "flex/position"
 
         # Container
         require_relative "flex/bubble"

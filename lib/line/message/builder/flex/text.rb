@@ -7,6 +7,7 @@ module Line
         # The text is a component of the Flex message.
         class Text < Line::Message::Builder::Base
           include Actionable
+          include Position::Horizontal
 
           attr_reader :text
 
@@ -14,7 +15,6 @@ module Line
           option :wrap, default: false
           option :line_spacing, default: nil
           option :color, default: nil
-          option :align, default: nil
           option :flex, default: nil
           option :margin, default: nil
 

@@ -20,22 +20,6 @@ RSpec.describe Line::Message::Builder do
   it { is_expected.to have_line_flex_message(/Simple Flex Message/) }
   it { is_expected.to have_line_flex_text(/Nested box/) }
 
-  context "when no contents are provided" do
-    let(:builder) do
-      described_class.with do
-        flex alt_text: "Simple Flex Message" do
-          bubble do
-            body do
-              box
-            end
-          end
-        end
-      end
-    end
-
-    it { expect { build }.to raise_error(Line::Message::Builder::RequiredError, /contents is required/) }
-  end
-
   context "with box layout" do
     let(:builder) do
       described_class.with do

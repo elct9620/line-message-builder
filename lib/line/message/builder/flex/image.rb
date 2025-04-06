@@ -7,6 +7,7 @@ module Line
         # The image is a component for the Flex message.
         class Image < Line::Message::Builder::Base
           include Actionable
+          include Position::Horizontal
 
           attr_reader :url
 
@@ -15,7 +16,6 @@ module Line
           option :aspect_mode, default: nil
           option :flex, default: nil
           option :margin, default: nil
-          option :align, default: nil
 
           def initialize(url, context: nil, **options, &)
             @url = url
