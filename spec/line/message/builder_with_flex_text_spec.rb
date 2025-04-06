@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Line::Message::Builder do
-  subject { builder.build }
+  subject(:build) { builder.build }
 
   let(:builder) do
     described_class.with do
@@ -89,6 +89,24 @@ RSpec.describe Line::Message::Builder do
     end
 
     it { is_expected.to have_line_flex_text(/Nested box/, align: :center) }
+  end
+
+  context "with invalid text alignment" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", align: :invalid
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
   end
 
   context "with text flex" do

@@ -8,8 +8,10 @@ module Line
     module Builder
       class Error < StandardError; end
       class RequiredError < Error; end
+      class ValidationError < Error; end
 
       require_relative "builder/base"
+      require_relative "builder/validators"
       require_relative "builder/actions"
       require_relative "builder/quick_reply"
       require_relative "builder/container"

@@ -8,7 +8,11 @@ module Line
           # The horizontal provides "align" options for flex components.
           module Horizontal
             def self.included(base)
-              base.option :align, default: :nil
+              base.option :align,
+                          default: :nil,
+                          validator: Validators::Enum.new(
+                            :start, :center, :end
+                          )
             end
           end
         end

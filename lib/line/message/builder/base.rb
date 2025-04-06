@@ -18,13 +18,14 @@ module Line
             @options ||= []
           end
 
-          def option(name, default: nil)
+          def option(name, default: nil, validator: nil)
             options << name
 
             define_method name do |*args|
               if args.empty?
                 instance_variable_get("@#{name}") || default
               else
+                validator&.valid!(args.first)
                 instance_variable_set("@#{name}", args.first)
               end
             end
@@ -38,7 +39,7 @@ module Line
           @quick_reply = nil
 
           self.class.options.each do |option|
-            instance_variable_set("@#{option}", options[option]) if options.key?(option)
+            send(option, options[option]) if options.key?(option)
           end
 
           instance_eval(&block) if ::Kernel.block_given?
