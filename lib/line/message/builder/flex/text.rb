@@ -6,10 +6,12 @@ module Line
       module Flex
         # The text is a component of the Flex message.
         class Text < Line::Message::Builder::Base
+          attr_reader :text
+
+          option :size, default: nil
           option :wrap, default: false
           option :line_spacing, default: nil
           option :color, default: nil
-          option :size, default: nil
           option :align, default: nil
           option :flex, default: nil
           option :margin, default: nil
@@ -25,9 +27,11 @@ module Line
           end
 
           def to_h # rubocop:disable Metrics/MethodLength
+            raise RequiredError, "text is required" if text.nil?
+
             {
               type: "text",
-              text: @text,
+              text: text,
               wrap: wrap,
               lineSpacing: line_spacing,
               color: color,
