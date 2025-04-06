@@ -190,19 +190,19 @@ end
 
 ### Flex Components
 
-| Component | Supported |
-| --------- | --------- |
-| Bubble    | 🚧        |
-| Carousel  | ❌        |
-| Box       | 🚧        |
-| Button    | 🚧        |
-| Image     | 🚧        |
-| Video     | ❌        |
-| Icon      | ❌        |
-| Text      | 🚧        |
-| Span      | ❌        |
-| Separator | ❌        |
-| Filler    | ❌        |
+| Component | Supported     |
+| --------- | ---------     |
+| Bubble    | 🚧            |
+| Carousel  | ❌            |
+| Box       | 🚧            |
+| Button    | 🚧            |
+| Image     | 🚧            |
+| Video     | ❌            |
+| Icon      | ❌            |
+| Text      | 🚧            |
+| Span      | ❌            |
+| Separator | ❌            |
+| Filler    | ❌ Deprecated |
 
 ## Development
 
