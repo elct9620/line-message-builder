@@ -38,7 +38,6 @@ module Line
 
           def to_h
             raise RequiredError, "layout is required" if layout.nil?
-            raise RequiredError, "contents is required" if contents.empty?
 
             {
               type: "box",
