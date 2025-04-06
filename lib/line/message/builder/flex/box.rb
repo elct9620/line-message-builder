@@ -10,7 +10,9 @@ module Line
 
           attr_reader :contents
 
-          option :layout, default: :horizontal
+          option :layout, default: :horizontal, validator: Validators::Enum.new(
+            :horizontal, :vertical, :baseline
+          )
           option :spacing, default: nil
           option :flex, default: nil
 

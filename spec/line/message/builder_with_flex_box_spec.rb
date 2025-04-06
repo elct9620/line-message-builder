@@ -38,6 +38,24 @@ RSpec.describe Line::Message::Builder do
     it { is_expected.to have_line_flex_box(layout: :horizontal) }
   end
 
+  context "with invalid layout" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box layout: :invalid do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
+  end
+
   context "with flex option" do
     let(:builder) do
       described_class.with do
