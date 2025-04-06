@@ -1,5 +1,8 @@
 # LINE Message Builder
 
+[![.github/workflows/main.yml](https://github.com/elct9620/line-message-builder/actions/workflows/main.yml/badge.svg)](https://github.com/elct9620/line-message-builder/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/elct9620/line-message-builder/graph/badge.svg?token=9TJTSRIL0X)](https://codecov.io/gh/elct9620/line-message-builder)
+
 Build LINE messages using DSL (Domain Specific Language) in Ruby.
 
 ## Installation
