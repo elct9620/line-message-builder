@@ -19,12 +19,23 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    steps:
       - uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
       - uses: ruby/setup-ruby@v1
         if: ${{ steps.release.outputs.release_created }}
         with:
-          ruby-version: 3.1
+          ruby-version: ruby
           bundler-cache: true
-      - uses: rubygems/release-gem@v1
-        if: ${{ steps.release.outputs.release_created }}
+      - uses: rubygems/configure-rubygems-credentials@v1.0.0
+      - run: bundle exec rake build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gem
+          path: pkg/*.gem
+      - run: gem push pkg/*.gem
