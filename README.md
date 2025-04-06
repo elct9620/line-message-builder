@@ -95,6 +95,7 @@ end
 | --------------------------- | ------------------------------------ |
 | `have_line_text_message`    | Match a text message                 |
 | `have_line_flex_message`    | Match a flex message                 |
+| `have_line_flex_bubble`     | Match a flex message with bubble     |
 | `have_line_flex_text`       | Match a flex message with text       |
 | `have_line_flex_image`      | Match a flex message with image      |
 | `have_line_flex_button`     | Match a flex message with button     |
