@@ -6,7 +6,10 @@ module Line
       module Flex
         # The bubble is container for the Flex message.
         class Bubble < Line::Message::Builder::Base
-          def initialize(context: nil, &)
+          option :size, default: nil
+          option :styles, default: nil
+
+          def initialize(context: nil, **options, &)
             @header = nil
             @hero = nil
             @body = nil
@@ -41,7 +44,9 @@ module Line
               header: @header&.to_h,
               hero: @hero&.to_h,
               body: @body&.to_h,
-              footer: @footer&.to_h
+              footer: @footer&.to_h,
+              size: size,
+              styles: styles
             }.compact
           end
         end

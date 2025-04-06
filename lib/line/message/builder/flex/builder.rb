@@ -14,8 +14,8 @@ module Line
             super
           end
 
-          def bubble(&)
-            @contents = Line::Message::Builder::Flex::Bubble.new(context: context, &)
+          def bubble(**options, &)
+            @contents = Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
           end
 
           def to_h

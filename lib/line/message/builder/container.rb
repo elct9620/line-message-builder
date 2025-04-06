@@ -17,8 +17,8 @@ module Line
           @messages << Text.new(text, context: context, **options, &)
         end
 
-        def flex(**args, &)
-          @messages << Flex::Builder.new(**args, context: context, &)
+        def flex(**options, &)
+          @messages << Flex::Builder.new(context: context, **options, &)
         end
 
         def build
