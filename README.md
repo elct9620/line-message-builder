@@ -5,6 +5,12 @@
 
 Build LINE messages using DSL (Domain Specific Language) in Ruby.
 
+## Features
+
+- Build LINE messages using DSL
+- Validation of properties
+- RSpec matchers for testing
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
