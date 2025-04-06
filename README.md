@@ -154,7 +154,7 @@ end
 
 | Type     | Supported |
 | ----     | --------- |
-| Text     | ✅        |
+| Text     | 🚧        |
 | Text v2  | ❌        |
 | Sticker  | ❌        |
 | Sticker  | ❌        |
