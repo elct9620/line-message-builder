@@ -6,6 +6,10 @@ module Line
       module Flex
         # The button is a component of the Flex message.
         class Button < Line::Message::Builder::Base
+          attr_reader :action
+
+          option :flex, default: nil
+          option :margin, default: nil
           option :style, default: :link
           option :height, default: :md
 
@@ -24,11 +28,13 @@ module Line
           end
 
           def to_h
-            raise Error, "Action is required" unless @action
+            raise RequiredError, "action is required" if action.nil?
 
             {
               type: "button",
-              action: @action.to_h,
+              action: action.to_h,
+              flex: flex,
+              margin: margin,
               style: style,
               height: height
             }.compact
