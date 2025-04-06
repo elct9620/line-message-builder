@@ -6,6 +6,8 @@ module Line
       module Flex
         # The box is a component for the Flex message.
         class Box < Line::Message::Builder::Base
+          include Actionable
+
           attr_reader :contents
 
           option :layout, default: :horizontal
@@ -43,7 +45,8 @@ module Line
               layout: layout,
               spacing: spacing,
               flex: flex,
-              contents: contents.map(&:to_h)
+              contents: contents.map(&:to_h),
+              action: action&.to_h
             }.compact
           end
         end

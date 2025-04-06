@@ -6,6 +6,8 @@ module Line
       module Flex
         # The text is a component of the Flex message.
         class Text < Line::Message::Builder::Base
+          include Actionable
+
           attr_reader :text
 
           option :size, default: nil
@@ -38,7 +40,8 @@ module Line
               size: size,
               align: align,
               margin: margin,
-              flex: flex
+              flex: flex,
+              action: action&.to_h
             }.compact
           end
         end

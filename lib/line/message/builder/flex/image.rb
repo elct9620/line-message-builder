@@ -6,6 +6,8 @@ module Line
       module Flex
         # The image is a component for the Flex message.
         class Image < Line::Message::Builder::Base
+          include Actionable
+
           attr_reader :url
 
           option :size, default: nil
@@ -32,7 +34,8 @@ module Line
               margin: margin,
               align: align,
               aspectRatio: aspect_ratio,
-              aspectMode: aspect_mode
+              aspectMode: aspect_mode,
+              action: action&.to_h
             }.compact
           end
         end

@@ -6,6 +6,7 @@ module Line
       # The Flex module allows to build Flex messages.
       module Flex
         require_relative "flex/builder"
+        require_relative "flex/actionable"
 
         # Container
         require_relative "flex/bubble"
