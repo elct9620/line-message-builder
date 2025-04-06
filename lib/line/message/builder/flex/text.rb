@@ -12,6 +12,7 @@ module Line
           option :size, default: nil
           option :align, default: nil
           option :flex, default: nil
+          option :margin, default: nil
 
           def initialize(text, context: nil, **options, &)
             @text = text
@@ -23,7 +24,7 @@ module Line
             @wrap = true
           end
 
-          def to_h
+          def to_h # rubocop:disable Metrics/MethodLength
             {
               type: "text",
               text: @text,
@@ -32,6 +33,7 @@ module Line
               color: color,
               size: size,
               align: align,
+              margin: margin,
               flex: flex
             }.compact
           end

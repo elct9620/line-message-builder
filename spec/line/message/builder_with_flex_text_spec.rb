@@ -126,4 +126,22 @@ RSpec.describe Line::Message::Builder do
 
     it { is_expected.to have_line_flex_text(/Nested box/, wrap: true) }
   end
+
+  context "with text margin" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", margin: :lg
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, margin: :lg) }
+  end
 end
