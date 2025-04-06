@@ -8,6 +8,7 @@ module Line
         class Text < Line::Message::Builder::Base
           include Actionable
           include Position::Horizontal
+          include Position::Vertical
 
           attr_reader :text
 
@@ -34,11 +35,13 @@ module Line
             {
               type: "text",
               text: text,
+              # Position
+              align: align,
+              gravity: gravity,
               wrap: wrap,
               lineSpacing: line_spacing,
               color: color,
               size: size,
-              align: align,
               margin: margin,
               flex: flex,
               action: action&.to_h

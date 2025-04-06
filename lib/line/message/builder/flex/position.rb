@@ -15,6 +15,17 @@ module Line
                           )
             end
           end
+
+          # The vertical provides "gatvity" options for flex components.
+          module Vertical
+            def self.included(base)
+              base.option :gravity,
+                          default: :nil,
+                          validator: Validators::Enum.new(
+                            :top, :center, :bottom
+                          )
+            end
+          end
         end
       end
     end

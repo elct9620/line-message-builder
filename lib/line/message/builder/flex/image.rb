@@ -8,6 +8,7 @@ module Line
         class Image < Line::Message::Builder::Base
           include Actionable
           include Position::Horizontal
+          include Position::Vertical
 
           attr_reader :url
 
@@ -29,10 +30,12 @@ module Line
             {
               type: "image",
               url: url,
+              # Position
+              align: align,
+              gravity: gravity,
               size: size,
               flex: flex,
               margin: margin,
-              align: align,
               aspectRatio: aspect_ratio,
               aspectMode: aspect_mode,
               action: action&.to_h

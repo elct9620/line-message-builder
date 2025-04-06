@@ -7,6 +7,7 @@ module Line
         # The button is a component of the Flex message.
         class Button < Line::Message::Builder::Base
           include Actionable
+          include Position::Vertical
 
           option :flex, default: nil
           option :margin, default: nil
@@ -19,6 +20,8 @@ module Line
             {
               type: "button",
               action: action.to_h,
+              # Position
+              grivity: gravity,
               flex: flex,
               margin: margin,
               style: style,
