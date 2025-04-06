@@ -13,8 +13,8 @@ module Line
           super
         end
 
-        def text(text, &)
-          @messages << Text.new(text, context: context, &)
+        def text(text, **options, &)
+          @messages << Text.new(text, context: context, **options, &)
         end
 
         def flex(**args, &)
