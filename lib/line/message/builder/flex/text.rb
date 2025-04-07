@@ -10,6 +10,7 @@ module Line
           include Position::Horizontal
           include Position::Vertical
           include Position::Margin
+          include Position::Offset
 
           attr_reader :text
 
@@ -29,7 +30,7 @@ module Line
             @wrap = true
           end
 
-          def to_h # rubocop:disable Metrics/MethodLength
+          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "text is required" if text.nil?
 
             {
@@ -40,6 +41,12 @@ module Line
               gravity: gravity,
               # Position::Margin
               margin: margin,
+              # Position::Offset
+              position: position,
+              offsetTop: offset_top,
+              offsetBottom: offset_bottom,
+              offsetStart: offset_start,
+              offsetEnd: offset_end,
               wrap: wrap,
               lineSpacing: line_spacing,
               color: color,

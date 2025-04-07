@@ -161,4 +161,48 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
   end
+
+  context "with button offset" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button position: :absolute do
+                postback "action=submit", label: "Submit"
+                offset_top "10px"
+                offset_bottom "20px"
+                offset_start "30px"
+                offset_end "40px"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_button("postback", position: :absolute) }
+    it { is_expected.to have_line_flex_button("postback", offsetTop: "10px") }
+    it { is_expected.to have_line_flex_button("postback", offsetBottom: "20px") }
+    it { is_expected.to have_line_flex_button("postback", offsetStart: "30px") }
+    it { is_expected.to have_line_flex_button("postback", offsetEnd: "40px") }
+  end
+
+  context "with invalid button offset" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button position: :invalid do
+                postback "action=submit", label: "Submit"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
+  end
 end

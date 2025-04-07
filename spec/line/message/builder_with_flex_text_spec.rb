@@ -180,4 +180,54 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
   end
+
+  context "with text offset" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", position: :absolute do
+                  offset_top "10px"
+                  offset_bottom "20px"
+                  offset_start "30px"
+                  offset_end "40px"
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, position: :absolute) }
+    it { is_expected.to have_line_flex_text(/Nested box/, offsetTop: "10px") }
+    it { is_expected.to have_line_flex_text(/Nested box/, offsetBottom: "20px") }
+    it { is_expected.to have_line_flex_text(/Nested box/, offsetStart: "30px") }
+    it { is_expected.to have_line_flex_text(/Nested box/, offsetEnd: "40px") }
+  end
+
+  context "with invalid text offset" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", position: :invalid do
+                  offset_top "10px"
+                  offset_bottom "20px"
+                  offset_start "30px"
+                  offset_end "40px"
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
+  end
 end

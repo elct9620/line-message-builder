@@ -9,6 +9,7 @@ module Line
           include Actionable
           include Position::Padding
           include Position::Margin
+          include Position::Offset
 
           attr_reader :contents
 
@@ -64,6 +65,12 @@ module Line
               paddingEnd: padding_end,
               # Position::Margin
               margin: margin,
+              # Position::Offset
+              position: position,
+              offsetTop: offset_top,
+              offsetBottom: offset_bottom,
+              offsetStart: offset_start,
+              offsetEnd: offset_end,
               flex: flex,
               contents: contents.map(&:to_h),
               action: action&.to_h

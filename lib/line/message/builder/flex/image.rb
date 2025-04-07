@@ -10,6 +10,7 @@ module Line
           include Position::Horizontal
           include Position::Vertical
           include Position::Margin
+          include Position::Offset
 
           attr_reader :url
 
@@ -24,7 +25,7 @@ module Line
             super(context: context, **options, &)
           end
 
-          def to_h # rubocop:disable Metrics/MethodLength
+          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "url is required" if url.nil?
 
             {
@@ -35,6 +36,12 @@ module Line
               gravity: gravity,
               # Position::Margin
               margin: margin,
+              # Position::Offset
+              position: position,
+              offsetTop: offset_top,
+              offsetBottom: offset_bottom,
+              offsetStart: offset_start,
+              offsetEnd: offset_end,
               size: size,
               flex: flex,
               aspectRatio: aspect_ratio,

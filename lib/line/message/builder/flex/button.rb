@@ -10,12 +10,13 @@ module Line
           include Position::Vertical
           include Position::Padding
           include Position::Margin
+          include Position::Offset
 
           option :flex, default: nil
           option :style, default: :link
           option :height, default: :md
 
-          def to_h # rubocop:disable Metrics/MethodLength
+          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "action is required" if action.nil?
 
             {
@@ -31,6 +32,12 @@ module Line
               paddingEnd: padding_end,
               # Position::Margin
               margin: margin,
+              # Position::Offset
+              position: position,
+              offsetTop: offset_top,
+              offsetBottom: offset_bottom,
+              offsetStart: offset_start,
+              offsetEnd: offset_end,
               flex: flex,
               style: style,
               height: height

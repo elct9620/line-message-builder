@@ -46,6 +46,21 @@ module Line
                           validator: Validators::Size.new
             end
           end
+
+          # The offset provides "offset" options for flex components.
+          module Offset
+            def self.included(base)
+              base.option :position,
+                          default: :nil,
+                          validator: Validators::Enum.new(:absolute, :relative)
+
+              %i[offset_top offset_bottom offset_start offset_end].each do |option|
+                base.option option,
+                            default: :nil,
+                            validator: Validators::Size.new
+              end
+            end
+          end
         end
       end
     end
