@@ -14,7 +14,7 @@ module Line
           include Size::Flex
 
           option :style, default: :link
-          option :height, default: :md
+          option :height, default: :md, validator: Validators::Enum.new(:sm, :md)
 
           def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "action is required" if action.nil?
@@ -22,6 +22,7 @@ module Line
             {
               type: "button",
               action: action.to_h,
+              height: height,
               # Position
               grivity: gravity,
               # Position::Padding
@@ -40,8 +41,7 @@ module Line
               offsetEnd: offset_end,
               # Size::Flex
               flex: flex,
-              style: style,
-              height: height
+              style: style
             }.compact
           end
         end

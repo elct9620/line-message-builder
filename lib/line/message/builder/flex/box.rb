@@ -26,6 +26,8 @@ module Line
           option :spacing, default: nil, validator: Validators::Size.new(:pixel, :keyword)
           option :width, default: nil, validator: Validators::Size.new(:pixel, :percentage)
           option :max_width, default: nil, validator: Validators::Size.new(:pixel, :percentage)
+          option :height, default: nil, validator: Validators::Size.new(:pixel, :percentage)
+          option :max_height, default: nil, validator: Validators::Size.new(:pixel, :percentage)
 
           def initialize(context: nil, **options, &)
             @contents = []
@@ -76,6 +78,8 @@ module Line
               # Size
               width: width,
               maxWidth: max_width,
+              height: height,
+              maxHeight: max_height,
               # Size::Flex
               flex: flex,
               contents: contents.map(&:to_h),
