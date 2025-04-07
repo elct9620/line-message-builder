@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.0](https://github.com/elct9620/line-message-builder/compare/v0.5.0...v0.6.0) (2025-04-07)
+
+
+### Features
+
+* Add Flex carousel support for Line message builder ([757b16d](https://github.com/elct9620/line-message-builder/commit/757b16d2f71ff14cff39aa1990773851bc78192b))
+* Add height and max_height options to flex box with validation ([932c743](https://github.com/elct9620/line-message-builder/commit/932c7435ea11a3dec7903ffa19c48a5987231e39))
+* Add shrink-to-fit adjust mode for flex buttons and texts ([b3ce3a2](https://github.com/elct9620/line-message-builder/commit/b3ce3a29614514b3049d5b6ad718b3dbcd283898))
+* Add width and max_width options to flex box builder ([3d20c98](https://github.com/elct9620/line-message-builder/commit/3d20c98e670f49fad3f35c93d88364fb7f14afc0))
+
 ## [0.5.0](https://github.com/elct9620/line-message-builder/compare/v0.4.0...v0.5.0) (2025-04-07)
 
 
