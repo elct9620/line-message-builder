@@ -18,6 +18,10 @@ module Line
             @contents = Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
           end
 
+          def carousel(**options, &)
+            @contents = Line::Message::Builder::Flex::Carousel.new(context: context, **options, &)
+          end
+
           def to_h
             raise Error, "contents should be bubble or carousel" if @contents.nil?
 

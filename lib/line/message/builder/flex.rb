@@ -12,6 +12,7 @@ module Line
 
         # Container
         require_relative "flex/bubble"
+        require_relative "flex/carousel"
 
         # Components
         require_relative "flex/box"
