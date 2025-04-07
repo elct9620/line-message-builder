@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.0](https://github.com/elct9620/line-message-builder/compare/v0.4.0...v0.5.0) (2025-04-07)
+
+
+### Features
+
+* Add Actionable module for flex components with message and postback actions ([9ac4b4a](https://github.com/elct9620/line-message-builder/commit/9ac4b4af591450e8f1925814b5a57e893ffa15db))
+* Add enum validator for flex text alignment options ([540c58d](https://github.com/elct9620/line-message-builder/commit/540c58d94731adfe91d30e006bb0ee6714755006))
+* Add justify_content and align_items options to Flex Box builder ([6c2015f](https://github.com/elct9620/line-message-builder/commit/6c2015f0a75a0f541cb52fef647e0bff1a245a28))
+* Add layout validation for flex box with enum validator ([b1ecba1](https://github.com/elct9620/line-message-builder/commit/b1ecba160db03f94aaebc83b82158e75292c94eb))
+* Add margin support for flex components in Line message builder ([36043b8](https://github.com/elct9620/line-message-builder/commit/36043b8d7390cb13d60174759fc5906a70aa2507))
+* Add offset positioning support for flex message components ([1e28336](https://github.com/elct9620/line-message-builder/commit/1e2833656083aa72b0cfffccd5636e80ae41ccc9))
+* Add padding support for flex box components with validation ([9dcd9d2](https://github.com/elct9620/line-message-builder/commit/9dcd9d20a48aed023440a2abe24e8b44eea8b425))
+* Add padding support for Line Flex buttons with validation ([ca25a11](https://github.com/elct9620/line-message-builder/commit/ca25a1192c0d611ae064f935fc9335640d123b2d))
+* Add SimpleCov Cobertura formatter for CI coverage reporting ([bb5bfc8](https://github.com/elct9620/line-message-builder/commit/bb5bfc8344c1b448e61a2857aa36e1f6b5ce0425))
+* Add validator for spacing option in flex box builder ([06e7b98](https://github.com/elct9620/line-message-builder/commit/06e7b9805f8243c51faaf9c13c264ffb1f35091c))
+* Add vertical positioning support for Flex message components ([f9ce97b](https://github.com/elct9620/line-message-builder/commit/f9ce97b666cabe47717cdd916722121372cb9bf0))
+
+
+### Bug Fixes
+
+* Correct indentation in GitHub Actions workflow file ([1c1cd2d](https://github.com/elct9620/line-message-builder/commit/1c1cd2dfe2e48bd937a04ac25f7b2b772e02e1a6))
+
 ## [0.4.0](https://github.com/elct9620/line-message-builder/compare/v0.3.0...v0.4.0) (2025-04-06)
 
 
