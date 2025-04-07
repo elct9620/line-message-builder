@@ -73,6 +73,24 @@ RSpec.describe Line::Message::Builder do
       it { is_expected.to have_line_text_message(/This is message number 2\./) }
       it { is_expected.to have_line_text_message(/This is message number 3\./) }
     end
+
+    context "with conditional" do
+      let(:builder) do
+        described_class.with(ctx) do
+          text "This is a message." if condition
+        end
+      end
+
+      let(:ctx) do
+        Class.new do
+          def condition
+            true
+          end
+        end.new
+      end
+
+      it { is_expected.to have_line_text_message(/This is a message\./) }
+    end
   end
 
   describe "#to_json" do
