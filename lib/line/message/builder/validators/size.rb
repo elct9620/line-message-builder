@@ -6,8 +6,9 @@ module Line
       module Validators
         # Validate size values for LINE messages.
         class Size
-          VARIANTS = %i[pixel keyword percentage].freeze
+          VARIANTS = %i[pixel keyword image percentage].freeze
           KEYWORDS = %i[none xs sm md lg xl xxl].freeze
+          IMAGE_KEYWORDS = %i[xxs xs sm md lg xl xxl 3xl 4xl 5xl full].freeze
           PIXEL_REGEX = /^\d+px$/
           PERCENTAGE_REGEX = /^\f+%$/
 
@@ -27,6 +28,10 @@ module Line
 
           def keyword?(value)
             KEYWORDS.include?(value.to_sym)
+          end
+
+          def image?(value)
+            IMAGE_KEYWORDS.include?(value.to_sym)
           end
 
           def percentage?(value)

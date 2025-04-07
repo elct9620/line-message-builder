@@ -12,10 +12,10 @@ module Line
           include Position::Margin
           include Position::Offset
           include Size::Flex
+          include Size::Image
 
           attr_reader :url
 
-          option :size, default: nil
           option :aspect_ratio, default: nil
           option :aspect_mode, default: nil
 
@@ -44,6 +44,7 @@ module Line
               offsetEnd: offset_end,
               # Size::Flex
               flex: flex,
+              # Size::Image
               size: size,
               aspectRatio: aspect_ratio,
               aspectMode: aspect_mode,

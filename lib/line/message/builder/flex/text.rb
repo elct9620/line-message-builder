@@ -12,10 +12,10 @@ module Line
           include Position::Margin
           include Position::Offset
           include Size::Flex
+          include Size::Shared
 
           attr_reader :text
 
-          option :size, default: nil
           option :wrap, default: false
           option :line_spacing, default: nil
           option :color, default: nil
@@ -36,6 +36,7 @@ module Line
             {
               type: "text",
               text: text,
+              wrap: wrap,
               # Position
               align: align,
               gravity: gravity,
@@ -49,10 +50,10 @@ module Line
               offsetEnd: offset_end,
               # Size::Flex
               flex: flex,
-              wrap: wrap,
+              # Size::Shared
+              size: size,
               lineSpacing: line_spacing,
               color: color,
-              size: size,
               action: action&.to_h
             }.compact
           end
