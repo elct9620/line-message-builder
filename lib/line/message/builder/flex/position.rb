@@ -33,7 +33,7 @@ module Line
               %i[padding padding_top padding_bottom padding_start padding_end].each do |option|
                 base.option option,
                             default: :nil,
-                            validator: Validators::PercentageSize.new
+                            validator: Validators::Size.new(:pixel, :keyword, :percentage)
               end
             end
           end
@@ -43,7 +43,7 @@ module Line
             def self.included(base)
               base.option :margin,
                           default: :nil,
-                          validator: Validators::KeywordSize.new
+                          validator: Validators::Size.new(:pixel, :keyword)
             end
           end
 
@@ -57,7 +57,7 @@ module Line
               %i[offset_top offset_bottom offset_start offset_end].each do |option|
                 base.option option,
                             default: :nil,
-                            validator: Validators::KeywordSize.new
+                            validator: Validators::Size.new(:pixel, :keyword)
               end
             end
           end
