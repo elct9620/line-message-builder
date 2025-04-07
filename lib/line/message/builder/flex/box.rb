@@ -23,7 +23,7 @@ module Line
           option :align_items, default: nil, validator: Validators::Enum.new(
             :flex_start, :center, :flex_end
           )
-          option :spacing, default: nil, validator: Validators::Size.new
+          option :spacing, default: nil, validator: Validators::KeywordSize.new
 
           def initialize(context: nil, **options, &)
             @contents = []

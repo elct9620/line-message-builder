@@ -43,7 +43,7 @@ module Line
             def self.included(base)
               base.option :margin,
                           default: :nil,
-                          validator: Validators::Size.new
+                          validator: Validators::KeywordSize.new
             end
           end
 
@@ -57,7 +57,7 @@ module Line
               %i[offset_top offset_bottom offset_start offset_end].each do |option|
                 base.option option,
                             default: :nil,
-                            validator: Validators::Size.new
+                            validator: Validators::KeywordSize.new
               end
             end
           end
