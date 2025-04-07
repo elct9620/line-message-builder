@@ -13,6 +13,7 @@ module Line
           include Position::Offset
           include Size::Flex
           include Size::Shared
+          include Size::AdjustMode
 
           attr_reader :text
 
@@ -52,6 +53,8 @@ module Line
               flex: flex,
               # Size::Shared
               size: size,
+              # Size::AdjustMode
+              adjustMode: adjust_mode,
               lineSpacing: line_spacing,
               color: color,
               action: action&.to_h

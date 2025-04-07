@@ -205,4 +205,23 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
   end
+
+  context "with button adjust mode" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button do
+                postback "action=submit", label: "Submit"
+                shrink_to_fit!
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_button("postback", adjustMode: :"shrink-to-fit") }
+  end
 end

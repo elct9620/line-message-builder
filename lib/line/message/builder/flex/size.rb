@@ -30,6 +30,21 @@ module Line
                           validator: Validators::Size.new(:pixel, :keyword)
             end
           end
+
+          # The adjust mode provides "adjust mode" options for flex components.
+          module AdjustMode
+            def self.included(base)
+              base.option :adjust_mode,
+                          default: :nil,
+                          validator: Validators::Enum.new(
+                            :"shrink-to-fit"
+                          )
+            end
+
+            def shrink_to_fit!
+              @adjust_mode = :"shrink-to-fit"
+            end
+          end
         end
       end
     end

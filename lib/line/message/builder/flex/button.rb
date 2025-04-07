@@ -12,6 +12,7 @@ module Line
           include Position::Margin
           include Position::Offset
           include Size::Flex
+          include Size::AdjustMode
 
           option :style, default: :link
           option :height, default: :md, validator: Validators::Enum.new(:sm, :md)
@@ -41,6 +42,8 @@ module Line
               offsetEnd: offset_end,
               # Size::Flex
               flex: flex,
+              # Size::AdjustMode
+              adjustMode: adjust_mode,
               style: style
             }.compact
           end
