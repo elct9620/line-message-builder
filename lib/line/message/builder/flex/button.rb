@@ -8,13 +8,14 @@ module Line
         class Button < Line::Message::Builder::Base
           include Actionable
           include Position::Vertical
+          include Position::Padding
 
           option :flex, default: nil
           option :margin, default: nil
           option :style, default: :link
           option :height, default: :md
 
-          def to_h
+          def to_h # rubocop:disable Metrics/MethodLength
             raise RequiredError, "action is required" if action.nil?
 
             {
@@ -22,6 +23,12 @@ module Line
               action: action.to_h,
               # Position
               grivity: gravity,
+              # Position::Padding
+              paddingAll: padding,
+              paddingTop: padding_top,
+              paddingBottom: padding_bottom,
+              paddingStart: padding_start,
+              paddingEnd: padding_end,
               flex: flex,
               margin: margin,
               style: style,

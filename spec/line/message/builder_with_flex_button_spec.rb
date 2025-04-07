@@ -107,4 +107,40 @@ RSpec.describe Line::Message::Builder do
 
     it { is_expected.to have_line_flex_button("postback", flex: 2) }
   end
+
+  context "with button padding" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button padding: :md do
+                postback "action=submit", label: "Submit"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_button("postback", paddingAll: :md) }
+  end
+
+  context "with invalid button padding" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button padding: :invalid do
+                postback "action=submit", label: "Submit"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
+  end
 end
