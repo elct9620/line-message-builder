@@ -14,6 +14,12 @@ module Line
           option :layout, default: :horizontal, validator: Validators::Enum.new(
             :horizontal, :vertical, :baseline
           )
+          option :justify_content, default: nil, validator: Validators::Enum.new(
+            :flex_start, :center, :flex_end, :space_between, :space_around, :space_evenly
+          )
+          option :align_items, default: nil, validator: Validators::Enum.new(
+            :flex_start, :center, :flex_end
+          )
           option :spacing, default: nil
           option :flex, default: nil
 
@@ -39,12 +45,14 @@ module Line
             @contents << Flex::Image.new(url, context: context, **options, &)
           end
 
-          def to_h # rubocop:disable Metrics/MethodLength
+          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "layout is required" if layout.nil?
 
             {
               type: "box",
               layout: layout,
+              justifyContent: justify_content,
+              alignItems: align_items,
               # Position::Padding
               paddingAll: padding,
               paddingTop: padding_top,
