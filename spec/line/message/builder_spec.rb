@@ -59,6 +59,20 @@ RSpec.describe Line::Message::Builder do
 
       it { is_expected.to have_line_text_message(/Hello, John Doe!/) }
     end
+
+    context "with loop" do
+      let(:builder) do
+        described_class.with do
+          3.times do |i|
+            text "This is message number #{i + 1}."
+          end
+        end
+      end
+
+      it { is_expected.to have_line_text_message(/This is message number 1\./) }
+      it { is_expected.to have_line_text_message(/This is message number 2\./) }
+      it { is_expected.to have_line_text_message(/This is message number 3\./) }
+    end
   end
 
   describe "#to_json" do
