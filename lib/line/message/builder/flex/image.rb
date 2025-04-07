@@ -11,13 +11,13 @@ module Line
           include Position::Vertical
           include Position::Margin
           include Position::Offset
+          include Size::Flex
 
           attr_reader :url
 
           option :size, default: nil
           option :aspect_ratio, default: nil
           option :aspect_mode, default: nil
-          option :flex, default: nil
 
           def initialize(url, context: nil, **options, &)
             @url = url
@@ -42,8 +42,9 @@ module Line
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
               offsetEnd: offset_end,
-              size: size,
+              # Size::Flex
               flex: flex,
+              size: size,
               aspectRatio: aspect_ratio,
               aspectMode: aspect_mode,
               action: action&.to_h

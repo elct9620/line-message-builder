@@ -11,8 +11,8 @@ module Line
           include Position::Padding
           include Position::Margin
           include Position::Offset
+          include Size::Flex
 
-          option :flex, default: nil
           option :style, default: :link
           option :height, default: :md
 
@@ -38,6 +38,7 @@ module Line
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
               offsetEnd: offset_end,
+              # Size::Flex
               flex: flex,
               style: style,
               height: height

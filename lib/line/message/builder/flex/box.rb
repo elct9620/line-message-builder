@@ -10,6 +10,7 @@ module Line
           include Position::Padding
           include Position::Margin
           include Position::Offset
+          include Size::Flex
 
           attr_reader :contents
 
@@ -23,7 +24,6 @@ module Line
             :flex_start, :center, :flex_end
           )
           option :spacing, default: nil, validator: Validators::Size.new
-          option :flex, default: nil
 
           def initialize(context: nil, **options, &)
             @contents = []
@@ -71,6 +71,7 @@ module Line
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
               offsetEnd: offset_end,
+              # Size::Flex
               flex: flex,
               contents: contents.map(&:to_h),
               action: action&.to_h

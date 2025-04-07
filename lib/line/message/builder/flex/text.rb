@@ -11,6 +11,7 @@ module Line
           include Position::Vertical
           include Position::Margin
           include Position::Offset
+          include Size::Flex
 
           attr_reader :text
 
@@ -18,7 +19,6 @@ module Line
           option :wrap, default: false
           option :line_spacing, default: nil
           option :color, default: nil
-          option :flex, default: nil
 
           def initialize(text, context: nil, **options, &)
             @text = text
@@ -47,11 +47,12 @@ module Line
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
               offsetEnd: offset_end,
+              # Size::Flex
+              flex: flex,
               wrap: wrap,
               lineSpacing: line_spacing,
               color: color,
               size: size,
-              flex: flex,
               action: action&.to_h
             }.compact
           end
