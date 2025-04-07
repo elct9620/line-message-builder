@@ -37,6 +37,15 @@ module Line
               end
             end
           end
+
+          # The margin provides "margin" options for flex components.
+          module Margin
+            def self.included(base)
+              base.option :margin,
+                          default: :nil,
+                          validator: Validators::Size.new
+            end
+          end
         end
       end
     end

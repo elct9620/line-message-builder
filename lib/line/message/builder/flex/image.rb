@@ -9,6 +9,7 @@ module Line
           include Actionable
           include Position::Horizontal
           include Position::Vertical
+          include Position::Margin
 
           attr_reader :url
 
@@ -16,7 +17,6 @@ module Line
           option :aspect_ratio, default: nil
           option :aspect_mode, default: nil
           option :flex, default: nil
-          option :margin, default: nil
 
           def initialize(url, context: nil, **options, &)
             @url = url
@@ -33,9 +33,10 @@ module Line
               # Position
               align: align,
               gravity: gravity,
+              # Position::Margin
+              margin: margin,
               size: size,
               flex: flex,
-              margin: margin,
               aspectRatio: aspect_ratio,
               aspectMode: aspect_mode,
               action: action&.to_h

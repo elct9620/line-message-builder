@@ -154,6 +154,42 @@ RSpec.describe Line::Message::Builder do
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: superBig/) }
   end
 
+  context "with margin option" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box margin: :lg do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_box(margin: :lg) }
+  end
+
+  context "with invalid margin option" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box margin: :invalid do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
+  end
+
   context "with justify_content option" do
     let(:builder) do
       described_class.with do

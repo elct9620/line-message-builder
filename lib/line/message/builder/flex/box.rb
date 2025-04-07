@@ -8,6 +8,7 @@ module Line
         class Box < Line::Message::Builder::Base
           include Actionable
           include Position::Padding
+          include Position::Margin
 
           attr_reader :contents
 
@@ -51,15 +52,18 @@ module Line
             {
               type: "box",
               layout: layout,
+              # Position
               justifyContent: justify_content,
               alignItems: align_items,
+              spacing: spacing,
               # Position::Padding
               paddingAll: padding,
               paddingTop: padding_top,
               paddingBottom: padding_bottom,
               paddingStart: padding_start,
               paddingEnd: padding_end,
-              spacing: spacing,
+              # Position::Margin
+              margin: margin,
               flex: flex,
               contents: contents.map(&:to_h),
               action: action&.to_h

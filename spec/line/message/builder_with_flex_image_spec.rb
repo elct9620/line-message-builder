@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Line::Message::Builder do
-  subject { builder.build }
+  subject(:build) { builder.build }
 
   let(:builder) do
     described_class.with do
@@ -89,6 +89,24 @@ RSpec.describe Line::Message::Builder do
     end
 
     it { is_expected.to have_line_flex_image("https://example.com/image.jpg", margin: :lg) }
+  end
+
+  context "with invalid image margin" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                image "https://example.com/image.jpg", margin: :invalid
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
   end
 
   context "with image align" do

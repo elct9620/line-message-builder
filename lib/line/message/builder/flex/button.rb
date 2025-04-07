@@ -9,9 +9,9 @@ module Line
           include Actionable
           include Position::Vertical
           include Position::Padding
+          include Position::Margin
 
           option :flex, default: nil
-          option :margin, default: nil
           option :style, default: :link
           option :height, default: :md
 
@@ -29,8 +29,9 @@ module Line
               paddingBottom: padding_bottom,
               paddingStart: padding_start,
               paddingEnd: padding_end,
-              flex: flex,
+              # Position::Margin
               margin: margin,
+              flex: flex,
               style: style,
               height: height
             }.compact
