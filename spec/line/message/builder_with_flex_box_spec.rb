@@ -306,4 +306,40 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: superBig/) }
   end
+
+  context "with width option" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box width: "100px" do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_box(width: "100px") }
+  end
+
+  context "with invalid width option" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box width: "superBig" do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: superBig/) }
+  end
 end

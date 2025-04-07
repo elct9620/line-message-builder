@@ -24,6 +24,8 @@ module Line
             :flex_start, :center, :flex_end
           )
           option :spacing, default: nil, validator: Validators::Size.new(:pixel, :keyword)
+          option :width, default: nil, validator: Validators::Size.new(:pixel, :percentage)
+          option :max_width, default: nil, validator: Validators::Size.new(:pixel, :percentage)
 
           def initialize(context: nil, **options, &)
             @contents = []
@@ -71,6 +73,9 @@ module Line
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
               offsetEnd: offset_end,
+              # Size
+              width: width,
+              maxWidth: max_width,
               # Size::Flex
               flex: flex,
               contents: contents.map(&:to_h),
