@@ -7,6 +7,7 @@ module Line
         # The box is a component for the Flex message.
         class Box < Line::Message::Builder::Base
           include Actionable
+          include Position::Padding
 
           attr_reader :contents
 
@@ -38,12 +39,18 @@ module Line
             @contents << Flex::Image.new(url, context: context, **options, &)
           end
 
-          def to_h
+          def to_h # rubocop:disable Metrics/MethodLength
             raise RequiredError, "layout is required" if layout.nil?
 
             {
               type: "box",
               layout: layout,
+              # Position::Padding
+              paddingAll: padding,
+              paddingTop: padding_top,
+              paddingBottom: padding_bottom,
+              paddingStart: padding_start,
+              paddingEnd: padding_end,
               spacing: spacing,
               flex: flex,
               contents: contents.map(&:to_h),

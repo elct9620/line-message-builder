@@ -91,4 +91,48 @@ RSpec.describe Line::Message::Builder do
 
     it { is_expected.to have_line_flex_box(spacing: :sm) }
   end
+
+  context "with padding option" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box padding: "10px" do
+                text "Nested box"
+                padding_top "20px"
+                padding_bottom "30px"
+                padding_start "40px"
+                padding_end "50px"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_box(paddingAll: "10px") }
+    it { is_expected.to have_line_flex_box(paddingTop: "20px") }
+    it { is_expected.to have_line_flex_box(paddingBottom: "30px") }
+    it { is_expected.to have_line_flex_box(paddingStart: "40px") }
+    it { is_expected.to have_line_flex_box(paddingEnd: "50px") }
+  end
+
+  context "with invalid padding option" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box padding: "superBig" do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: superBig/) }
+  end
 end

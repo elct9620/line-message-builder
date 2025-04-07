@@ -26,6 +26,17 @@ module Line
                           )
             end
           end
+
+          # The padding provides "padding" options for flex components.
+          module Padding
+            def self.included(base)
+              %i[padding padding_top padding_bottom padding_start padding_end].each do |option|
+                base.option option,
+                            default: :nil,
+                            validator: Validators::PercentageSize.new
+              end
+            end
+          end
         end
       end
     end
