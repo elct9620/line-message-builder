@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/elct9620/line-message-builder/compare/v0.6.0...v0.6.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* change default option values from :nil to nil ([4f87919](https://github.com/elct9620/line-message-builder/commit/4f879191b129b7a1780b690c9949afe9e8f87bcc))
+
 ## [0.6.0](https://github.com/elct9620/line-message-builder/compare/v0.5.0...v0.6.0) (2025-04-07)
 
 
