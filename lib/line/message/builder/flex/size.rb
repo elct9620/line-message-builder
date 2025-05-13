@@ -9,7 +9,7 @@ module Line
           module Flex
             def self.included(base)
               base.option :flex,
-                          default: :nil
+                          default: nil
             end
           end
 
@@ -17,7 +17,7 @@ module Line
           module Image
             def self.included(base)
               base.option :size,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Size.new(:pixel, :image, :percentage)
             end
           end
@@ -26,7 +26,7 @@ module Line
           module Shared
             def self.included(base)
               base.option :size,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Size.new(:pixel, :keyword)
             end
           end
@@ -35,7 +35,7 @@ module Line
           module AdjustMode
             def self.included(base)
               base.option :adjust_mode,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Enum.new(
                             :"shrink-to-fit"
                           )

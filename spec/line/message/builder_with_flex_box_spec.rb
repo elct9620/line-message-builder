@@ -20,6 +20,12 @@ RSpec.describe Line::Message::Builder do
   it { is_expected.to have_line_flex_message(/Simple Flex Message/) }
   it { is_expected.to have_line_flex_text(/Nested box/) }
 
+  describe "#to_json" do
+    subject { builder.to_json }
+
+    it { is_expected.not_to include("nil") }
+  end
+
   context "with box layout" do
     let(:builder) do
       described_class.with do

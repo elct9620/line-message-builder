@@ -9,7 +9,7 @@ module Line
           module Horizontal
             def self.included(base)
               base.option :align,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Enum.new(
                             :start, :center, :end
                           )
@@ -20,7 +20,7 @@ module Line
           module Vertical
             def self.included(base)
               base.option :gravity,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Enum.new(
                             :top, :center, :bottom
                           )
@@ -32,7 +32,7 @@ module Line
             def self.included(base)
               %i[padding padding_top padding_bottom padding_start padding_end].each do |option|
                 base.option option,
-                            default: :nil,
+                            default: nil,
                             validator: Validators::Size.new(:pixel, :keyword, :percentage)
               end
             end
@@ -42,7 +42,7 @@ module Line
           module Margin
             def self.included(base)
               base.option :margin,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Size.new(:pixel, :keyword)
             end
           end
@@ -51,12 +51,12 @@ module Line
           module Offset
             def self.included(base)
               base.option :position,
-                          default: :nil,
+                          default: nil,
                           validator: Validators::Enum.new(:absolute, :relative)
 
               %i[offset_top offset_bottom offset_start offset_end].each do |option|
                 base.option option,
-                            default: :nil,
+                            default: nil,
                             validator: Validators::Size.new(:pixel, :keyword)
               end
             end
