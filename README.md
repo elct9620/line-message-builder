@@ -115,9 +115,7 @@ class CardPartial < Line::Message::Builder::Flex::Partial
     end
   end
 end
-```
 
-```ruby
 builder = Line::MessageBuilder::Builder.with do
     carousel do
         3.times do |i|
@@ -128,6 +126,31 @@ builder = Line::MessageBuilder::Builder.with do
     end
 end
 ```
+
+The partial can have `assigns` feature to provide variables to the partial.
+
+```ruby
+class CardPartial < Line::Message::Builder::Flex::Partial
+  def call
+    body do
+      text "Card #{idx}!"
+    end
+  end
+end
+
+builder = Line::MessageBuilder::Builder.with do
+    carousel do
+        3.times do |i|
+            bubble do
+                partial! CardPartial, idx: i
+            end
+        end
+    end
+end
+```
+
+> [!NOTE]
+> The assigns will override the context variables.
 
 ### RSpec Matcher
 

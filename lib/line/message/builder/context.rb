@@ -13,14 +13,14 @@ module Line
         end
 
         def respond_to_missing?(method_name, include_private = false)
-          @context.respond_to?(method_name, include_private) ||
-            @assigns.key?(method_name) ||
+          @assigns.key?(method_name) ||
+            @context.respond_to?(method_name, include_private) ||
             super
         end
 
         def method_missing(method_name, ...)
-          return @context.public_send(method_name, ...) if @context.respond_to?(method_name)
           return @assigns[method_name] if @assigns.key?(method_name)
+          return @context.public_send(method_name, ...) if @context.respond_to?(method_name)
 
           super
         end

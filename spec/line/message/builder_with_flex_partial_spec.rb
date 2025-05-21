@@ -106,7 +106,7 @@ RSpec.describe Line::Message::Builder do
         def call(*)
           body do
             box do
-              text my_message
+              text hello_message
             end
           end
         end
@@ -119,7 +119,7 @@ RSpec.describe Line::Message::Builder do
       described_class.with(ctx) do
         flex alt_text: "Simple Flex Message" do
           bubble do
-            partial! PartialBox, my_message: "Hello from assigns"
+            partial! PartialBox, hello_message: "Hello from assigns"
           end
         end
       end
