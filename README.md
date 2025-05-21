@@ -99,6 +99,36 @@ builder = Line::MessageBuilder::Builder.with(context) do
 end
 ```
 
+### Partial
+
+> [!WARNING]
+> This is experimental and may change in the future.
+
+You can create a partial object to reuse the same structure in the `Carousel`, `Bubble`, or `Box`.
+
+```ruby
+# Reuse the bubble structure in the Carousel
+class CardPartial < Line::Message::Builder::Flex::Partial
+  def call
+    body do
+      text "Hello World!"
+    end
+  end
+end
+```
+
+```ruby
+builder = Line::MessageBuilder::Builder.with do
+    carousel do
+        3.times do |i|
+            bubble do
+                partial! CardPartial
+            end
+        end
+    end
+end
+```
+
 ### RSpec Matcher
 
 | Matcher                     | Description                          |
