@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.0](https://github.com/elct9620/line-message-builder/compare/v0.6.1...v0.7.0) (2025-05-21)
+
+
+### Features
+
+* add assigns feature to flex partial with context override ([76c1d34](https://github.com/elct9620/line-message-builder/commit/76c1d34569d031ce6ddf64e948d33cd26a12b231))
+* add context with assigns support for flex message partials ([1c4c89f](https://github.com/elct9620/line-message-builder/commit/1c4c89f590dd251fb0def48109961469c136bd86))
+* add partial support for Flex message components ([57ff183](https://github.com/elct9620/line-message-builder/commit/57ff183b173e4c62e7119862df343c9d8a1174bd))
+
 ## [0.6.1](https://github.com/elct9620/line-message-builder/compare/v0.6.0...v0.6.1) (2025-05-13)
 
 
