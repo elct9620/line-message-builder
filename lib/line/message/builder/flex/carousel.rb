@@ -6,6 +6,8 @@ module Line
       module Flex
         # The carousel is multiple bubbles in a single Flex message.
         class Carousel < Line::Message::Builder::Base
+          include HasPartial
+
           def initialize(context: nil, **options, &)
             @contents = []
 

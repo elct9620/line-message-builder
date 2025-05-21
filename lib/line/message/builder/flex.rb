@@ -10,6 +10,9 @@ module Line
         require_relative "flex/position"
         require_relative "flex/size"
 
+        # Partial
+        require_relative "flex/partial"
+
         # Container
         require_relative "flex/bubble"
         require_relative "flex/carousel"

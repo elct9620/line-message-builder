@@ -6,6 +6,7 @@ module Line
       module Flex
         # The box is a component for the Flex message.
         class Box < Line::Message::Builder::Base
+          include HasPartial
           include Actionable
           include Position::Padding
           include Position::Margin

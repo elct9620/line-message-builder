@@ -6,6 +6,8 @@ module Line
       module Flex
         # The bubble is container for the Flex message.
         class Bubble < Line::Message::Builder::Base
+          include HasPartial
+
           option :size, default: nil
           option :styles, default: nil
 
