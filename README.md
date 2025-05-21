@@ -117,13 +117,13 @@ class CardPartial < Line::Message::Builder::Flex::Partial
 end
 
 builder = Line::MessageBuilder::Builder.with do
-    carousel do
-        3.times do |i|
-            bubble do
-                partial! CardPartial
-            end
-        end
+  carousel do
+    3.times do |i|
+      bubble do
+        partial! CardPartial
+      end
     end
+  end
 end
 ```
 
@@ -139,13 +139,13 @@ class CardPartial < Line::Message::Builder::Flex::Partial
 end
 
 builder = Line::MessageBuilder::Builder.with do
-    carousel do
-        3.times do |i|
-            bubble do
-                partial! CardPartial, idx: i
-            end
-        end
+  carousel do
+    3.times do |i|
+      bubble do
+        partial! CardPartial, idx: i
+      end
     end
+  end
 end
 ```
 
