@@ -6,10 +6,13 @@ module Line
       module Flex
         # Define a partial that can be reused in flex message.
         module HasPartial
-          def partial!(partial)
+          def partial!(partial, **assigns)
             raise ArgumentError, "Not a partial" unless partial < Partial
 
+            prev = context.assigns
+            context.assigns = assigns
             partial.new(context: self).call
+            context.assigns = prev
           end
         end
 

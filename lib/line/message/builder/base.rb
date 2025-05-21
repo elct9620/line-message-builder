@@ -35,7 +35,7 @@ module Line
         attr_reader :context
 
         def initialize(context: nil, **options, &block)
-          @context = context
+          @context = Context.new(context)
           @quick_reply = nil
 
           self.class.options.each do |option|

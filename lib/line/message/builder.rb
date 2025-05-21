@@ -10,6 +10,7 @@ module Line
       class RequiredError < Error; end
       class ValidationError < Error; end
 
+      require_relative "builder/context"
       require_relative "builder/base"
       require_relative "builder/validators"
       require_relative "builder/actions"
