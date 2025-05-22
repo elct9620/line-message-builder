@@ -1,0 +1,356 @@
+# Line Message Builder DSL Documentation
+
+This document provides a comprehensive guide on using the Line Message Builder DSL to construct various types of LINE messages.
+
+## Basic Usage
+
+To start building messages, use the `Line::Message::Builder.with` method. This method accepts an optional context object and a block where you define your messages.
+
+```ruby
+require 'line/message/builder'
+
+messages = Line::Message::Builder.with do
+  # ... message definitions go here ...
+end
+
+# The `messages` variable will now hold an array of LINE message objects.
+# You can convert them to JSON for sending to the LINE API:
+# json_output = messages.to_json
+```
+
+### Context
+
+The builder can accept a context object. Methods called within the builder block will first attempt to resolve against this context object. This allows for dynamic message content based on your application's data.
+
+```ruby
+class MyCustomContext
+  def user_name
+    "Alex"
+  end
+
+  def order_status
+    "shipped"
+  end
+end
+
+context = MyCustomContext.new
+
+Line::Message::Builder.with(context) do
+  text "Hello, #{user_name}! Your order status is: #{order_status}."
+end
+# Generates: "Hello, Alex! Your order status is: shipped."
+```
+If a method is not found in your custom context, the builder will check its own methods.
+
+### Loops and Conditionals
+
+Standard Ruby loops (e.g., `each`, `times`) and conditionals (`if`, `unless`, `case`) can be used directly within the DSL to generate messages dynamically.
+
+```ruby
+Line::Message::Builder.with do
+  # Loop example
+  ['apple', 'banana', 'cherry'].each do |fruit|
+    text "I like #{fruit}."
+  end
+
+  # Conditional example
+  user_is_premium = true
+  if user_is_premium
+    text "Welcome to our premium service!"
+  else
+    text "Consider upgrading to premium."
+  end
+end
+```
+
+## Text Messages
+
+Create simple text messages using the `text` method.
+
+```ruby
+Line::Message::Builder.with do
+  text "This is a plain text message."
+  text "Another one here."
+end
+```
+You can also include emojis in text messages. A `quick_reply` can be attached (see Quick Replies section).
+
+## Actions
+
+Actions define what happens when a user interacts with a button or a tappable area in a message. They are used in Flex Message components (like buttons, or even entire boxes/images) and Quick Reply buttons.
+
+The primary action types defined by helper methods are:
+
+### Message Action
+Sends a text message from the user's perspective.
+- `label`: (String, Required for Flex Buttons, Optional for Quick Reply if `text` is short) The text displayed on the button.
+- `text`: (String, Required) The text message to be sent when the button is tapped.
+
+```ruby
+# Example in a Flex Button (action is a required parameter for button)
+button label: "Say Hello", action: message(label: "Say Hello", text: "Hello there!")
+
+# Example in a Quick Reply
+# For quick reply, the first argument to `message` is the text to be sent.
+quick_reply do
+  message "Yes, please!", label: "Yes" # label is optional if text is short
+end
+```
+
+### Postback Action
+Sends a postback event to your bot's webhook. This is useful for triggering backend logic without displaying a message in the chat.
+- `label`: (String, Required for Flex Buttons, Optional for Quick Reply) The text displayed on the button.
+- `data`: (String, Required) The data string sent in the postback event to your webhook.
+- `display_text`: (String, Optional) Text displayed in the chat as if the user had typed it after tapping the button.
+
+```ruby
+# Example in a Flex Button
+button label: "Add to Cart", action: postback(label: "Add to Cart", data: "action=add_item&item_id=101", display_text: "Added to cart!")
+
+# Example in a Quick Reply
+quick_reply do
+  postback "action=view_profile", label: "View Profile"
+end
+```
+Other action types like URI, Datetime Picker, Camera, Camera Roll, Location can also be defined by passing a hash that conforms to the LINE API's action object structure directly to the `action` parameter of a component (e.g., `action: { type: :uri, label: "Visit Website", uri: "https://example.com" }`).
+
+## Quick Replies
+
+Quick Replies provide users with suggested responses or actions they can tap. They appear at the bottom of the chat screen and are dismissed once a button is tapped. Quick Replies are attached to a message (e.g., `text`, `flex`).
+
+To add Quick Replies, nest a `quick_reply` block within a message definition (e.g., inside a `text` or `flex` message block).
+
+```ruby
+Line::Message::Builder.with do
+  text "How can I help you today?" do
+    quick_reply do
+      # Quick Reply buttons defined here
+      message "Show products", label: "Products"
+      postback "action=contact_support", label: "Support", display_text: "Contacting support..."
+      # You can add an optional image_url to quick reply buttons
+      message "Special Offers", label: "Offers", image_url: "https://example.com/offer_icon.png"
+    end
+  end
+end
+```
+
+### Quick Reply Buttons
+Inside the `quick_reply` block:
+- `message(text, label:, image_url: nil)`:
+    - `text`: The message sent by the user.
+    - `label:`: The label for the button.
+    - `image_url:`: (Optional) URL of an icon for the button (HTTPS, max 1MB, 24x24 pixels recommended).
+- `postback(data, label:, display_text: nil, image_url: nil)`:
+    - `data`: Data sent in the postback event.
+    - `label:`: The label for the button.
+    - `display_text:`: (Optional) Text displayed in chat after tap.
+    - `image_url:`: (Optional) URL of an icon.
+
+A maximum of 13 quick reply buttons can be attached to a message.
+
+## Flex Messages
+
+Flex Messages allow for rich, customizable layouts. They are built using a hierarchy of containers and components. Start a Flex Message with the `flex` method, providing `alt_text` (alternative text shown in chat lists and notifications). A `quick_reply` can also be attached.
+
+```ruby
+Line::Message::Builder.with do
+  flex alt_text: "Your order confirmation" do
+    # Flex container (bubble or carousel) goes here
+  end
+end
+```
+
+### Flex Message Containers
+
+Containers hold the structure of your Flex Message.
+
+#### Carousel Container
+A `carousel` holds multiple `bubble` containers, allowing users to swipe horizontally. Maximum of 12 bubbles.
+```ruby
+flex alt_text: "Product Showcase" do
+  carousel do
+    bubble do # First bubble
+      body { text "First Item" }
+    end
+    bubble do # Second bubble
+      body { text "Second Item" }
+    end
+    # ... up to 12 bubbles
+  end
+end
+```
+
+#### Bubble Container
+A `bubble` is a single message unit within a Flex Message. It can have a header, hero (image/video), body, and footer.
+- `size`: (Symbol, Optional) Specifies the size of the bubble. Common values based on LINE API: `:nano`, `:micro`, `:kilo`, `:mega`, `:giga`. Default size varies depending on context (e.g., a bubble in a carousel might default differently than a standalone bubble).
+- `styles`: (Hash, Optional) Advanced styling for `block` (the bubble itself), `header`, `hero`, `body`, `footer`. Allows specifying CSS-like properties, e.g., `{ footer: { separator: true, separatorColor: '#FF0000' } }`. Refer to official LINE documentation for details on the style object structure.
+
+```ruby
+flex alt_text: "Recipe Card" do
+  bubble size: :mega, styles: { footer: { separator: true } } do
+    header do
+      text "Delicious Pasta", weight: :bold, size: :xl
+    end
+    # hero_image is a shorthand for a hero box containing a single image component
+    hero_image "https://example.com/pasta.jpg", aspect_ratio: "16:9"
+    # Alternatively, for a more complex hero:
+    # hero do
+    #   box layout: :vertical do
+    #     # ... components for hero ...
+    #   end
+    # end
+    body do
+      box layout: :vertical, spacing: :md do
+        text "A classic pasta recipe everyone will love."
+        # ... more components ...
+      end
+    end
+    footer do
+      button label: "View Recipe", action: { type: :uri, label: "View Recipe", uri: "http://example.com/recipe" }
+    end
+  end
+end
+```
+
+### Flex Message Components
+
+Components are the building blocks placed inside container sections (`header`, `hero`, `body`, `footer`) or within other `box` components.
+
+#### Box Component
+A `box` arranges other components.
+- `layout`: (Symbol, Required) Defines the orientation of children. Valid values: `:horizontal`, `:vertical`, `:baseline`.
+- `contents`: (Array) Implicitly defined by nesting other components within the `box` block.
+- Layout options:
+    - `justify_content`: (Symbol, Optional) Horizontal alignment of children within the box. Valid values: `:flex_start`, `:center`, `:flex_end`, `:space_between`, `:space_around`, `:space_evenly`.
+    - `align_items`: (Symbol, Optional) Vertical alignment of children within the box. Valid values: `:flex_start`, `:center`, `:flex_end`.
+    - `spacing`: (Symbol or String, Optional) Spacing between components within the box. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
+- Positioning:
+    - `padding_all`, `padding_top`, `padding_bottom`, `padding_start`, `padding_end`: (Symbol or String, Optional) Padding around the content. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'5px'`).
+    - `margin`: (Symbol or String, Optional) Margin around the box itself. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
+    - `position`: (Symbol, Optional) Positioning method. Valid values: `:relative`, `:absolute`.
+    - `offset_top`, `offset_bottom`, `offset_start`, `offset_end`: (String, Optional) Offset from the edges. E.g., `'10px'`, `'5%'`.
+- Sizing:
+    - `width`, `max_width`, `height`, `max_height`: (String, Optional) Pixel or percentage strings (e.g., `'100px'`, `'50%'`).
+    - `flex`: (Integer, Optional) Flex factor determining how much space this box takes relative to siblings.
+- `action`: (Action Object, Optional) Makes the entire box tappable. See Actions section.
+
+```ruby
+box layout: :vertical, spacing: :md, padding_all: :lg, action: message(text: "Box tapped!") do
+  text "Item 1"
+  text "Item 2"
+end
+```
+
+#### Text Component
+Displays text.
+- `text`: (String, Required) The text content.
+- Styling:
+    - `wrap`: (Boolean, Optional) `true` to allow text to wrap. Default `false`.
+    - `line_spacing`: (String, Optional) Spacing between lines, e.g., `'4px'`, `'1.5em'`.
+    - `color`: (String, Optional) Hex color code (e.g., `'#RRGGBB'`, `'#RRGGBBAA'`).
+- Layout:
+    - `align`: (Symbol, Optional) Horizontal alignment of the text. Valid values: `:start`, `:center`, `:end`.
+    - `gravity`: (Symbol, Optional) Vertical alignment of the text within its allocated space. Valid values: `:top`, `:center`, `:bottom`.
+    - `margin`: (Symbol or String, Optional) Margin around the text component. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
+- Sizing:
+    - `size`: (Symbol or String, Optional) Font size. Valid keywords: `:xxs`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:3xl`, `:4xl`, `:5xl`. Also accepts pixel values (e.g., `'16px'`).
+    - `weight`: (Symbol, Optional) Font weight. Valid values: `:regular`, `:bold`.
+    - `flex`: (Integer, Optional) Flex factor.
+    - `adjust_mode`: (Symbol, Optional) How text adjusts when it overflows. Valid value: `:shrink_to_fit` (reduces font size).
+- `action`: (Action Object, Optional) Makes the text tappable.
+
+```ruby
+text "Special Offer!", size: :xl, weight: :bold, color: "#FF0000", align: :center, action: postback(data: "offer_details")
+```
+
+#### Button Component
+An actionable button.
+- `action`: (Action Object, **Required**) Defines the action performed on tap. See Actions section.
+- `style`: (Symbol, Optional) Visual style of the button. Valid values: `:primary`, `:secondary`, `:link`. Default is `:link`.
+- `height`: (Symbol, Optional) Height of the button. Valid values: `:sm`, `:md`. Default is `:md`.
+- Layout:
+    - `gravity`: (Symbol, Optional) Vertical alignment if the box containing it has extra space. Valid values: `:top`, `:center`, `:bottom`.
+    - `margin`: (Symbol or String, Optional) Margin around the button. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
+- Sizing:
+    - `flex`: (Integer, Optional) Flex factor.
+    - `adjust_mode`: (Symbol, Optional) How the button adjusts its content. Valid value: `:shrink_to_fit`.
+
+```ruby
+button label: "Confirm", style: :primary, height: :md, action: postback(data: "confirm_order", label: "Confirm")
+```
+
+#### Image Component
+Displays an image.
+- `url`: (String, Required) URL of the image (HTTPS).
+- Styling:
+    - `aspect_ratio`: (String, Optional) Aspect ratio as `"width:height"`, e.g., `"1:1"`, `"16:9"`, `"4:3"`.
+    - `aspect_mode`: (Symbol, Optional) How the image fits the `aspect_ratio`. Valid values: `:cover` (default, crops to fill) or `:fit` (fits within, may letterbox).
+- Layout:
+    - `align`: (Symbol, Optional) Horizontal alignment of the image. Valid values: `:start`, `:center`, `:end`.
+    - `gravity`: (Symbol, Optional) Vertical alignment of the image. Valid values: `:top`, `:center`, `:bottom`.
+    - `margin`: (Symbol or String, Optional) Margin around the image. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
+- Sizing:
+    - `size`: (Symbol or String, Optional) Size of the image. Valid keywords: `:xxs`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:3xl`, `:4xl`, `:5xl`, `:full`. Also accepts pixel or percentage strings (e.g. `'100px'`, `'50%'`).
+    - `flex`: (Integer, Optional) Flex factor.
+- `action`: (Action Object, Optional) Makes the image tappable.
+
+```ruby
+image "https://example.com/product_image.png", size: :full, aspect_ratio: "1:1", aspect_mode: :cover, action: message(text: "View product")
+```
+
+#### Separators and Spacers
+
+The LINE Flex Message specification includes `separator` and `spacer` component types. This DSL does not provide explicit `separator()` or `spacer()` methods. Instead:
+
+- **Separators**: Achieve a visual line by using a `box` component styled to look like a separator. Set its `height` (for horizontal line) or `width` (for vertical line) to a small value (e.g., `"1px"`) and give it a `background_color`.
+  ```ruby
+  # Example of a horizontal separator
+  box layout: :vertical, padding_all: :md do # Outer box for content
+    text "Content above separator"
+    box height: "1px", background_color: "#CCCCCC", margin: :md # This is the separator
+    text "Content below separator"
+  end
+  ```
+- **Spacers**: Create space between components using:
+    - `spacing` property on a parent `box` container.
+    - `margin` property on individual components (e.g., `text "Hello", margin: :xl`).
+    - An empty `box` with a defined `flex` value or `height`/`width` (e.g., `box height: "30px"`).
+
+### Flex Message Partials
+
+Partials allow you to define reusable segments of Flex Message layouts. This is useful for complex components that appear multiple times.
+
+1.  **Define a Partial Class**: Create a class that inherits from `Line::Message::Builder::Flex::Partial`. Implement a `call` method where you use the DSL to define the partial's content.
+    ```ruby
+    class MyCustomPartial < Line::Message::Builder::Flex::Partial
+      def call
+        # You can use Flex DSL methods here (box, text, button, etc.)
+        # Access passed variables via methods (e.g., `title_text`, `button_label`)
+        # which are made available from the `assigns` hash passed to `partial!`.
+        box layout: :vertical do
+          text title_text, weight: :bold # 'title_text' from assigns
+          button label: button_label, action: message(text: "Action for #{title_text}") # 'button_label' from assigns
+        end
+      end
+    end
+    ```
+
+2.  **Use the Partial**: Call `partial!` within a Flex container or component block. Pass variables to the partial as keyword arguments (assigns).
+    ```ruby
+    Line::Message::Builder.with do
+      flex alt_text: "Partials Example" do
+        bubble do
+          body do
+            # Using the partial
+            partial! MyCustomPartial, title_text: "Section 1", button_label: "Go to 1"
+            # Separator Box
+            box height: "1px", background_color: "#EEEEEE", margin: :md
+            partial! MyCustomPartial, title_text: "Section 2", button_label: "Explore 2"
+          end
+        end
+      end
+    end
+    ```
+    Inside the partial, variables passed via `partial!` (e.g., `title_text`, `button_label`) are accessible as methods.
+
+This comprehensive guide should help in effectively using the Line Message Builder DSL. For very specific or advanced features, always refer to the official LINE Messaging API documentation for Flex Messages.
