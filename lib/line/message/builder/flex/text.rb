@@ -4,43 +4,118 @@ module Line
   module Message
     module Builder
       module Flex
-        # The text is a component of the Flex message.
+        # Represents a "text" component in a LINE Flex Message.
+        #
+        # Text components are used to display strings of text. They offer various
+        # styling options, including font `size`, `weight` (via styles in a {Box}
+        # or {Bubble}), `color`, `align`ment, `gravity`, text `wrap`ping,
+        # `line_spacing`, and more. A text component can also have an
+        # {Actionable#action action} to make it tappable.
+        #
+        # @example Creating a text component within a box
+        #   Line::Message::Builder.with do |root|
+        #     root.flex alt_text: "Text Example" do |flex|
+        #       flex.bubble do |bubble|
+        #         bubble.body do |body_box|
+        #           body_box.text "Hello, Flex World!",
+        #                         size: :xl,
+        #                         color: "#FF0000",
+        #                         wrap: true do |txt_action|
+        #             txt_action.message "More info", text: "Tell me more about text"
+        #           end
+        #         end
+        #       end
+        #     end
+        #   end
+        #
+        # @see https://developers.line.biz/en/reference/messaging-api/#text
+        # @see Actionable For making the text tappable.
+        # @see Position::Horizontal For `align` property.
+        # @see Position::Vertical For `gravity` property.
+        # @see Position::Margin For `margin` property.
+        # @see Position::Offset For offset properties.
+        # @see Size::Flex For `flex` sizing property.
+        # @see Size::Shared For common `size` keywords (e.g., `:xl`, `:sm`).
+        # @see Size::AdjustMode For `adjust_mode` property.
         class Text < Line::Message::Builder::Base
-          include Actionable
-          include Position::Horizontal
-          include Position::Vertical
-          include Position::Margin
-          include Position::Offset
-          include Size::Flex
-          include Size::Shared
-          include Size::AdjustMode
+          include Actionable           # Enables defining an action for the text.
+          include Position::Horizontal # Adds `align` option.
+          include Position::Vertical   # Adds `gravity` option.
+          include Position::Margin     # Adds `margin` option.
+          include Position::Offset     # Adds offset options.
+          include Size::Flex           # Adds `flex` option for sizing within a parent box.
+          include Size::Shared         # Adds `size` option (e.g., :sm, :md, :xl).
+          include Size::AdjustMode # Adds `adjust_mode` option.
 
+          # @!attribute [r] text
+          #   @return [String] The actual text content to be displayed.
+          #     This is a required attribute.
           attr_reader :text
 
+          # Specifies whether the text should wrap or be truncated if it exceeds
+          # the component's width.
+          # @!method wrap(value)
+          #   @param value [Boolean] `true` to enable text wrapping, `false` (default) to disable.
+          #   @return [Boolean] The current wrap setting.
           option :wrap, default: false
-          option :line_spacing, default: nil
+
+          # Specifies the spacing between lines of text.
+          # Can be a pixel value (e.g., "10px") or a keyword.
+          # @!method line_spacing(value)
+          #   @param value [String, nil] The line spacing value (e.g., `"5px"`).
+          #   @return [String, nil] The current line spacing.
+          option :line_spacing, default: nil # API key: lineSpacing
+
+          # Specifies the color of the text.
+          # @!method color(value)
+          #   @param value [String, nil] Hexadecimal color code (e.g., `"#RRGGBB"`, `"#RRGGBBAA"`).
+          #   @return [String, nil] The current text color.
           option :color, default: nil
 
-          def initialize(text, context: nil, **options, &)
-            @text = text
+          # Initializes a new Flex Message Text component.
+          #
+          # @param text_content [String] The text to display. This is required.
+          # @param context [Object, nil] An optional context for the builder.
+          # @param options [Hash] A hash of options to set instance variables
+          #   (e.g., `:wrap`, `:color`, `:size`, and options from included modules).
+          # @param block [Proc, nil] An optional block, typically used to define an
+          #   {Actionable#action action} for the text.
+          # @raise [ArgumentError] if `text_content` is nil (though the more specific
+          #   `RequiredError` is raised in `to_h`).
+          def initialize(text_content, context: nil, **options, &)
+            @text = text_content # The text content is mandatory.
 
-            super(context: context, **options, &)
+            super(context: context, **options, &) # Sets options and evals block (for action).
           end
 
+          # A convenience DSL method to set the `wrap` property to `true`.
+          #
+          # @example
+          #   text_component.text "Long text..."
+          #   text_component.wrap! # Enables text wrapping
+          #
+          # @return [true]
           def wrap!
-            @wrap = true
+            wrap(true) # Use the setter generated by `option`
           end
 
+          # Converts the Text component and its properties to a hash suitable for
+          # the LINE Messaging API.
+          #
+          # @return [Hash] A hash representing the text component.
+          # @raise [RequiredError] if `text` (content) is not set.
           def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-            raise RequiredError, "text is required" if text.nil?
+            raise RequiredError, "text content is required for a text component" if text.nil?
 
             {
               type: "text",
               text: text,
-              wrap: wrap,
-              # Position
-              align: align,
-              gravity: gravity,
+              wrap: wrap,               # From option
+              color: color,             # From option
+              lineSpacing: line_spacing, # From option (maps to API key)
+              # Position::Horizontal & Position::Vertical
+              align: align,     # From Position::Horizontal
+              gravity: gravity, # From Position::Vertical
               # Position::Margin
               margin: margin,
               # Position::Offset
@@ -51,13 +126,11 @@ module Line
               offsetEnd: offset_end,
               # Size::Flex
               flex: flex,
-              # Size::Shared
-              size: size,
-              # Size::AdjustMode
-              adjustMode: adjust_mode,
-              lineSpacing: line_spacing,
-              color: color,
-              action: action&.to_h
+              # Size::Shared & Size::AdjustMode
+              size: size,               # From Size::Shared
+              adjustMode: adjust_mode,  # From Size::AdjustMode
+              # Actionable
+              action: action&.to_h # From Actionable module
             }.compact
           end
         end
