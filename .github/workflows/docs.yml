@@ -21,10 +21,10 @@ jobs:
         with:
           ruby-version: '3.3' # Or your project's Ruby version
           bundler-cache: true # Optional: if you use Bundler
-      - name: Install rdoc
-        run: gem install rdoc
+      - name: Install yard
+        run: gem install yard
       - name: Generate documentation
-        run: rdoc --main README.md -o ./docs/
+        run: yard doc --output-dir ./docs/ --main README.md
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
