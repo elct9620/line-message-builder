@@ -33,6 +33,12 @@ gem install line-message-builder
 > [!NOTE]
 > Working in progress.
 
+### LLM.txt
+
+The `llm.txt` is available in document assets.
+
+You can get it from [http://aotoki.me/line-message-builder/llm.txt](http://aotoki.me/line-message-builder/llm.txt).
+
 ### Builder
 
 ```ruby
