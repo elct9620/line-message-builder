@@ -176,7 +176,7 @@ module Line
               alignItems: align_items,
               spacing: spacing,
               # Position::Padding
-              paddingAll: padding_all, # Corrected from `padding`
+              paddingAll: padding || padding_all,
               paddingTop: padding_top,
               paddingBottom: padding_bottom,
               paddingStart: padding_start,

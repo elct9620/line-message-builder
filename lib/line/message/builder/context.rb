@@ -82,7 +82,7 @@ module Line
         # @!visibility private
         def respond_to_missing?(method_name, include_private = false)
           @assigns.key?(method_name) ||
-            (@context && @context.respond_to?(method_name, include_private)) || # Check @context directly
+            @context.respond_to?(method_name, include_private) || # Check @context directly
             super
         end
 
@@ -107,7 +107,8 @@ module Line
         # @!visibility private
         def method_missing(method_name, ...)
           return @assigns[method_name] if @assigns.key?(method_name)
-          return @context.public_send(method_name, ...) if @context && @context.respond_to?(method_name) # Check @context directly
+          # Check @context directly
+          return @context.public_send(method_name, ...) if @context.respond_to?(method_name)
 
           super
         end

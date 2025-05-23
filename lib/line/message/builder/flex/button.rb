@@ -35,7 +35,7 @@ module Line
         # @see Size::Flex For flex sizing property.
         # @see Size::AdjustMode For `adjust_mode` property.
         class Button < Line::Message::Builder::Base
-          include Actionable       # Defines the action performed when the button is tapped.
+          include Actionable # Defines the action performed when the button is tapped.
           include Position::Vertical # Adds `gravity` option for vertical alignment.
           include Position::Padding  # Adds padding options.
           include Position::Margin   # Adds `margin` option.
@@ -87,7 +87,7 @@ module Line
               # Position::Vertical
               gravity: gravity, # Corrected from `grivity`
               # Position::Padding
-              paddingAll: padding_all, # Corrected from `padding`
+              paddingAll: padding || padding_all,
               paddingTop: padding_top,
               paddingBottom: padding_bottom,
               paddingStart: padding_start,

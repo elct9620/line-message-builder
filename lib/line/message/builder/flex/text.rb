@@ -45,7 +45,7 @@ module Line
           include Position::Offset     # Adds offset options.
           include Size::Flex           # Adds `flex` option for sizing within a parent box.
           include Size::Shared         # Adds `size` option (e.g., :sm, :md, :xl).
-          include Size::AdjustMode   # Adds `adjust_mode` option.
+          include Size::AdjustMode # Adds `adjust_mode` option.
 
           # @!attribute [r] text
           #   @return [String] The actual text content to be displayed.

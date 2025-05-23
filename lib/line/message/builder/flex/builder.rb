@@ -82,7 +82,7 @@ module Line
           # @raise [Error] if `alt_text` is not set (LINE API requirement).
           # @raise [Error] if `@contents` (bubble or carousel) is not defined.
           def to_h
-            # Note: alt_text is validated by LINE API, but good to ensure it's present.
+            # NOTE: alt_text is validated by LINE API, but good to ensure it's present.
             # Consider adding `raise RequiredError, "alt_text is required" if alt_text.blank?`
             raise Error, "Flex Message contents (bubble or carousel) must be defined." if @contents.nil?
 

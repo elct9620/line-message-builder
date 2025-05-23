@@ -43,7 +43,10 @@ module Line
           # @return [void]
           # @raise [ArgumentError] if `partial_class` is not a subclass of {Partial}.
           def partial!(partial_class, **assigns)
-            raise ArgumentError, "Argument must be a Line::Message::Builder::Flex::Partial class" unless partial_class < Partial
+            unless partial_class < Partial
+              raise ArgumentError,
+                    "Argument must be a Line::Message::Builder::Flex::Partial class"
+            end
 
             original_assigns = context.assigns
             context.assigns = assigns
@@ -90,7 +93,8 @@ module Line
           #   can be explicitly defined as parameters here, or accessed via `context.assigns`.
           # @raise [NotImplementedError] if a subclass does not implement this method.
           def call(*)
-            raise NotImplementedError, "The #{self.class.name} class must implement the #call method to define its content."
+            raise NotImplementedError,
+                  "The #{self.class.name} class must implement the #call method to define its content."
           end
 
           # @!visibility private

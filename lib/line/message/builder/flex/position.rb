@@ -56,7 +56,7 @@ module Line
           module Vertical
             # @!visibility private
             def self.included(base)
-              base.option :gravity, # Note: API key is `gravity` (lowercase `g`)
+              base.option :gravity, # NOTE: API key is `gravity` (lowercase `g`)
                           default: nil,
                           validator: Validators::Enum.new(
                             :top, :center, :bottom
@@ -102,19 +102,8 @@ module Line
           module Padding
             # @!visibility private
             def self.included(base)
-              # Define :padding first, which often acts as an alias for :padding_all in DSLs.
-              # The :padding_all option will map to the `paddingAll` API property.
-              base.option :padding_all, # Maps to `paddingAll` in JSON
-                          default: nil,
-                          validator: Validators::Size.new(:pixel, :keyword, :percentage)
-
-              # Alias `padding` to `padding_all` for convenience in the DSL
-              base.send(:alias_method, :padding, :padding_all)
-              base.send(:alias_method, :padding=, :padding_all=)
-
-
               # Individual side paddings
-              %i[padding_top padding_bottom padding_start padding_end].each do |option_name|
+              %i[padding padding_all padding_top padding_bottom padding_start padding_end].each do |option_name|
                 base.option option_name, # e.g., maps to `paddingTop` in JSON
                             default: nil,
                             validator: Validators::Size.new(:pixel, :keyword, :percentage)
@@ -178,7 +167,7 @@ module Line
               %i[offset_top offset_bottom offset_start offset_end].each do |option_name|
                 base.option option_name, # e.g., maps to `offsetTop` in JSON
                             default: nil,
-                            validator: Validators::Size.new(:pixel, :keyword, :percentage) # Corrected: Percentage is allowed for offsets
+                            validator: Validators::Size.new(:pixel, :keyword)
               end
             end
           end
