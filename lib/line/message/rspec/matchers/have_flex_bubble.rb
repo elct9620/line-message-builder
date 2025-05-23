@@ -67,15 +67,6 @@ module Line
             message
           end
 
-          # Provides a failure message for when the matcher should not have found a match (used with `not_to`).
-          # @return [String] The failure message for negation.
-          def failure_message_when_negated
-            message = "expected not to find a flex bubble"
-            message += " matching #{@expected.inspect}" unless @expected.empty?
-            message += "\nActual messages: #{@actual.inspect}"
-            message
-          end
-
           private
 
           # Checks if a single message hash is a Flex Message and contains the desired bubble.

@@ -122,13 +122,13 @@ module Line
 
             {
               type: "box",
-              layout: layout, # Reverted .to_s
+              layout: layout,
               # Position
-              justifyContent: justify_content, # Reverted &.to_s
-              alignItems: align_items, # Reverted &.to_s
+              justifyContent: justify_content,
+              alignItems: align_items,
               spacing: spacing,
               # Position::Padding
-              paddingAll: padding_all, # Use the method defined in Position::Padding
+              paddingAll: padding,
               paddingTop: padding_top,
               paddingBottom: padding_bottom,
               paddingStart: padding_start,
@@ -136,7 +136,7 @@ module Line
               # Position::Margin
               margin: margin, # This comes from Position::Margin
               # Position::Offset
-              position: position, # Reverted &.to_s
+              position: position,
               offsetTop: offset_top,
               offsetBottom: offset_bottom,
               offsetStart: offset_start,

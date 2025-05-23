@@ -24,17 +24,16 @@ module Line
         #   ```
         class Size
           # @!visibility private
-          VARIANTS = %i[pixel keyword image percentage].freeze # Keep this as is, seems fundamental
+          VARIANTS = %i[pixel keyword image percentage].freeze
           # @!visibility private
           # General keywords for component sizes (e.g., spacing, font size, margin).
-          KEYWORDS = %i[none xs sm md lg xl xxl].freeze # Reverted: removed xxs
+          KEYWORDS = %i[none xs sm md lg xl xxl].freeze
           # @!visibility private
           # Keywords specific to image component sizes.
-          IMAGE_KEYWORDS = %i[xxs xs sm md lg xl xxl 3xl 4xl 5xl full].freeze # Reverted: corrected Ls and removed extras
+          IMAGE_KEYWORDS = %i[xxs xs sm md lg xl xxl 3xl 4xl 5xl full].freeze
           # @!visibility private
-          PIXEL_REGEX = /^\d+px$/ # Keep this, seems correct
+          PIXEL_REGEX = /^\d+px$/
           # @!visibility private
-          # Reverted to original potentially incorrect regex for percentage
           PERCENTAGE_REGEX = /^\f+%$/
 
           # @!attribute [r] variants
@@ -46,7 +45,6 @@ module Line
           # @param accepted_variants [Array<Symbol>] A list of size format variants to accept.
           #   Must be a subset of {VARIANTS}. For example, `[:pixel, :keyword]`.
           def initialize(*accepted_variants)
-            # Reverted: store variants as passed, without map(&:to_sym) or ArgumentError
             @variants = accepted_variants & VARIANTS
           end
 
@@ -56,9 +54,8 @@ module Line
           # @param value [Object] The value to validate (e.g., String, Symbol).
           # @return [Boolean] `true` if the value is valid, `false` otherwise.
           def valid?(value)
-            # Reverted: remove 'return true if value.nil?'
             @variants.any? do |variant|
-              send(:"#{variant}?", value) # Keep symbol call for send
+              send(:"#{variant}?", value)
             end
           end
 
@@ -66,21 +63,21 @@ module Line
           # @param value [Object] The value to check.
           # @return [Boolean] `true` if it's a valid pixel string.
           def pixel?(value)
-            value.to_s.match?(PIXEL_REGEX) # Keep as is
+            value.to_s.match?(PIXEL_REGEX)
           end
 
           # Checks if the value is a valid general size keyword (e.g., :md, :xs).
           # @param value [Object] The value to check.
           # @return [Boolean] `true` if it's a valid keyword.
           def keyword?(value)
-            KEYWORDS.include?(value.to_sym) # Keep as is
+            KEYWORDS.include?(value.to_sym)
           end
 
           # Checks if the value is a valid image-specific size keyword (e.g., :full, :xxl).
           # @param value [Object] The value to check.
           # @return [Boolean] `true` if it's a valid image keyword.
           def image?(value)
-            IMAGE_KEYWORDS.include?(value.to_sym) # Keep as is
+            IMAGE_KEYWORDS.include?(value.to_sym)
           end
 
           # Checks if the value is a valid percentage string (e.g., "50%").
@@ -97,12 +94,9 @@ module Line
           # @raise [ValidationError] if the value does not conform to any of the allowed variants.
           # @return [void] Returns nothing if validation passes.
           def valid!(value)
-            return if valid?(value) # Uses the reverted valid?
+            return if valid?(value)
 
-            # Reverted to simpler error message
-            raise ValidationError,
-                  "Invalid value: #{value}. " \
-                  "Expected one of: #{@variants.join(", ")}" # VARIANTS was kept, so this part is fine
+            raise ValidationError, "Invalid value: #{value}"
           end
         end
       end

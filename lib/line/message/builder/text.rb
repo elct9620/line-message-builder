@@ -44,7 +44,6 @@ module Line
         #   Typically used to define a {QuickReply} using the `quick_reply` DSL method.
         def initialize(text_content, context: nil, **options, &block)
           @text = text_content
-          # Reverted: Removed RequiredError for nil/empty text
           # TODO: Add validation for text length if desired (max 5000 characters)
 
           super(context: context, **options, &block)

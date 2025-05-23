@@ -44,11 +44,11 @@ module Line
             {
               type: "button",
               action: action.to_h, # From Actionable
-              height: height, # Reverted .to_s
+              height: height,
               # Position::Vertical
-              gravity: gravity, # Reverted &.to_s
+              gravity: gravity,
               # Position::Padding
-              paddingAll: padding_all, # Corrected from `padding`
+              paddingAll: padding,
               paddingTop: padding_top,
               paddingBottom: padding_bottom,
               paddingStart: padding_start,
@@ -56,7 +56,7 @@ module Line
               # Position::Margin
               margin: margin, # From Position::Margin
               # Position::Offset
-              position: position, # Reverted &.to_s
+              position: position,
               offsetTop: offset_top,
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
@@ -64,8 +64,8 @@ module Line
               # Size::Flex
               flex: flex, # From Size::Flex
               # Size::AdjustMode
-              adjustMode: adjust_mode, # Reverted &.to_s
-              style: style # Reverted .to_s
+              adjustMode: adjust_mode,
+              style: style
             }.compact
           end
         end

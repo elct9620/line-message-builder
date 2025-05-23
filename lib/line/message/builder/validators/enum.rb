@@ -24,7 +24,7 @@ module Line
           #
           # @param allowed_values [Array<Object>] A list of values that are considered valid.
           def initialize(*allowed_values)
-            @allowed_values = allowed_values # Store as passed
+            @allowed_values = allowed_values
           end
 
           # Validates the given value against the allowed set.
@@ -40,7 +40,7 @@ module Line
             return if value.nil? && !allowed_values.include?(:nil)
             return if allowed_values.include?(value.to_sym)
 
-            raise ValidationError, "Invalid value: `#{value}`. Allowed values are: `#{allowed_values.map(&:inspect).join(", ")}`."
+            raise ValidationError, "Invalid value: #{value}"
           end
         end
       end

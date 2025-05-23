@@ -55,10 +55,11 @@ module Line
             super(context: context, **options, &)
           end
 
-          # A shorthand method to set the `wrap` option to `true`.
-          # @return [true]
+          # A shorthand method to set the `wrap` option to `true`
+          # by calling the `wrap` option setter.
+          # @return [true] The value it sets.
           def wrap!
-            self.wrap = true # Use the writer method
+            wrap(true) # Call the 'wrap' method with an argument to set the value
           end
 
           # Converts the Text component to its hash representation for the LINE API.
@@ -73,12 +74,12 @@ module Line
               text: text,
               wrap: wrap,
               # Position
-              align: align,         # Reverted &.to_s
-              gravity: gravity,       # Reverted &.to_s
+              align: align,
+              gravity: gravity,
               # Position::Margin
               margin: margin,            # From Position::Margin
               # Position::Offset
-              position: position,     # Reverted &.to_s
+              position: position,
               offsetTop: offset_top,       # From Position::Offset
               offsetBottom: offset_bottom,   # From Position::Offset
               offsetStart: offset_start,     # From Position::Offset
@@ -86,9 +87,9 @@ module Line
               # Size::Flex
               flex: flex,                # From Size::Flex
               # Size::Shared
-              size: size,             # Reverted &.to_s
+              size: size,
               # Size::AdjustMode
-              adjustMode: adjust_mode, # Reverted &.to_s
+              adjustMode: adjust_mode,
               # Text specific
               lineSpacing: line_spacing,   # From self
               color: color,              # From self

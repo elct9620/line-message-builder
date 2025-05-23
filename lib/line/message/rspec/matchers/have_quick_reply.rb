@@ -59,15 +59,6 @@ module Line
             message
           end
 
-          # Provides a failure message for negation.
-          # @return [String] The failure message for negation.
-          def failure_message_when_negated
-            message = "expected not to find a message with a quick reply action"
-            message += " matching #{@expected_action_properties.inspect}" unless @expected_action_properties.empty?
-            message += "\nActual messages: #{@actual.inspect}"
-            message
-          end
-
           private
 
           # Checks if a single message hash has a Quick Reply with a matching action.

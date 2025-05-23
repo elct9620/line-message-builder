@@ -61,12 +61,12 @@ module Line
               type: "image",
               url: url,
               # Position
-              align: align, # Reverted &.to_s
-              gravity: gravity, # Reverted &.to_s
+              align: align,
+              gravity: gravity,
               # Position::Margin
               margin: margin, # From Position::Margin
               # Position::Offset
-              position: position, # Reverted &.to_s
+              position: position,
               offsetTop: offset_top,
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
@@ -74,9 +74,9 @@ module Line
               # Size::Flex
               flex: flex, # From Size::Flex
               # Size::Image
-              size: size, # Reverted &.to_s
+              size: size,
               aspectRatio: aspect_ratio, # From self or Size::Image
-              aspectMode: aspect_mode, # Reverted &.to_s
+              aspectMode: aspect_mode,
               action: action&.to_h # From Actionable
             }.compact
           end

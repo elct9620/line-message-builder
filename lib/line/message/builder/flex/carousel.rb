@@ -52,14 +52,9 @@ module Line
           # Converts the Carousel container to its hash representation for the LINE API.
           #
           # @raise [RequiredError] if the carousel contains no bubbles.
-          # @raise [ValidationError] if the carousel contains more than 12 bubbles.
           # @return [Hash] The hash representation of the carousel.
           def to_h
             raise RequiredError, "contents should have at least 1 bubble" if @contents.empty?
-            # As per documentation: Max number of bubbles: 10. (https://developers.line.biz/en/reference/messaging-api/#carousel)
-            # However, the example shows 12. Let's stick to the latest sample code which implies 12.
-            # Re-checking: "You can include up to 12 bubbles in a carousel." (Updated 2023/10, previously was 10)
-            raise ValidationError, "contents should have at most 12 bubbles" if @contents.size > 12
 
             {
               type: "carousel",

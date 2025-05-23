@@ -58,15 +58,6 @@ module Line
             message
           end
 
-          # Provides a failure message for negation.
-          # @return [String] The failure message for negation.
-          def failure_message_when_negated
-            message = "expected not to find a flex message"
-            message += " with alt text matching #{@expected_alt_text.inspect}" unless @expected_alt_text.nil?
-            message += "\nActual messages: #{@actual.inspect}"
-            message
-          end
-
           private
 
           # Checks if a single message hash is a Flex Message and if its `altText` matches.

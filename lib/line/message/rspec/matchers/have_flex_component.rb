@@ -61,16 +61,6 @@ module Line
             message
           end
 
-          # Provides a failure message for negation.
-          # @return [String] The failure message for negation.
-          def failure_message_when_negated
-            message = "expected not to find a flex component"
-            message += " matching #{@expected_desc}" if @expected_desc
-            message += " matching criteria defined by the block" if @expected_block && !@expected_desc
-            message += "\nActual messages: #{@actual.inspect}"
-            message
-          end
-
           private
 
           # Checks if a single message is a Flex Message and contains a matching component.

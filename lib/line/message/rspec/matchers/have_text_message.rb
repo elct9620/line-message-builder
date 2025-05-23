@@ -79,16 +79,6 @@ module Line
             message += "\nActual messages: #{@actual.inspect}"
             message
           end
-
-          # Provides a failure message for negation.
-          # @return [String] The failure message for negation.
-          def failure_message_when_negated
-            message = "expected not to find a text message"
-            message += " with text matching #{@expected_text.inspect}" unless @expected_text.nil?
-            message += " and options #{@expected_options.inspect}" unless @expected_options.empty?
-            message += "\nActual messages: #{@actual.inspect}"
-            message
-          end
         end
 
         # RSpec shorthand helper method for the {HaveTextMessage} matcher.

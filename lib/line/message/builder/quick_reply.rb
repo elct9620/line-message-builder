@@ -49,7 +49,7 @@ module Line
         #
         # @see Actions::Message
         def message(text_content, label:, image_url: nil, &)
-          action( # Reverted call
+          action(
             Actions::Message.new(text_content, label: label, context: context, &),
             image_url
           )
@@ -69,7 +69,7 @@ module Line
         #
         # @see Actions::Postback
         def postback(data_payload, label: nil, display_text: nil, image_url: nil, &)
-          action( # Reverted call
+          action(
             Actions::Postback.new(data_payload, label: label, display_text: display_text, context: context, &),
             image_url
           )
@@ -84,7 +84,6 @@ module Line
         #
         # @return [Hash] A hash structured as `{ items: [...] }`.
         def to_h
-          # Reverted: Removed API limit validations
           {
             items: @items.map do |action_item, item_image_url|
               {
@@ -102,7 +101,7 @@ module Line
         # @param action_obj [Actions::Base] The action object (e.g., Message, Postback).
         # @param item_image_url [String, nil] The image URL for this quick reply button.
         # @return [Array] The updated items array.
-        def action(action_obj, item_image_url) # Reverted name
+        def action(action_obj, item_image_url)
           @items << [action_obj, item_image_url]
         end
       end
