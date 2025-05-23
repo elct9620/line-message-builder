@@ -49,8 +49,8 @@ module Line
         #
         # @see Actions::Message
         def message(text_content, label:, image_url: nil, &)
-          add_action(
-            Actions::Message.new(text_content, label: label, context: context, &), # Pass context for action's own context
+          action( # Reverted call
+            Actions::Message.new(text_content, label: label, context: context, &),
             image_url
           )
         end
@@ -69,8 +69,8 @@ module Line
         #
         # @see Actions::Postback
         def postback(data_payload, label: nil, display_text: nil, image_url: nil, &)
-          add_action(
-            Actions::Postback.new(data_payload, label: label, display_text: display_text, context: context, &), # Pass context
+          action( # Reverted call
+            Actions::Postback.new(data_payload, label: label, display_text: display_text, context: context, &),
             image_url
           )
         end
@@ -84,10 +84,7 @@ module Line
         #
         # @return [Hash] A hash structured as `{ items: [...] }`.
         def to_h
-          raise ValidationError, "Quick reply must have at least one item." if @items.empty?
-          # According to API docs: "Up to 13 quick reply buttons can be set."
-          raise ValidationError, "Quick reply can have at most 13 items." if @items.size > 13
-
+          # Reverted: Removed API limit validations
           {
             items: @items.map do |action_item, item_image_url|
               {
@@ -101,11 +98,11 @@ module Line
 
         private
 
-        # Adds a generic action to the items list.
+        # Original private method to add an action to the items list.
         # @param action_obj [Actions::Base] The action object (e.g., Message, Postback).
         # @param item_image_url [String, nil] The image URL for this quick reply button.
         # @return [Array] The updated items array.
-        def add_action(action_obj, item_image_url)
+        def action(action_obj, item_image_url) # Reverted name
           @items << [action_obj, item_image_url]
         end
       end

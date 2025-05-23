@@ -44,9 +44,9 @@ module Line
             {
               type: "button",
               action: action.to_h, # From Actionable
-              height: height.to_s, # Ensure enum is string
+              height: height, # Reverted .to_s
               # Position::Vertical
-              gravity: gravity&.to_s, # Ensure enum is string; from Position::Vertical (assuming it adds `gravity` option)
+              gravity: gravity, # Reverted &.to_s
               # Position::Padding
               paddingAll: padding_all, # Corrected from `padding`
               paddingTop: padding_top,
@@ -56,7 +56,7 @@ module Line
               # Position::Margin
               margin: margin, # From Position::Margin
               # Position::Offset
-              position: position&.to_s, # Ensure enum is string
+              position: position, # Reverted &.to_s
               offsetTop: offset_top,
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
@@ -64,8 +64,8 @@ module Line
               # Size::Flex
               flex: flex, # From Size::Flex
               # Size::AdjustMode
-              adjustMode: adjust_mode&.to_s, # Ensure enum is string
-              style: style.to_s # Ensure enum is string
+              adjustMode: adjust_mode, # Reverted &.to_s
+              style: style # Reverted .to_s
             }.compact
           end
         end

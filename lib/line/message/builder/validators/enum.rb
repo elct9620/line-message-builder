@@ -17,14 +17,14 @@ module Line
         #   ```
         class Enum
           # @!attribute [r] allowed_values
-          #   @return [Array<Symbol>] The set of allowed symbol values.
+          #   @return [Array<Object>] The set of allowed values (not necessarily symbols).
           attr_reader :allowed_values
 
           # Initializes a new Enum validator.
           #
-          # @param allowed_values [Array<Symbol>] A list of symbols that are considered valid.
+          # @param allowed_values [Array<Object>] A list of values that are considered valid.
           def initialize(*allowed_values)
-            @allowed_values = allowed_values.map(&:to_sym) # Ensure all are symbols
+            @allowed_values = allowed_values # Store as passed
           end
 
           # Validates the given value against the allowed set.

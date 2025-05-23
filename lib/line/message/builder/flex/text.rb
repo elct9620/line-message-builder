@@ -73,12 +73,12 @@ module Line
               text: text,
               wrap: wrap,
               # Position
-              align: align&.to_s,         # From Position::Horizontal
-              gravity: gravity&.to_s,       # From Position::Vertical
+              align: align,         # Reverted &.to_s
+              gravity: gravity,       # Reverted &.to_s
               # Position::Margin
               margin: margin,            # From Position::Margin
               # Position::Offset
-              position: position&.to_s,     # From Position::Offset
+              position: position,     # Reverted &.to_s
               offsetTop: offset_top,       # From Position::Offset
               offsetBottom: offset_bottom,   # From Position::Offset
               offsetStart: offset_start,     # From Position::Offset
@@ -86,9 +86,9 @@ module Line
               # Size::Flex
               flex: flex,                # From Size::Flex
               # Size::Shared
-              size: size&.to_s,             # From Size::Shared (font size)
+              size: size,             # Reverted &.to_s
               # Size::AdjustMode
-              adjustMode: adjust_mode&.to_s, # From Size::AdjustMode
+              adjustMode: adjust_mode, # Reverted &.to_s
               # Text specific
               lineSpacing: line_spacing,   # From self
               color: color,              # From self

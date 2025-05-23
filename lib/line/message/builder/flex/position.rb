@@ -155,7 +155,7 @@ module Line
               %i[offset_top offset_bottom offset_start offset_end].each do |option_name|
                 base.option option_name,
                             default: nil,
-                            validator: Validators::Size.new(:pixel, :keyword, :percentage) # Corrected: offset allows percentage
+                            validator: Validators::Size.new(:pixel, :keyword) # Reverted: offset originally did not allow percentage
               end
             end
           end

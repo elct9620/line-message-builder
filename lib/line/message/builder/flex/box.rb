@@ -122,10 +122,10 @@ module Line
 
             {
               type: "box",
-              layout: layout.to_s, # Ensure layout is a string
+              layout: layout, # Reverted .to_s
               # Position
-              justifyContent: justify_content&.to_s, # Ensure enum values are strings
-              alignItems: align_items&.to_s, # Ensure enum values are strings
+              justifyContent: justify_content, # Reverted &.to_s
+              alignItems: align_items, # Reverted &.to_s
               spacing: spacing,
               # Position::Padding
               paddingAll: padding_all, # Use the method defined in Position::Padding
@@ -136,7 +136,7 @@ module Line
               # Position::Margin
               margin: margin, # This comes from Position::Margin
               # Position::Offset
-              position: position&.to_s, # Ensure enum values are strings
+              position: position, # Reverted &.to_s
               offsetTop: offset_top,
               offsetBottom: offset_bottom,
               offsetStart: offset_start,
