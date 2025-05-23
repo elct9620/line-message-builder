@@ -128,6 +128,7 @@ RSpec.describe Line::Message::Builder do
     it { is_expected.to have_line_flex_message(/Simple Flex Message/) }
     it { is_expected.to have_line_flex_text(/Hello from assigns/) }
   end
+
   context "with partial without call method" do
     let(:partial) do
       Class.new(Line::Message::Builder::Flex::Partial) do
