@@ -80,10 +80,11 @@ module Line
                           )
             end
 
-            # A shorthand method to set the `adjust_mode` to `:"shrink-to-fit"`.
-            # @return [:"shrink-to-fit"]
+            # A shorthand method to set `adjust_mode` to `:"shrink-to-fit"`
+            # by calling the `adjust_mode` option setter.
+            # @return [:"shrink-to-fit"] The value it sets.
             def shrink_to_fit!
-              self.adjust_mode = :"shrink-to-fit" # Use the writer method
+              adjust_mode(:"shrink-to-fit") # Call the 'adjust_mode' method with an argument to set the value
             end
           end
         end
