@@ -151,7 +151,7 @@ RSpec.describe Line::Message::Builder do
       end
     end
 
-    it "raises NotImplementedError" do
+    it "expected to raises NotImplementedError" do
       expect { build }.to raise_error(
         NotImplementedError,
         /The EmptyPartial class must implement the #call method/
@@ -183,7 +183,7 @@ RSpec.describe Line::Message::Builder do
       end
     end
 
-    it "raises ArgumentError" do
+    it "expected to raises ArgumentError" do
       expect { build }.to raise_error(
         ArgumentError,
         /Argument must be a Line::Message::Builder::Flex::Partial class/
