@@ -12,6 +12,7 @@ Build LINE messages using DSL (Domain Specific Language) in Ruby.
 - Build LINE messages using DSL
 - Validation of properties
 - RSpec matchers for testing
+- LINE Bot SDK v2 support (WIP)
 
 ## Installation
 
