@@ -12,7 +12,7 @@ Build LINE messages using DSL (Domain Specific Language) in Ruby.
 - Build LINE messages using DSL
 - Validation of properties
 - RSpec matchers for testing
-- LINE Bot SDK v2 support (WIP)
+- LINE Bot SDK v2 support (Experimental)
 
 ## Installation
 
@@ -43,7 +43,7 @@ You can get it from [http://aotoki.me/line-message-builder/llm.txt](http://aotok
 
 ```ruby
 builder = Line::MessageBuilder::Builder.with do
-    text "Hello, world!"
+  text "Hello, world!"
 end
 
 pp builder.build
@@ -53,17 +53,24 @@ puts builder.to_json
 # => {"type":"text","text":"Hello, world!"}
 ```
 
+To use with [line-bot-sdk-ruby](https://github.com/line/line-bot-sdk-ruby) v2, you can set mode to `sdkv2`:
+
+```ruby
+builder = Line::MessageBuilder::Builder.with(mode: :sdkv2) do
+  text "Hello, world!"
+end
+
 ### Context
 
 The context can make `Builder` to access additional methods and variables.
 
 ```ruby
 context = OpenStruct.new(
-    name: "John Doe",
+  name: "John Doe",
 )
 
 builder = Line::MessageBuilder::Builder.with(context) do
-    text "Hello, #{name}!"
+  text "Hello, #{name}!"
 end
 
 pp builder.build
@@ -78,12 +85,12 @@ For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
 ```ruby
 # app/controllers/line_controller.rb
 builder = Line::MessageBuilder::Builder.with(view_context) do
-    text "Anything you want?" do
-        quick_reply do
-            message "Yes", label: "Yes", image_url: image_url("yes.png")
-            message "No", label: "No", image_url: image_url("no.png")
-        end
+  text "Anything you want?" do
+    quick_reply do
+      message "Yes", label: "Yes", image_url: image_url("yes.png")
+      message "No", label: "No", image_url: image_url("no.png")
     end
+  end
 end
 ```
 
@@ -92,18 +99,18 @@ If not in controller, you can create a `ActionView::Base` instance and pass it t
 ```ruby
 # app/presenters/line_presenter.rb
 context = ActionView::Base.new(
-    ActionController::Base.view_paths,
-    {},
-    ActionController::Base.new,
+  ActionController::Base.view_paths,
+  {},
+  ActionController::Base.new,
 )
 
 builder = Line::MessageBuilder::Builder.with(context) do
-    text "Anything you want?" do
-        quick_reply do
-            message "Yes", label: "Yes", image_url: image_url("yes.png")
-            message "No", label: "No", image_url: image_url("no.png")
-        end
+  text "Anything you want?" do
+    quick_reply do
+      message "Yes", label: "Yes", image_url: image_url("yes.png")
+      message "No", label: "No", image_url: image_url("no.png")
     end
+  end
 end
 ```
 
@@ -183,7 +190,7 @@ Include `Line::Message::RSpec::Matchers` in your RSpec configuration:
 
 ```ruby
 RSpec.configure do |config|
-    config.include Line::Message::RSpec::Matchers
+  config.include Line::Message::RSpec::Matchers
 end
 ```
 
@@ -191,10 +198,10 @@ Then the matchers are available in your specs:
 
 ```ruby
 let(:builder) do
-    Line::MessageBuilder::Builder.with do
-        text "Hello, world!"
-        text "Nice to meet you!"
-    end
+  Line::MessageBuilder::Builder.with do
+    text "Hello, world!"
+    text "Nice to meet you!"
+  end
 end
 
 subject { builder.build }
@@ -207,12 +214,13 @@ The matchers can work with webmock `a_request`:
 
 ```ruby
 it "reply with message" do
-    expect(a_request(:post, "https://api.line.me/v2/bot/message/reply")
-        .with(
-            body: hash_including({
-                messages: have_line_text_message(/Hello, world!/),
-            },
-        ))).to have_been_made.once
+  expect(a_request(:post, "https://api.line.me/v2/bot/message/reply")
+    .with(
+      body: hash_including({
+        messages: have_line_text_message(/Hello, world!/),
+      })
+    )
+  ).to have_been_made.once
 end
 ```
 
