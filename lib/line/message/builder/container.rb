@@ -122,10 +122,24 @@ module Line
           build.to_json(*args)
         end
 
+        # Checks if a method is defined in the context object.
+        # This is part of Ruby's method_missing mechanism.
+        #
+        # @param method_name [Symbol] The name of the method being checked
+        # @param include_private [Boolean] Whether to include private methods
+        # @return [Boolean] True if the method exists in the context, false otherwise
         def respond_to_missing?(method_name, include_private = false)
           context.respond_to?(method_name, include_private) || super
         end
 
+        # Delegates method calls to the context object if they exist there.
+        # This allows helper methods defined in the context to be called directly
+        # from within the builder DSL.
+        #
+        # @param method_name [Symbol] The name of the method being called
+        # @param args [Array] The arguments passed to the method
+        # @return [Object] The result of calling the method on the context
+        # @raise [NoMethodError] If the method doesn't exist in the context
         def method_missing(method_name, ...)
           return context.send(method_name, ...) if context.respond_to?(method_name)
 
