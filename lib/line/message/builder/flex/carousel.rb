@@ -65,14 +65,20 @@ module Line
             @contents << Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
           end
 
-          # Converts the Carousel container and all its Bubbles to a hash suitable
-          # for the LINE Messaging API.
-          #
-          # @return [Hash] A hash representing the carousel container.
-          # @raise [RequiredError] if the carousel contains no bubbles.
-          # @raise [ValidationError] if the carousel contains more than 12 bubbles
-          #   (LINE API limit is 12, previously was 10).
-          def to_h
+          private
+
+          def to_api
+            raise RequiredError, "Carousel contents must have at least 1 bubble." if @contents.empty?
+            # LINE API as of 2023-10-10 allows up to 12 bubbles in a carousel.
+            raise ValidationError, "Carousel contents can have at most 12 bubbles." if @contents.size > 12
+
+            {
+              type: "carousel",
+              contents: @contents.map(&:to_h) # Serializes each Bubble in the array
+            }.compact # compact is likely unnecessary here as contents is always present.
+          end
+
+          def to_sdkv2
             raise RequiredError, "Carousel contents must have at least 1 bubble." if @contents.empty?
             # LINE API as of 2023-10-10 allows up to 12 bubbles in a carousel.
             raise ValidationError, "Carousel contents can have at most 12 bubbles." if @contents.size > 12

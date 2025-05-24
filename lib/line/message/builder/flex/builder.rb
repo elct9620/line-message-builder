@@ -75,15 +75,9 @@ module Line
             @contents = Line::Message::Builder::Flex::Carousel.new(context: context, **options, &)
           end
 
-          # Converts the Flex Message builder and its contents to a hash suitable
-          # for the LINE Messaging API.
-          #
-          # @return [Hash] A hash representing the Flex Message.
-          # @raise [Error] if `alt_text` is not set (LINE API requirement).
-          # @raise [Error] if `@contents` (bubble or carousel) is not defined.
-          def to_h
-            # NOTE: alt_text is validated by LINE API, but good to ensure it's present.
-            # Consider adding `raise RequiredError, "alt_text is required" if alt_text.blank?`
+          private
+
+          def to_api
             raise Error, "Flex Message contents (bubble or carousel) must be defined." if @contents.nil?
 
             {
@@ -91,6 +85,17 @@ module Line
               altText: alt_text, # From option
               contents: @contents.to_h, # Serializes the Bubble or Carousel
               quickReply: @quick_reply&.to_h # From Base class's quick_reply method
+            }.compact
+          end
+
+          def to_sdkv2
+            raise Error, "Flex Message contents (bubble or carousel) must be defined." if @contents.nil?
+
+            {
+              type: "flex",
+              alt_text: alt_text, # From option
+              contents: @contents.to_h, # Serializes the Bubble or Carousel
+              quick_reply: @quick_reply&.to_h # From Base class's quick_reply method
             }.compact
           end
         end

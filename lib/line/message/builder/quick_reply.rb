@@ -26,11 +26,31 @@ module Line
         end
 
         def to_h
+          return to_sdkv2 if context.sdkv2?
+
+          to_api
+        end
+
+        private
+
+        def to_api
           {
             items: @items.map do |item, image_url|
               {
                 type: "action",
                 imageUrl: image_url,
+                action: item.to_h
+              }
+            end
+          }
+        end
+
+        def to_sdkv2
+          {
+            items: @items.map do |item, image_url|
+              {
+                type: "action",
+                image_url: image_url,
                 action: item.to_h
               }
             end

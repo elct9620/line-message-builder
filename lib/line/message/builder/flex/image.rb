@@ -80,12 +80,9 @@ module Line
             super(context: context, **options, &) # Sets options and evals block (for action).
           end
 
-          # Converts the Image component and its properties to a hash suitable for
-          # the LINE Messaging API.
-          #
-          # @return [Hash] A hash representing the image component.
-          # @raise [RequiredError] if `url` is not set.
-          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          private
+
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "url is required for an image component" if url.nil?
 
             {
@@ -108,6 +105,34 @@ module Line
               size: size,
               aspectRatio: aspect_ratio, # From option
               aspectMode: aspect_mode,   # From option
+              # Actionable
+              action: action&.to_h # From Actionable module
+            }.compact
+          end
+
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+            raise RequiredError, "url is required for an image component" if url.nil?
+
+            {
+              type: "image",
+              url: url,
+              # Position::Horizontal & Position::Vertical
+              align: align,     # From Position::Horizontal
+              gravity: gravity, # From Position::Vertical
+              # Position::Margin
+              margin: margin,
+              # Position::Offset
+              position: position,
+              offset_top: offset_top,
+              offset_bottom: offset_bottom,
+              offset_start: offset_start,
+              offset_end: offset_end,
+              # Size::Flex
+              flex: flex,
+              # Size::Image (includes aspect_ratio, aspect_mode, and specific image size keywords)
+              size: size,
+              aspect_ratio: aspect_ratio, # From option
+              aspect_mode: aspect_mode,   # From option
               # Actionable
               action: action&.to_h # From Actionable module
             }.compact

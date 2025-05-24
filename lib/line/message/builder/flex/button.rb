@@ -71,12 +71,9 @@ module Line
             super # Calls Base#initialize, sets options, and evals block (which should define the action)
           end
 
-          # Converts the Button component and its properties to a hash suitable for
-          # the LINE Messaging API.
-          #
-          # @return [Hash] A hash representing the button component.
-          # @raise [RequiredError] if no `action` is defined for the button.
-          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          private
+
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "action is required for a button" if action.nil?
 
             {
@@ -85,7 +82,7 @@ module Line
               style: style,         # From option
               height: height,       # From option
               # Position::Vertical
-              gravity: gravity, # Corrected from `grivity`
+              gravity: gravity,
               # Position::Padding
               paddingAll: padding || padding_all,
               paddingTop: padding_top,
@@ -104,6 +101,37 @@ module Line
               flex: flex,
               # Size::AdjustMode
               adjustMode: adjust_mode
+            }.compact
+          end
+
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+            raise RequiredError, "action is required for a button" if action.nil?
+
+            {
+              type: "button",
+              action: action.to_h, # From Actionable module
+              style: style,         # From option
+              height: height,       # From option
+              # Position::Vertical
+              gravity: gravity,
+              # Position::Padding
+              padding_all: padding || padding_all,
+              padding_top: padding_top,
+              padding_bottom: padding_bottom,
+              padding_start: padding_start,
+              padding_end: padding_end,
+              # Position::Margin
+              margin: margin,
+              # Position::Offset
+              position: position,
+              offset_top: offset_top,
+              offset_bottom: offset_bottom,
+              offset_start: offset_start,
+              offset_end: offset_end,
+              # Size::Flex
+              flex: flex,
+              # Size::AdjustMode
+              adjust_mode: adjust_mode
             }.compact
           end
         end

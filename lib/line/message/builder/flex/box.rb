@@ -160,12 +160,9 @@ module Line
             @contents << Flex::Image.new(url, context: context, **options, &)
           end
 
-          # Converts the Box component and its contents to a hash suitable for
-          # the LINE Messaging API.
-          #
-          # @return [Hash] A hash representing the box component.
-          # @raise [RequiredError] if `layout` is not set.
-          def to_h # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          private
+
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "layout is required" if layout.nil?
 
             {
@@ -194,6 +191,43 @@ module Line
               maxWidth: max_width,
               height: height,
               maxHeight: max_height,
+              # Size::Flex
+              flex: flex,
+              # Contents & Action
+              contents: contents.map(&:to_h),
+              action: action&.to_h # From Actionable module
+            }.compact
+          end
+
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+            raise RequiredError, "layout is required" if layout.nil?
+
+            {
+              type: "box",
+              layout: layout,
+              # Position & Layout
+              justify_content: justify_content,
+              align_items: align_items,
+              spacing: spacing,
+              # Position::Padding
+              padding_all: padding || padding_all,
+              padding_top: padding_top,
+              padding_bottom: padding_bottom,
+              padding_start: padding_start,
+              padding_end: padding_end,
+              # Position::Margin
+              margin: margin,
+              # Position::Offset
+              position: position,
+              offset_top: offset_top,
+              offset_bottom: offset_bottom,
+              offset_start: offset_start,
+              offset_end: offset_end,
+              # Size
+              width: width,
+              max_width: max_width,
+              height: height,
+              max_height: max_height,
               # Size::Flex
               flex: flex,
               # Contents & Action

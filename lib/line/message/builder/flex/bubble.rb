@@ -114,10 +114,21 @@ module Line
             @footer = Box.new(**options, context: context, &)
           end
 
-          # Converts the Bubble and its sections to a hash suitable for the LINE Messaging API.
-          #
-          # @return [Hash] A hash representing the bubble component.
-          def to_h
+          private
+
+          def to_api
+            {
+              type: "bubble",
+              size: size, # From option
+              styles: styles, # From option
+              header: @header&.to_h,
+              hero: @hero&.to_h,
+              body: @body&.to_h,
+              footer: @footer&.to_h
+            }.compact
+          end
+
+          def to_sdkv2
             {
               type: "bubble",
               size: size, # From option
