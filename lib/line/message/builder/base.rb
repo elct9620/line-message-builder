@@ -89,7 +89,7 @@ module Line
         #   within the new builder instance. This is the primary way the DSL
         #   is used to define message content.
         def initialize(context: nil, **options, &block)
-          @context = Context.new(context)
+          @context = context
           @quick_reply = nil
 
           self.class.options.each do |option|
