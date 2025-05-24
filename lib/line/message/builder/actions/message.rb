@@ -67,6 +67,8 @@ module Line
           #   Includes `:type`, `:label` (if set), and `:text`.
           # @raise [RequiredError] if `text` is nil.
           def to_h
+            raise RequiredError, "text is required" if text.nil?
+
             return to_sdkv2 if context.sdkv2?
 
             to_api
@@ -75,8 +77,6 @@ module Line
           private
 
           def to_api
-            raise RequiredError, "text is required" if text.nil?
-
             {
               type: "message",
               label: label,
@@ -85,8 +85,6 @@ module Line
           end
 
           def to_sdkv2
-            raise RequiredError, "text is required" if text.nil?
-
             {
               type: "message",
               label: label,

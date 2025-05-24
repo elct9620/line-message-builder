@@ -71,6 +71,8 @@ module Line
           #   Includes `:type`, `:label` (if set), `:data`, and `:displayText` (if set).
           # @raise [RequiredError] if `data` is nil.
           def to_h
+            raise RequiredError, "data is required" if data.nil?
+
             return to_sdkv2 if context.sdkv2?
 
             to_api
@@ -79,8 +81,6 @@ module Line
           private
 
           def to_api
-            raise RequiredError, "data is required" if data.nil?
-
             {
               type: "postback",
               label: label,
@@ -90,8 +90,6 @@ module Line
           end
 
           def to_sdkv2
-            raise RequiredError, "data is required" if data.nil?
-
             {
               type: "postback",
               label: label,

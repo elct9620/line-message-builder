@@ -65,13 +65,19 @@ module Line
             @contents << Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
           end
 
-          private
-
-          def to_api
+          def to_h
             raise RequiredError, "Carousel contents must have at least 1 bubble." if @contents.empty?
             # LINE API as of 2023-10-10 allows up to 12 bubbles in a carousel.
             raise ValidationError, "Carousel contents can have at most 12 bubbles." if @contents.size > 12
 
+            return to_sdkv2 if context.sdkv2?
+
+            to_api
+          end
+
+          private
+
+          def to_api
             {
               type: "carousel",
               contents: @contents.map(&:to_h) # Serializes each Bubble in the array
@@ -79,10 +85,6 @@ module Line
           end
 
           def to_sdkv2
-            raise RequiredError, "Carousel contents must have at least 1 bubble." if @contents.empty?
-            # LINE API as of 2023-10-10 allows up to 12 bubbles in a carousel.
-            raise ValidationError, "Carousel contents can have at most 12 bubbles." if @contents.size > 12
-
             {
               type: "carousel",
               contents: @contents.map(&:to_h) # Serializes each Bubble in the array

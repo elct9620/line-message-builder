@@ -25,12 +25,6 @@ module Line
           )
         end
 
-        def to_h
-          return to_sdkv2 if context.sdkv2?
-
-          to_api
-        end
-
         private
 
         def to_api

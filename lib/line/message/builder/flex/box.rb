@@ -160,11 +160,17 @@ module Line
             @contents << Flex::Image.new(url, context: context, **options, &)
           end
 
+          def to_h
+            raise RequiredError, "layout is required" if layout.nil?
+
+            return to_sdkv2 if context.sdkv2?
+
+            to_api
+          end
+
           private
 
           def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-            raise RequiredError, "layout is required" if layout.nil?
-
             {
               type: "box",
               layout: layout,
@@ -200,8 +206,6 @@ module Line
           end
 
           def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-            raise RequiredError, "layout is required" if layout.nil?
-
             {
               type: "box",
               layout: layout,
