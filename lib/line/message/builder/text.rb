@@ -13,12 +13,23 @@ module Line
           super(context: context, **options, &block)
         end
 
-        def to_h
+        private
+
+        def to_api
           {
             type: "text",
             text: @text,
             quoteToken: quote_token,
             quickReply: @quick_reply&.to_h
+          }.compact
+        end
+
+        def to_sdkv2
+          {
+            type: "text",
+            text: @text,
+            quote_token: quote_token,
+            quick_reply: @quick_reply&.to_h
           }.compact
         end
       end

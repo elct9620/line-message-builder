@@ -154,6 +154,22 @@ module Line
             super
           end
         end
+
+        def to_h
+          return to_sdkv2 if sdkv2?
+
+          to_api
+        end
+
+        private
+
+        def to_api
+          raise NotImplementedError, "#{self.class} must implement #to_api"
+        end
+
+        def to_sdkv2
+          raise NotImplementedError, "#{self.class} must implement #to_sdkv2"
+        end
       end
     end
   end
