@@ -56,6 +56,11 @@ module Line
         #     puts context.assigns[:user_id] # => 123
         attr_accessor :assigns
 
+        # @!attribute [r] mode
+        #   The mode in which the builder is operating. This affects how messages
+        #   are formatted in the final output.
+        #   @return [Symbol] Either `:api` for direct LINE Messaging API format
+        #     or `:sdkv2` for LINE Bot SDK v2 compatible format.
         attr_reader :mode
 
         # Initializes a new Context object.
@@ -63,7 +68,9 @@ module Line
         # @param context [Object, nil] An optional object whose methods will be made
         #   available within the DSL. If `nil`, only `assigns` and standard
         #   builder methods will be available.
-        #   @param mode [Symbol] The mode of the context, which can be `:api` or `:sdkv2`.
+        # @param mode [Symbol] The mode of the context, which can be `:api` (default)
+        #   for direct LINE Messaging API format or `:sdkv2` for LINE Bot SDK v2
+        #   compatible format.
         def initialize(context, mode: :api)
           @context = context
           @assigns = {}
@@ -117,6 +124,15 @@ module Line
           super
         end
 
+        # Checks if the current mode is set to SDK v2 compatibility.
+        #
+        # @return [Boolean] `true` if the mode is `:sdkv2`, `false` otherwise.
+        # @example
+        #   if context.sdkv2?
+        #     # Format message for LINE Bot SDK v2
+        #   else
+        #     # Format message for direct API use
+        #   end
         def sdkv2?
           mode == :sdkv2
         end

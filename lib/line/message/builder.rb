@@ -41,6 +41,9 @@ module Line
       # @param context [Object, nil] An optional context object that can be made
       #   available within the builder block. This can be useful for accessing
       #   helper methods or data within the block.
+      # @param mode [Symbol] The mode to use for building messages. Can be either
+      #   `:api` (default) for direct LINE Messaging API format or `:sdkv2` for 
+      #   LINE Bot SDK v2 compatible format.
       # @yield [container] The block is yielded with the newly created {Container}
       #   instance, allowing you to define the message structure using the DSL.
       # @return [Container] The initialized message container with the defined structure.

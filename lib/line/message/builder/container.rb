@@ -45,6 +45,9 @@ module Line
         # @param context [Object, nil] An optional context object that can be used
         #   to share data or helper methods within the builder block. It's wrapped
         #   in a {Context} object.
+        # @param mode [Symbol] The mode to use for building messages. Can be either
+        #   `:api` (default) for direct LINE Messaging API format or `:sdkv2` for 
+        #   LINE Bot SDK v2 compatible format.
         # @param block [Proc] A block containing DSL calls to define messages
         #   (e.g., `text "Hello"`, `flex { ... }`).
         def initialize(context: nil, mode: :api, &block)
