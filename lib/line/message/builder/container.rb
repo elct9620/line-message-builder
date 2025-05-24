@@ -31,9 +31,7 @@ module Line
       # @see Text
       # @see Flex::Builder
       # @see QuickReply
-      class Container < Base
-        # While `context` is available via `Base`, it's documented here for clarity
-        # within the container's scope.
+      class Container
         # @!attribute [r] context
         #   @return [Context] The context object, which can hold external data or
         #     helper methods accessible within the builder blocks.
@@ -49,10 +47,11 @@ module Line
         #   in a {Context} object.
         # @param block [Proc] A block containing DSL calls to define messages
         #   (e.g., `text "Hello"`, `flex { ... }`).
-        def initialize(context: nil, &)
+        def initialize(context: nil, &block)
           @messages = [] # Initializes an empty array to store message objects
+          @context = Context.new(context)
 
-          super # Calls Base#initialize, which sets up @context and evals the block
+          instance_eval(&block) if ::Kernel.block_given?
         end
 
         # Creates a new {Text} message and adds it to this container.
@@ -121,6 +120,16 @@ module Line
         # @return [String] A JSON string representing the array of message objects.
         def to_json(*args)
           build.to_json(*args)
+        end
+
+        def respond_to_missing?(method_name, include_private = false)
+          context.respond_to?(method_name, include_private) || super
+        end
+
+        def method_missing(method_name, ...)
+          return context.send(method_name, ...) if context.respond_to?(method_name)
+
+          super
         end
       end
     end
