@@ -103,6 +103,18 @@ RSpec.describe Line::Message::Builder do
 
       it { is_expected.to have_line_text_message(/This is a message\./) }
     end
+
+    context "with SDKv2 mode" do
+      let(:builder) do
+        described_class.with(mode: :sdkv2) do
+          text "This is a message in SDKv2 mode."
+        end
+      end
+
+      it "expected to have snake case keys" do
+        expect(result).to include({ text: "This is a message in SDKv2 mode.", type: "text" })
+      end
+    end
   end
 
   describe "#to_json" do
