@@ -57,8 +57,6 @@ module Line
           }
         end
 
-        private
-
         def action(action, image_url)
           @items << [action, image_url]
         end

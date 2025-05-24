@@ -154,8 +154,8 @@ module Line
               # Size::Flex
               flex: flex,
               # Size::Shared & Size::AdjustMode
-              size: size,               # From Size::Shared
-              adjust_mode: adjust_mode,  # From Size::AdjustMode
+              size: size, # From Size::Shared
+              adjust_mode: adjust_mode, # From Size::AdjustMode
               # Actionable
               action: action&.to_h # From Actionable module
             }.compact
