@@ -13,14 +13,14 @@ module Line
 
         def message(text, label:, image_url: nil, &)
           action(
-            Actions::Message.new(text, label: label, &),
+            Actions::Message.new(text, context: context, label: label, &),
             image_url
           )
         end
 
         def postback(data, label: nil, display_text: nil, image_url: nil, &)
           action(
-            Actions::Postback.new(data, label: label, display_text: display_text, &),
+            Actions::Postback.new(data, context: context, label: label, display_text: display_text, &),
             image_url
           )
         end
