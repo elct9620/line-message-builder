@@ -47,9 +47,9 @@ module Line
         #   in a {Context} object.
         # @param block [Proc] A block containing DSL calls to define messages
         #   (e.g., `text "Hello"`, `flex { ... }`).
-        def initialize(context: nil, &block)
+        def initialize(context: nil, mode: :api, &block)
           @messages = [] # Initializes an empty array to store message objects
-          @context = Context.new(context)
+          @context = Context.new(context, mode:)
 
           instance_eval(&block) if ::Kernel.block_given?
         end

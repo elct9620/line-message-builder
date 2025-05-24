@@ -48,8 +48,8 @@ module Line
       #   message = Line::Message::Builder.with do |root|
       #     root.text "Hello, world!"
       #   end
-      def with(context = nil, &)
-        Container.new(context: context, &)
+      def with(context = nil, mode: :api, &)
+        Container.new(context: context, mode: mode, &)
       end
     end
   end

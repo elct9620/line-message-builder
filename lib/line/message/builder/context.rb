@@ -56,14 +56,18 @@ module Line
         #     puts context.assigns[:user_id] # => 123
         attr_accessor :assigns
 
+        attr_reader :mode
+
         # Initializes a new Context object.
         #
         # @param context [Object, nil] An optional object whose methods will be made
         #   available within the DSL. If `nil`, only `assigns` and standard
         #   builder methods will be available.
-        def initialize(context)
+        #   @param mode [Symbol] The mode of the context, which can be `:api` or `:sdkv2`.
+        def initialize(context, mode: :api)
           @context = context
           @assigns = {}
+          @mode = mode
         end
 
         # Part of Ruby's dynamic method dispatch. It's overridden here to declare
@@ -111,6 +115,10 @@ module Line
           return @context.public_send(method_name, ...) if @context.respond_to?(method_name)
 
           super
+        end
+
+        def sdkv2?
+          mode == :sdkv2
         end
       end
     end

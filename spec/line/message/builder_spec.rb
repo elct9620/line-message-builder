@@ -7,6 +7,18 @@ RSpec.describe Line::Message::Builder do
     end
   end
 
+  it { is_expected.not_to be_sdkv2 }
+
+  context "when using SDKv2 mode" do
+    subject(:builder) do
+      described_class.with(mode: :sdkv2) do
+        text "Hello, SDKv2!"
+      end
+    end
+
+    it { is_expected.to be_sdkv2 }
+  end
+
   describe "VERSION" do
     subject { Line::Message::Builder::VERSION }
 
