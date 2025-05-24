@@ -59,6 +59,7 @@ To use with [line-bot-sdk-ruby](https://github.com/line/line-bot-sdk-ruby) v2, y
 builder = Line::MessageBuilder::Builder.with(mode: :sdkv2) do
   text "Hello, world!"
 end
+```
 
 ### Context
 
@@ -77,7 +78,7 @@ pp builder.build
 # => [{ type: "text", text: "Hello, John Doe!" }]
 
 puts builder.to_json
-# => {"type":"text","text":"Hello, John Doe!"}
+# => [{"type":"text","text":"Hello, John Doe!"}]
 ```
 
 For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
