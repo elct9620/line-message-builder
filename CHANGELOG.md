@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.8.0](https://github.com/elct9620/line-message-builder/compare/v0.7.0...v0.8.0) (2025-05-24)
+
+
+### Features
+
+* Add GitHub Action for RDoc generation and deployment ([dbb0f79](https://github.com/elct9620/line-message-builder/commit/dbb0f797ae6143bb9f463c8e6c111a5fe1f0a53f))
+* Add GitHub Action for RDoc generation and deployment ([#9](https://github.com/elct9620/line-message-builder/issues/9)) ([c1a9920](https://github.com/elct9620/line-message-builder/commit/c1a99203b3abef99d149ecc7a055367268f5c2f8))
+* add mode option to Line::Message::Builder for SDKv2 support ([f44f787](https://github.com/elct9620/line-message-builder/commit/f44f78758f5cac1dda6cf86f4c1945365c6c1018))
+
+
+### Bug Fixes
+
+* pass context to quick reply actions to resolve sdkv2 method error ([1bec753](https://github.com/elct9620/line-message-builder/commit/1bec7539421c0c11b10d2e906f9ee7f44a1c726f))
+
 ## [0.7.0](https://github.com/elct9620/line-message-builder/compare/v0.6.1...v0.7.0) (2025-05-21)
 
 
