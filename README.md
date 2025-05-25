@@ -50,7 +50,7 @@ pp builder.build
 # => [{ type: "text", text: "Hello, world!" }]
 
 puts builder.to_json
-# => {"type":"text","text":"Hello, world!"}
+# => "[{\"type\":\"text",\"text\":\"Hello, world!\"}"
 ```
 
 To use with [line-bot-sdk-ruby](https://github.com/line/line-bot-sdk-ruby) v2, you can set mode to `sdkv2`:
@@ -78,7 +78,7 @@ pp builder.build
 # => [{ type: "text", text: "Hello, John Doe!" }]
 
 puts builder.to_json
-# => [{"type":"text","text":"Hello, John Doe!"}]
+# => "[{\"type\":\"text\",\"text\":\"Hello, John Doe!\"}"
 ```
 
 For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
