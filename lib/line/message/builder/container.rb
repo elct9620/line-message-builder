@@ -16,11 +16,11 @@ module Line
       # Each message added to the container can also have its own quick reply.
       #
       # @example Building multiple messages
-      #   message_payload = Line::Message::Builder.with do |root|
-      #     root.text "Hello, this is the first message!"
-      #     root.flex alt_text: "This is a Flex Message" do |flex_builder|
-      #       flex_builder.bubble do |bubble|
-      #         bubble.body do |body|
+      #   message_payload = Line::Message::Builder.with do
+      #     text "Hello, this is the first message!"
+      #     flex alt_text: "This is a Flex Message" do
+      #       bubble do
+      #         body do
       #           body.text "This is a Flex Message body."
       #         end
       #       end
@@ -91,10 +91,10 @@ module Line
         #   is typically within Flex::Builder).
         #
         # @example
-        #   root.flex alt_text: "Important information" do |fb|
-        #     fb.bubble do |bubble|
-        #       bubble.header { |h| h.text "Header" }
-        #       bubble.body   { |b| b.text "Body" }
+        #   flex alt_text: "Important information" do
+        #     bubble do
+        #       header { text "Header" }
+        #       body   { text "Body" }
         #     end
         #   end
         def flex(**options, &)

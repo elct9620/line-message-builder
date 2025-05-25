@@ -26,10 +26,10 @@ module Line
       # instantiates and uses {Flex::Builder} to define the Flex Message structure.
       #
       # @example How a Flex Message is typically initiated (conceptual)
-      #   Line::Message::Builder.with do |root_container|
+      #   Line::Message::Builder.with do
       #     # This `flex` call on root_container would utilize Flex::Builder
-      #     root_container.flex(alt_text: "My Flex Message") do |flex_msg_builder|
-      #       flex_msg_builder.bubble do |bubble_builder|
+      #     flex alt_text: "My Flex Message"  do
+      #       bubble do
       #         # ... define bubble content ...
       #       end
       #     end

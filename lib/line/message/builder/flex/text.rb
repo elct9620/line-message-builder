@@ -13,15 +13,15 @@ module Line
         # {Actionable#action action} to make it tappable.
         #
         # @example Creating a text component within a box
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "Text Example" do |flex|
-        #       flex.bubble do |bubble|
-        #         bubble.body do |body_box|
-        #           body_box.text "Hello, Flex World!",
-        #                         size: :xl,
-        #                         color: "#FF0000",
-        #                         wrap: true do |txt_action|
-        #             txt_action.message "More info", text: "Tell me more about text"
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Text Example" do
+        #       bubble do
+        #         body do
+        #           text "Hello, Flex World!",
+        #                size: :xl,
+        #                color: "#FF0000",
+        #                wrap: true do
+        #                  message "More info", text: "Tell me more about text"
         #           end
         #         end
         #       end

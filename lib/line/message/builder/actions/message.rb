@@ -15,13 +15,13 @@ module Line
         # in quick replies or other interactive message components.
         #
         # @example Creating a message action for a quick reply button
-        #   Line::Message::Builder.with do |root|
-        #     root.text "Select your favorite food:"
-        #     root.quick_reply do |qr|
+        #   Line::Message::Builder.with do
+        #     text "Select your favorite food:"
+        #     quick_reply do
         #       # When this button is tapped, the user sends "Pizza"
-        #       qr.button action: :message, label: "Pizza", text: "Pizza"
+        #       button action: :message, label: "Pizza", text: "Pizza"
         #       # When this button is tapped, the user sends "Sushi"
-        #       qr.button action: :message, label: "Sushi", text: "Sushi"
+        #       button action: :message, label: "Sushi", text: "Sushi"
         #     end
         #   end
         #

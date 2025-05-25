@@ -13,15 +13,14 @@ module Line
         # {Actionable#action action} to make it tappable.
         #
         # @example Creating an image component within a box
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "Image Example" do |flex|
-        #       flex.bubble do |bubble|
-        #         bubble.body do |body_box|
-        #           body_box.image "https://example.com/image.png",
-        #                          aspect_ratio: "16:9",
-        #                          aspect_mode: :cover,
-        #                          size: :full do |img_action|
-        #             img_action.message "View Details", text: "Show details for image"
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Image Example" do
+        #       bubble do
+        #         body do
+        #           image "https://example.com/image.png",
+        #                 aspect_ratio: "16:9",
+        #                 aspect_mode: :cover,
+        #                 size: :full
         #           end
         #         end
         #       end

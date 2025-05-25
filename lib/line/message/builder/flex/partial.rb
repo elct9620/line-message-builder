@@ -13,19 +13,24 @@ module Line
         # @example Defining and using a partial
         #   # Define a reusable partial
         #   class MyButtonPartial < Line::Message::Builder::Flex::Partial
-        #     def call(label:, data:)
+        #     def call
         #       # `button` method is available from the context (e.g., a Box)
-        #       button style: :primary do |btn|
-        #         btn.postback data, label: label
+        #       button style: :primary do
+        #         # `data` and `label` are available from `context.assigns`
+        #         postback data, label: label
         #       end
         #     end
         #   end
         #
         #   # Use the partial within a Box component
-        #   a_box_component.instance_eval do
-        #     # ... other box content ...
-        #     partial! MyButtonPartial, label: "Action", data: "action=do_something"
-        #     # ... other box content ...
+        #   Line::Message::Builder.with do
+        #     flex do
+        #       bubble do
+        #         body do
+        #           partial! MyButtonPartial, label: "Action", data: "action=do_something"
+        #         end
+        #       end
+        #     end
         #   end
         #
         # @see Partial

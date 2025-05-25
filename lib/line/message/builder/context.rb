@@ -30,20 +30,16 @@ module Line
       # and data into the message building process.
       #
       # @example Using a custom context
-      #   class MyHelpers
+      #   class MyContext
       #     def current_user_name
       #       "Alice"
       #     end
       #   end
       #
-      #   helpers = MyHelpers.new
-      #   Line::Message::Builder.with(helpers) do |root|
-      #     # `current_user_name` is resolved from `helpers` by Context
-      #     root.text "Hello, #{current_user_name}!"
-      #
-      #     # Using assigns
-      #     assigns[:item_count] = 5
-      #     root.text "You have #{assigns[:item_count]} items."
+      #   context = MyContext.new
+      #   Line::Message::Builder.with(context) do
+      #     # `current_user_name` is resolved from `context` by Context
+      #     text "Hello, #{current_user_name}!"
       #   end
       class Context
         # @!attribute assigns

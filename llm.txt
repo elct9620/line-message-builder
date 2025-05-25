@@ -18,6 +18,42 @@ end
 # json_output = messages.to_json
 ```
 
+### Coding Style
+
+When using the `Line::Message::Builder` DSL, following is recommended:
+
+```ruby
+Line::Message::Builder.with do
+  flex alt_text: "Hello, World!" do
+    bubble do
+      header do
+        text "Welcome to LINE Messaging API"
+      end
+      body do
+        text "This is a sample message."
+      end
+    end
+  end
+end
+```
+
+DO NOT use `do |container|` syntax as following:
+
+```ruby
+Line::Message::Builder.with do |builder|
+  builder.flex alt_text: "Hello, World!" do
+    builder.bubble do
+      builder.header do
+        builder.text "Welcome to LINE Messaging API"
+      end
+      builder.body do
+        builder.text "This is a sample message."
+      end
+    end
+  end
+end
+```
+
 ### Context
 
 The builder can accept a context object. Methods called within the builder block will first attempt to resolve against this context object. This allows for dynamic message content based on your application's data.

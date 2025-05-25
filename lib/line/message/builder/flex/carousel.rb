@@ -13,16 +13,16 @@ module Line
         # articles, or options, in a compact and interactive way.
         #
         # @example Creating a carousel with two bubbles
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "Product Showcase" do |flex_builder|
-        #       flex_builder.carousel do |carousel_container| # carousel_container is an instance of Flex::Carousel
-        #         carousel_container.bubble size: :mega do |bubble1|
-        #           bubble1.hero_image "https://example.com/product1.jpg"
-        #           bubble1.body { |b| b.text "Product 1" }
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Product Showcase" do
+        #       carousel do
+        #         bubble size: :mega do
+        #           hero_image "https://example.com/product1.jpg"
+        #           body { text "Product 1" }
         #         end
-        #         carousel_container.bubble size: :mega do |bubble2|
-        #           bubble2.hero_image "https://example.com/product2.jpg"
-        #           bubble2.body { |b| b.text "Product 2" }
+        #         bubble size: :mega do
+        #           hero_image "https://example.com/product2.jpg"
+        #           body { text "Product 2" }
         #         end
         #       end
         #     end

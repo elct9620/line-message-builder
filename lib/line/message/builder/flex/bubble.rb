@@ -11,11 +11,11 @@ module Line
         # for each item in a {Carousel} container.
         #
         # @example Creating a simple bubble with a body
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "Simple Bubble" do |flex|
-        #       flex.bubble do |bubble|
-        #         bubble.body do |body_box|
-        #           body_box.text "Hello, this is a bubble!"
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Simple Bubble" do
+        #       bubble do
+        #         body do
+        #           text "Hello, this is a bubble!"
         #         end
         #       end
         #     end

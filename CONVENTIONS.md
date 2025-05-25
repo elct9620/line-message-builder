@@ -16,6 +16,42 @@ This gem is designed to provide DSL (Domain Specific Language) for building LINE
 
 Only use comments for RDoc documentation. Do not use comments to explain anything in the code. The code should be self-explanatory. If you find yourself needing to write a comment to explain something, consider refactoring the code instead.
 
+## DSL
+
+When using the `Line::Message::Builder` DSL, following is recommended:
+
+```ruby
+Line::Message::Builder.with do
+  flex alt_text: "Hello, World!" do
+    bubble do
+      header do
+        text "Welcome to LINE Messaging API"
+      end
+      body do
+        text "This is a sample message."
+      end
+    end
+  end
+end
+```
+
+DO NOT use `do |container|` syntax as following:
+
+```ruby
+Line::Message::Builder.with do |builder|
+  builder.flex alt_text: "Hello, World!" do
+    builder.bubble do
+      builder.header do
+        builder.text "Welcome to LINE Messaging API"
+      end
+      builder.body do
+        builder.text "This is a sample message."
+      end
+    end
+  end
+end
+```
+
 ## RSpec
 
 - Write feature tests instead of unit tests, use `Line::Message::Builder` as test subject to verify the behavior of the DSL.

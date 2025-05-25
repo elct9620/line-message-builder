@@ -16,13 +16,13 @@ module Line
         # a different message than the data payload.
         #
         # @example Creating a postback action for a quick reply button
-        #   Line::Message::Builder.with do |root|
-        #     root.text "What do you want to do?"
-        #     root.quick_reply do |qr|
-        #       qr.button action: :postback,
-        #                 label: "Track Order",
-        #                 data: "action=track_order&order_id=123",
-        #                 display_text: "I want to track my order."
+        #   Line::Message::Builder.with do
+        #     text "What do you want to do?"
+        #     quick_reply do
+        #       button action: :postback,
+        #              label: "Track Order",
+        #              data: "action=track_order&order_id=123",
+        #              display_text: "I want to track my order."
         #     end
         #   end
         #

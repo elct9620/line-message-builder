@@ -19,14 +19,14 @@ module Line
         # box area tappable.
         #
         # @example Creating a horizontal box with two text components
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "Box example" do |flex|
-        #       flex.bubble do |bubble|
-        #         bubble.body do |body_box| # body_box is an instance of Flex::Box
-        #           body_box.layout :horizontal
-        #           body_box.spacing :md
-        #           body_box.text "Item 1"
-        #           body_box.text "Item 2"
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Box example" do
+        #       bubble do
+        #         body do
+        #           layout :horizontal
+        #           spacing :md
+        #           text "Item 1"
+        #           text "Item 2"
         #         end
         #       end
         #     end

@@ -14,16 +14,16 @@ module Line
         # It can also have a `quickReply` attached to it.
         #
         # @example Creating a Flex Message with a single bubble
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "My Product" do |flex_builder| # flex_builder is an instance of Flex::Builder
-        #       flex_builder.bubble size: :giga do |bubble_content|
-        #         bubble_content.hero_image "https://example.com/product.jpg"
-        #         bubble_content.body do |b|
-        #           b.text "Product Name", weight: :bold, size: :xl
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "My Product" do
+        #       flex_builder.bubble size: :giga do
+        #         hero_image "https://example.com/product.jpg"
+        #         body do
+        #           text "Product Name", weight: :bold, size: :xl
         #         end
         #       end
-        #       flex_builder.quick_reply do |qr|
-        #         qr.button action: :message, label: "Learn More", text: "Tell me more"
+        #       quick_reply do
+        #         button action: :message, label: "Learn More", text: "Tell me more"
         #       end
         #     end
         #   end

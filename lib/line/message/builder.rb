@@ -48,8 +48,8 @@ module Line
       #   instance, allowing you to define the message structure using the DSL.
       # @return [Container] The initialized message container with the defined structure.
       # @example
-      #   message = Line::Message::Builder.with do |root|
-      #     root.text "Hello, world!"
+      #   message = Line::Message::Builder.with do
+      #     text "Hello, world!"
       #   end
       def with(context = nil, mode: :api, &)
         Container.new(context: context, mode: mode, &)

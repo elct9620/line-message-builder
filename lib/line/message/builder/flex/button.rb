@@ -14,12 +14,12 @@ module Line
         # An action is mandatory for a button component.
         #
         # @example Creating a button that sends a message
-        #   Line::Message::Builder.with do |root|
-        #     root.flex alt_text: "Button Example" do |flex|
-        #       flex.bubble do |bubble|
-        #         bubble.body do |body_box|
-        #           body_box.button style: :primary, height: :sm do |btn|
-        #             btn.message "Buy Now", label: "Buy" # Action definition
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Button Example" do
+        #       bubble do
+        #         body do
+        #           button style: :primary, height: :sm do
+        #             message "Buy Now", label: "Buy" # Action definition
         #           end
         #         end
         #       end
