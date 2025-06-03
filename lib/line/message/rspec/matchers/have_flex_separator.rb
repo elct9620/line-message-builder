@@ -51,7 +51,8 @@ module Line
 
                 return ::RSpec::Matchers::BuiltIn::Include.new(@options).matches?(component)
               elsif component["type"] == "box" && component["contents"].is_a?(Array)
-                return find_separator_in_contents(component["contents"])
+                result = find_separator_in_contents(component["contents"])
+                return true if result
               end
               false
             end
