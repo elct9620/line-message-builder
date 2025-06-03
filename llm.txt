@@ -294,9 +294,18 @@ Displays text.
     - `flex`: (Integer, Optional) Flex factor.
     - `adjust_mode`: (Symbol, Optional) How text adjusts when it overflows. Valid value: `:shrink_to_fit` (reduces font size).
 - `action`: (Action Object, Optional) Makes the text tappable.
+- `span`: Within a Text component, you can add Span components to style parts of the text differently.
 
 ```ruby
+# Simple text component
 text "Special Offer!", size: :xl, weight: :bold, color: "#FF0000", align: :center, action: postback(data: "offer_details")
+
+# Text with spans for different styling of segments
+text "Welcome to our service:" do
+  span "Special ", color: "#FF0000"
+  span "Offer", weight: :bold
+  span "!", decoration: :underline
+end
 ```
 
 #### Button Component
@@ -332,6 +341,43 @@ Displays an image.
 
 ```ruby
 image "https://example.com/product_image.png", size: :full, aspect_ratio: "1:1", aspect_mode: :cover, action: message(text: "View product")
+```
+
+#### Span Component
+Spans are used within a Text component to apply different styling to specific portions of text. They cannot be used directly within boxes or other containers; they must be placed inside a Text component block.
+
+- `text`: (String, Required) The text content of the span.
+- Styling:
+    - `color`: (String, Optional) Hex color code (e.g., `'#RRGGBB'`, `'#RRGGBBAA'`).
+    - `size`: (Symbol or String, Optional) Font size. Valid keywords: `:xxs`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:3xl`, `:4xl`, `:5xl`. Also accepts pixel values (e.g., `'16px'`).
+    - `weight`: (Symbol, Optional) Font weight. Valid values: `:regular`, `:bold`.
+    - `decoration`: (Symbol, Optional) Text decoration. Valid values: `:none`, `:underline`, `:line-through`.
+
+Spans also support helper methods to easily apply common styles:
+- `bold!`: Sets the weight to `:bold`.
+- `underline!`: Sets the decoration to `:underline`.
+- `line_through!`: Sets the decoration to `:line-through`.
+
+```ruby
+# Basic span usage
+text "This message contains:" do
+  span "colored", color: "#FF0000"
+  span " and "
+  span "bold", weight: :bold
+  span " text."
+end
+
+# Using helper methods
+text "This message has:" do
+  span "underlined" do
+    underline!
+  end
+  span " and "
+  span "bold" do
+    bold!
+  end
+  span " text."
+end
 ```
 
 #### Separator Component

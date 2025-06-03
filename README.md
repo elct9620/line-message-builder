@@ -281,7 +281,7 @@ end
 | Video     | ❌            |
 | Icon      | ❌            |
 | Text      | 🚧            |
-| Span      | ❌            |
+| Span      | ✅            |
 | Separator | ✅            |
 | Filler    | ❌ Deprecated |
 
