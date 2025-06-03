@@ -54,17 +54,19 @@ module Line
             return false unless component.is_a?(Hash)
             return check_separator(component) if component["type"] == "separator"
             return check_box(component) if component["type"] == "box"
-            
+
             false
           end
 
           def check_separator(component)
             return true if @options.empty?
+
             ::RSpec::Matchers::BuiltIn::Include.new(@options).matches?(component)
           end
 
           def check_box(component)
             return false unless component["contents"].is_a?(Array)
+
             find_separator_in_contents(component["contents"])
           end
         end
