@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.9.0](https://github.com/elct9620/line-message-builder/compare/v0.8.0...v0.9.0) (2025-06-03)
+
+
+### Features
+
+* add flex separator matcher and tests for flex message components ([0d34bc9](https://github.com/elct9620/line-message-builder/commit/0d34bc9fcfeef9d2ca519548f4a83a3de046eb33))
+* add Flex::Span message builder for LINE messaging API ([a8377e9](https://github.com/elct9620/line-message-builder/commit/a8377e93861fa286e95a69d3cb3c9897c1992044))
+* add have_line_flex_span matcher and comprehensive tests for span component ([b9072cd](https://github.com/elct9620/line-message-builder/commit/b9072cd3e4c56c9346bb3d6cf98ee11374029807))
+* add Separator builder for Flex messages ([accb2aa](https://github.com/elct9620/line-message-builder/commit/accb2aa41f9a016445f377f97e93f085734764c4))
+* add separator method to Flex::Box for adding separator elements ([4125ae1](https://github.com/elct9620/line-message-builder/commit/4125ae15fd5666431ec864121cf40d3c4fb0f56f))
+* add Span component for styled text in Flex Messages ([a458d1d](https://github.com/elct9620/line-message-builder/commit/a458d1d2473e0859bc7e1c81254888a8c8fde9a7))
+* add span method to flex box builder and remove related specs ([af8dc8f](https://github.com/elct9620/line-message-builder/commit/af8dc8f9f4b8c8a7a12c15db23a50331dfc102cb))
+* add support for spans within flex text components ([90ab15d](https://github.com/elct9620/line-message-builder/commit/90ab15df7044d15308d23ef864a69f84d71e28e7))
+
+
+### Bug Fixes
+
+* add Flex::Separator component and require it in flex.rb ([4152c10](https://github.com/elct9620/line-message-builder/commit/4152c1024a7634b526f94fa4e76a518a6ff0787c))
+* ensure matcher finds flex separator in all nested containers ([d289ea1](https://github.com/elct9620/line-message-builder/commit/d289ea178e17d4ca00b796a9f666c527982d82f6))
+* remove duplicate Separator class definition in flex separator.rb ([2c6b6d0](https://github.com/elct9620/line-message-builder/commit/2c6b6d063a2da97a0781591a697cf3034cb135f6))
+
 ## [0.8.0](https://github.com/elct9620/line-message-builder/compare/v0.7.0...v0.8.0) (2025-05-24)
 
 
