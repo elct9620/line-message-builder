@@ -135,8 +135,20 @@ module Line
           #
           # @param text [String] The text content.
           # @param options [Hash] Options for the text component. See {Text#initialize}.
-          # @param block [Proc, nil] An optional block for the text component (e.g., for an action).
+          # @param block [Proc, nil] An optional block for the text component. This can be used
+          #   to define an action for the text or to add {Span} components within the text.
           # @return [Flex::Text] The newly created Text object.
+          # @example Simple text component
+          #   text "Hello, World!"
+          # @example Text with an action
+          #   text "Click me" do
+          #     message "Action", text: "You clicked me!"
+          #   end
+          # @example Text with spans
+          #   text "This has " do
+          #     span "styled", color: "#FF0000"
+          #     span " parts"
+          #   end
           def text(text = nil, **options, &)
             @contents << Flex::Text.new(text, context: context, **options, &)
           end

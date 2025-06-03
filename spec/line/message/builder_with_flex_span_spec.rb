@@ -8,7 +8,7 @@ RSpec.describe Line::Message::Builder do
       flex alt_text: "Simple Flex Message" do
         bubble do
           body do
-            text do
+            text "This contains a span:" do
               span "Hello, World!"
             end
           end
@@ -25,7 +25,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!", color: "#FF0000"
               end
             end
@@ -43,7 +43,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!", size: :lg
               end
             end
@@ -61,7 +61,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!", weight: :bold
               end
             end
@@ -79,7 +79,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!" do
                   bold!
                 end
@@ -99,7 +99,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!", decoration: :underline
               end
             end
@@ -117,7 +117,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!" do
                   underline!
                 end
@@ -137,7 +137,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!" do
                   line_through!
                 end
@@ -157,7 +157,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!", decoration: :invalid
               end
             end
@@ -175,7 +175,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span "Hello, World!", weight: :invalid
               end
             end
@@ -193,7 +193,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains spans:" do
                 span "Hello, ", color: "#FF0000"
                 span "World", weight: :bold
                 span "!", decoration: :underline
@@ -215,7 +215,7 @@ RSpec.describe Line::Message::Builder do
         flex alt_text: "Simple Flex Message" do
           bubble do
             body do
-              text do
+              text "This contains a span:" do
                 span nil
               end
             end
