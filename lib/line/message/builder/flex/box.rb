@@ -39,7 +39,7 @@ module Line
         # @see Position::Margin For margin properties.
         # @see Position::Offset For offset properties.
         # @see Size::Flex For flex sizing property.
-        class Box < Line::Message::Builder::Base
+        class Box < Line::Message::Builder::Base # rubocop:disable Metrics/ClassLength
           include HasPartial # Allows including predefined partial component sets.
           include Actionable # Enables defining an action for the entire box.
           include Position::Padding  # Adds padding options like `padding_all`, `padding_top`, etc.
@@ -170,6 +170,10 @@ module Line
           # @return [Flex::Separator] The newly created Separator object.
           def separator(**options, &)
             @contents << Flex::Separator.new(context: context, **options, &)
+          end
+
+          def span(text, **options, &)
+            @contents << Flex::Span.new(text, context: context, **options, &)
           end
 
           def to_h
