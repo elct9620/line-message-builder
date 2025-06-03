@@ -48,7 +48,8 @@ module Line
                 match_content?(nested_content)
               end || @expected.call(content)
             end
-
+            
+            # Directly check if this is the component we're looking for
             @expected.call(content)
           end
 
