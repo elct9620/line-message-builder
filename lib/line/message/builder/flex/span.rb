@@ -7,7 +7,7 @@ module Line
         # Represents a "span" component in a LINE Flex Message.
         #
         # Span components are used within a Text component to apply different styling
-        # to specific portions of text. They offer various styling options, including 
+        # to specific portions of text. They offer various styling options, including
         # `size`, `weight`, `color`, and `decoration`. Unlike Text components, spans
         # cannot have actions attached to them.
         #
@@ -46,15 +46,14 @@ module Line
           # @!method weight(value)
           #   @param value [Symbol, String, nil] Text weight. Valid values are `:regular` and `:bold`.
           #   @return [Symbol, String, nil] The current text weight.
-          option :weight, default: nil, validator: ->(v) { Validators::Enum.new(:regular, :bold).valid!(v) }
+          option :weight, default: nil, validator: Validators::Enum.new(:regular, :bold)
 
           # Specifies the decoration of the text.
           # @!method decoration(value)
-          #   @param value [Symbol, String, nil] Text decoration. 
+          #   @param value [Symbol, String, nil] Text decoration.
           #     Valid values are `:none`, `:underline`, and `:line-through`.
           #   @return [Symbol, String, nil] The current text decoration.
-          option :decoration, default: nil, validator: ->
-            (v) { Validators::Enum.new(:none, :underline, :"line-through").valid!(v) }
+          option :decoration, default: nil, validator: Validators::Enum.new(:none, :underline, :"line-through")
 
           # Initializes a new Flex Message Span component.
           #
@@ -95,25 +94,6 @@ module Line
           def to_h
             raise RequiredError, "text content is required for a span component" if text.nil?
 
-            return to_sdkv2 if context.sdkv2?
-
-            to_api
-          end
-
-          private
-
-          def to_api
-            {
-              type: "span",
-              text: text,
-              color: color,
-              size: size,
-              weight: weight,
-              decoration: decoration
-            }.compact
-          end
-
-          def to_sdkv2
             {
               type: "span",
               text: text,
