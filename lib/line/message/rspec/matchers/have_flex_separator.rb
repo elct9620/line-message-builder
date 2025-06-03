@@ -19,18 +19,17 @@ module Line
 
           def matches?(actual)
             @actual = Utils.stringify_keys!(actual, deep: true)
-            
+
             # Find a flex message first
             flex_message = @actual.find { |message| message["type"] == "flex" }
             return false unless flex_message
-            
+
             # Navigate through the contents to find a separator
-            contents = flex_message.dig("contents", "body", "contents") || 
-                       flex_message.dig("contents", "hero", "contents") || 
+            contents = flex_message.dig("contents", "body", "contents") ||
+                       flex_message.dig("contents", "hero", "contents") ||
                        flex_message.dig("contents", "footer", "contents") ||
                        flex_message.dig("contents", "header", "contents") ||
                        []
-            
             find_separator_in_contents(contents)
           end
           alias == matches?
@@ -49,6 +48,7 @@ module Line
             contents.any? do |component|
               if component["type"] == "separator"
                 return true if @options.empty?
+
                 return ::RSpec::Matchers::BuiltIn::Include.new(@options).matches?(component)
               elsif component["type"] == "box" && component["contents"].is_a?(Array)
                 return find_separator_in_contents(component["contents"])
