@@ -334,23 +334,22 @@ Displays an image.
 image "https://example.com/product_image.png", size: :full, aspect_ratio: "1:1", aspect_mode: :cover, action: message(text: "View product")
 ```
 
-#### Separators and Spacers
+#### Separator Component
+A `separator` draws a horizontal line to create visual separation between components.
 
-The LINE Flex Message specification includes `separator` and `spacer` component types. This DSL does not provide explicit `separator()` or `spacer()` methods. Instead:
+```ruby
+box layout: :vertical do
+  text "Section 1"
+  separator
+  text "Section 2"
+end
+```
 
-- **Separators**: Achieve a visual line by using a `box` component styled to look like a separator. Set its `height` (for horizontal line) or `width` (for vertical line) to a small value (e.g., `"1px"`) and give it a `background_color`.
-  ```ruby
-  # Example of a horizontal separator
-  box layout: :vertical, padding_all: :md do # Outer box for content
-    text "Content above separator"
-    box height: "1px", background_color: "#CCCCCC", margin: :md # This is the separator
-    text "Content below separator"
-  end
-  ```
-- **Spacers**: Create space between components using:
-    - `spacing` property on a parent `box` container.
-    - `margin` property on individual components (e.g., `text "Hello", margin: :xl`).
-    - An empty `box` with a defined `flex` value or `height`/`width` (e.g., `box height: "30px"`).
+#### Spacers
+Create space between components using:
+- `spacing` property on a parent `box` container.
+- `margin` property on individual components (e.g., `text "Hello", margin: :xl`).
+- An empty `box` with a defined `flex` value or `height`/`width` (e.g., `box height: "30px"`).
 
 ### Flex Message Partials
 

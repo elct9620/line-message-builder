@@ -179,6 +179,7 @@ end
 | `have_line_flex_image`      | Match a flex message with image      |
 | `have_line_flex_button`     | Match a flex message with button     |
 | `have_line_flex_box`        | Match a flex message with box        |
+| `have_line_flex_separator`  | Match a flex message with separator  |
 
 
 Add `line/message/rspec` to your `spec_helper.rb` or `rails_helper.rb`:
@@ -281,7 +282,7 @@ end
 | Icon      | ❌            |
 | Text      | 🚧            |
 | Span      | ❌            |
-| Separator | ❌            |
+| Separator | ✅            |
 | Filler    | ❌ Deprecated |
 
 ## Development
