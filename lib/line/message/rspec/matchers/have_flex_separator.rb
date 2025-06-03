@@ -10,7 +10,6 @@ module Line
 
           HaveFlexComponent.new(expected_desc: "separator(#{options.inspect})") do |content|
             next false unless content["type"] == "separator"
-            
             options.empty? || ::RSpec::Matchers::BuiltIn::Include.new(options).matches?(content)
           end
         end
