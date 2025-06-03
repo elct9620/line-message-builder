@@ -160,6 +160,10 @@ module Line
             @contents << Flex::Image.new(url, context: context, **options, &)
           end
 
+          def separator(**options, &)
+            @contents << Flex::Separator.new(context: context, **options, &)
+          end
+
           def to_h
             raise RequiredError, "layout is required" if layout.nil?
 
