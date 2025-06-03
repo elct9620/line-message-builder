@@ -160,6 +160,14 @@ module Line
             @contents << Flex::Image.new(url, context: context, **options, &)
           end
 
+          # Adds a Flex {Separator} component to this box's contents.
+          #
+          # A separator is a simple component that draws a horizontal line,
+          # creating a visual division between other components in a container.
+          #
+          # @param options [Hash] Options for the separator component. See {Separator}.
+          # @param block [Proc, nil] An optional block for advanced separator configuration.
+          # @return [Flex::Separator] The newly created Separator object.
           def separator(**options, &)
             @contents << Flex::Separator.new(context: context, **options, &)
           end
