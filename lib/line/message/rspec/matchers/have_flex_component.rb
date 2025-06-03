@@ -115,6 +115,16 @@ module Line
             ::RSpec::Matchers::BuiltIn::Include.new({ "url" => url, **options }).matches?(content)
           end
         end
+
+        def have_line_flex_span(text, **options) # rubocop:disable Naming/PredicateName
+          options = Utils.stringify_keys!(options, deep: true)
+
+          HaveFlexComponent.new(expected_desc: "span(#{text.inspect})") do |content|
+            next false unless content["type"] == "span"
+
+            content["text"].match?(text) && ::RSpec::Matchers::BuiltIn::Include.new(options).matches?(content)
+          end
+        end
       end
     end
   end
