@@ -2,6 +2,45 @@
 
 This document provides a comprehensive guide on using the Line Message Builder DSL to construct various types of LINE messages.
 
+## Project Status
+
+**Version:** 0.8.0  
+**Current State:** Production-ready Ruby gem with comprehensive Flex Message support
+
+### Recent Major Updates
+- ✅ **Span Component Support** (Latest): Full support for styled text spans within Flex Text components
+- ✅ **Flex Message Partials**: Reusable component system for complex layouts  
+- ✅ **LINE Bot SDK v2 Compatibility**: Support for both standard and SDK v2 modes
+- ✅ **Comprehensive Flex Components**: Box, Text, Button, Image, Separator, Carousel, Bubble
+- ✅ **Advanced Layout Options**: Positioning, spacing, padding, margins, flexbox properties
+- ✅ **RSpec Testing Framework**: Custom matchers for LINE message validation
+
+### Component Support Status
+- **Text Messages**: ✅ Full support with Quick Reply
+- **Flex Messages**: ✅ Production-ready with rich layout capabilities
+- **Flex Components**: 
+  - Bubble: ✅ Complete
+  - Carousel: ✅ Complete  
+  - Box: ✅ Complete with advanced layout
+  - Text: ✅ Complete with Span support
+  - Span: ✅ Complete (Latest addition)
+  - Button: ✅ Complete with actions
+  - Image: ✅ Complete
+  - Separator: ✅ Complete
+- **Actions**: Message ✅, Postback ✅, URI/Custom ✅
+- **Quick Replies**: ✅ Full support
+- **Partials**: ✅ Reusable component system
+
+## Installation and Setup
+
+```bash
+# Add to Gemfile
+bundle add line-message-builder
+
+# Or install directly
+gem install line-message-builder
+```
+
 ## Basic Usage
 
 To start building messages, use the `Line::Message::Builder.with` method. This method accepts an optional context object and a block where you define your messages.
@@ -15,7 +54,12 @@ end
 
 # The `messages` variable will now hold an array of LINE message objects.
 # You can convert them to JSON for sending to the LINE API:
-# json_output = messages.to_json
+json_output = messages.to_json
+
+# For LINE Bot SDK v2 compatibility:
+messages = Line::Message::Builder.with(mode: :sdkv2) do
+  text "Hello World!"
+end
 ```
 
 ### Coding Style
@@ -434,4 +478,70 @@ Partials allow you to define reusable segments of Flex Message layouts. This is 
     ```
     Inside the partial, variables passed via `partial!` (e.g., `title_text`, `button_label`) are accessible as methods.
 
-This comprehensive guide should help in effectively using the Line Message Builder DSL. For very specific or advanced features, always refer to the official LINE Messaging API documentation for Flex Messages.
+## RSpec Testing Support
+
+The gem includes comprehensive RSpec matchers for testing LINE messages:
+
+```ruby
+# Include in spec_helper.rb or rails_helper.rb
+require "line/message/rspec"
+
+# Configure in RSpec
+RSpec.configure do |config|
+  config.include Line::Message::RSpec::Matchers
+end
+
+# Available matchers
+describe "LINE Messages" do
+  let(:builder) do
+    Line::Message::Builder.with do
+      text "Hello World!"
+      flex alt_text: "Greeting" do
+        bubble do
+          body { text "Welcome!" }
+        end
+      end
+    end
+  end
+
+  subject { builder.build }
+
+  it { is_expected.to have_line_text_message("Hello World!") }
+  it { is_expected.to have_line_flex_message }
+  it { is_expected.to have_line_flex_bubble }
+  it { is_expected.to have_line_flex_text("Welcome!") }
+
+  # Works with webmock for API testing
+  it "sends correct message" do
+    expect(a_request(:post, "https://api.line.me/v2/bot/message/reply")
+      .with(body: hash_including({
+        messages: have_line_text_message(/Hello World!/)
+      }))
+    ).to have_been_made.once
+  end
+end
+```
+
+## Development and Testing
+
+```bash
+# Run tests
+bundle exec rspec
+
+# Run specific test
+bundle exec rspec spec/line/message/builder_spec.rb
+
+# Run linter
+bundle exec rubocop
+
+# Run both tests and linter
+bundle exec rake
+
+# Interactive console
+bin/console
+
+# Build and install locally
+bundle exec rake install
+```
+
+This comprehensive guide should help in effectively using the Line Message Builder DSL. The gem is actively maintained and production-ready for building complex LINE messaging experiences. For very specific or advanced features, always refer to the official LINE Messaging API documentation for Flex Messages.
