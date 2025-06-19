@@ -4,16 +4,17 @@ This document provides a comprehensive guide on using the Line Message Builder D
 
 ## Project Status
 
-**Version:** 0.8.0  
+**Version:** 0.9.0  
 **Current State:** Production-ready Ruby gem with comprehensive Flex Message support
 
-### Recent Major Updates
-- ✅ **Span Component Support** (Latest): Full support for styled text spans within Flex Text components
+### Recent Major Updates (v0.9.0)
+- ✅ **Enhanced Separator Component**: Full separator support with comprehensive RSpec matchers
+- ✅ **Improved Span Integration**: Refined span component integration within Text components
+- ✅ **Complete RSpec Matcher Suite**: Added `have_line_flex_separator` and enhanced span testing
 - ✅ **Flex Message Partials**: Reusable component system for complex layouts  
 - ✅ **LINE Bot SDK v2 Compatibility**: Support for both standard and SDK v2 modes
 - ✅ **Comprehensive Flex Components**: Box, Text, Button, Image, Separator, Carousel, Bubble
 - ✅ **Advanced Layout Options**: Positioning, spacing, padding, margins, flexbox properties
-- ✅ **RSpec Testing Framework**: Custom matchers for LINE message validation
 
 ### Component Support Status
 - **Text Messages**: ✅ Full support with Quick Reply
@@ -23,13 +24,14 @@ This document provides a comprehensive guide on using the Line Message Builder D
   - Carousel: ✅ Complete  
   - Box: ✅ Complete with advanced layout
   - Text: ✅ Complete with Span support
-  - Span: ✅ Complete (Latest addition)
+  - Span: ✅ Complete with enhanced integration
   - Button: ✅ Complete with actions
   - Image: ✅ Complete
-  - Separator: ✅ Complete
+  - Separator: ✅ Complete with enhanced matcher support
 - **Actions**: Message ✅, Postback ✅, URI/Custom ✅
 - **Quick Replies**: ✅ Full support
 - **Partials**: ✅ Reusable component system
+- **RSpec Matchers**: ✅ Complete suite including separator and span matchers
 
 ## Installation and Setup
 
@@ -510,6 +512,8 @@ describe "LINE Messages" do
   it { is_expected.to have_line_flex_message }
   it { is_expected.to have_line_flex_bubble }
   it { is_expected.to have_line_flex_text("Welcome!") }
+  it { is_expected.to have_line_flex_separator }  # Available in v0.9.0+
+  it { is_expected.to have_line_flex_span }       # Available in v0.9.0+
 
   # Works with webmock for API testing
   it "sends correct message" do
