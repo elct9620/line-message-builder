@@ -26,7 +26,7 @@ jobs:
       - name: Generate documentation
         run: rdoc --main README.md --op ./doc/
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./doc
       - name: Deploy to GitHub Pages
