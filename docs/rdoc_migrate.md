@@ -5,9 +5,9 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 ## Migration Status
 
 **Total Files**: 22
-**Completed**: 0
+**Completed**: 5
 **In Progress**: 0
-**Pending**: 22
+**Pending**: 17
 
 ## Table of Contents
 
@@ -23,11 +23,11 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 
 ### Phase 1: Core Entry Points (5 files)
 
-- [ ] `lib/line/message/builder.rb` - Main entry point
-- [ ] `lib/line/message/builder/container.rb` - Message container
-- [ ] `lib/line/message/builder/text.rb` - Text messages
-- [ ] `lib/line/message/builder/flex/builder.rb` - Flex messages entry
-- [ ] `lib/line/message/builder/flex/bubble.rb` - Bubble containers
+- [x] `lib/line/message/builder.rb` - Main entry point
+- [x] `lib/line/message/builder/container.rb` - Message container
+- [x] `lib/line/message/builder/text.rb` - Text messages
+- [x] `lib/line/message/builder/flex/builder.rb` - Flex messages entry
+- [x] `lib/line/message/builder/flex/bubble.rb` - Bubble containers
 
 ### Phase 2: Flex Components (5 files)
 
@@ -105,9 +105,9 @@ Before making changes:
 # @see https://example.com
 
 # RDoc - CORRECT
-# See Container for details.
-#
-# Reference: https://example.com
+# See also:
+# - Container
+# - https://example.com
 ```
 
 ### Step 3: Convert Attribute Documentation
@@ -232,18 +232,25 @@ end
 
 ### Step 7: Format Code References
 
+**CRITICAL: DO NOT USE BACKTICKS (`) - They are NOT supported in RDoc!**
+
 **In prose:**
-- Methods: `+method_name+` (e.g., `+initialize+`)
-- Classes: Plain text `ClassName` (auto-links)
-- Symbols: `+:symbol+` (e.g., `+:api+`)
-- Strings: `+"string"+` or `<tt>"string"</tt>` for complex strings
-- Complex code: `<tt>complex.code</tt>`
+- Methods: +method_name+ (e.g., +initialize+, +build+)
+- Classes: Plain text ClassName (auto-links, e.g., Container, Text)
+- Symbols (simple): +:symbol+ (e.g., +:api+, +:sdkv2+, +:nano+)
+- Strings/symbols with spaces: <code>code with spaces</code> (e.g., <code>"Hello World"</code>)
+- Complex code: <code>complex.code</code> or <code>Line::Message::Builder.with {}</code>
+- Variables/short code: +variable+ or +code+
+
+**Rule of thumb:** Use +code+ for simple inline code without spaces. Use <code>code</code> when the code contains spaces or complex syntax.
 
 **Examples:**
 ```ruby
 # The +initialize+ method creates a new Container instance.
 # You can pass +:api+ or +:sdkv2+ as the mode.
-# Use the +"GET"+ HTTP method for requests.
+# Use the <code>"GET"</code> HTTP method for requests.
+# Call the +build+ method to generate the message hash.
+# Set bubble size to +:nano+, +:micro+, +:kilo+, +:mega+, or +:giga+.
 ```
 
 ### Step 8: Add Examples
@@ -299,7 +306,7 @@ Review the terminal output for:
 | `@raise [Exception]` | Describe in prose | Can mention in method description |
 | `@example Title` | `== Example` | Use heading with code indented 2 spaces |
 | `@yield [args]` | `:yields: args` | Use directive on own line |
-| `@see ClassName` | Plain `ClassName` | Just mention in prose |
+| `@see ClassName` | `See also:` + bullet list | Always use bulleted format |
 | `@!method name(args)` | `:method:` + `:call-seq:` | For dynamic methods only |
 | `@!attribute [r]` | Simple description | No directive, no "Returns:" label |
 | `@!visibility private` | `# :nodoc:` | Append to def line |
@@ -350,8 +357,12 @@ def initialize(context: nil, mode: :api)
 ```
 
 **Key rules:**
-- Use `[param_name]` label on its own line
-- Description must be on next line, indented 2 spaces
+- **CRITICAL**: DO NOT use backticks (`) - they are NOT supported in RDoc
+- Use +code+ for simple inline code without spaces (methods, symbols, variables)
+- Use <code>code</code> for code with spaces or complex syntax
+- Labels must be lowercase and singular: [context], [mode], [value], [return] (NOT [Context], [Mode], [Returns])
+- There MUST be a blank line before the first label
+- Label on its own line, description on next line with 2-space indent
 - No type annotations in brackets
 - Mention types in prose if needed
 - Usually no need for explicit return documentation
@@ -460,15 +471,18 @@ option :size, default: nil
 
 **RDoc (CORRECT):**
 ```ruby
-# See Container and Flex::Builder for more details.
-#
-# Reference: https://developers.line.biz/en/docs
+# See also:
+# - Container
+# - Flex::Builder
+# - https://developers.line.biz/en/docs
 ```
 
 **Key rules:**
-- Mention class names directly in prose (they auto-link)
-- No special syntax needed for class references
-- URLs can be mentioned directly or use `{text}[url]` for clickable links
+- Always use "See also:" followed by bulleted list format
+- One item per line with "- " prefix
+- Class names auto-link (no special syntax needed)
+- URLs can be listed directly
+- Keep it simple and consistent across all files
 
 ### Pattern 7: Private Methods
 
@@ -506,8 +520,10 @@ For each file, verify:
 - [ ] All `@!attribute` removed (use simple description only)
 - [ ] All `@!visibility private` converted to `# :nodoc:`
 - [ ] All `{ClassName}` curly braces removed
-- [ ] All backticks converted to `+code+` or `<tt>code</tt>`
+- [ ] **NO BACKTICKS (`) - Use +code+ for simple code, <code>code</code> for code with spaces**
 - [ ] All attr_reader/attr_accessor have simple descriptions only (no "Returns:" label)
+- [ ] All labels are lowercase and singular: [context], [value], [return] (NOT [Context], [Returns])
+- [ ] Blank line BEFORE first parameter label
 - [ ] All dynamic methods have `:method:` and `:call-seq:`
 - [ ] All private methods marked with `# :nodoc:`
 - [ ] All public methods have examples
@@ -669,8 +685,8 @@ Each phase can be done in parallel by multiple people:
 Update after each completed file:
 
 **Total Files**: 22
-**Completed**: 0
+**Completed**: 5
 **In Progress**: 0
-**Pending**: 22
+**Pending**: 17
 
 Last updated: 2025-10-30

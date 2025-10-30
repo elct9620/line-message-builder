@@ -35,19 +35,22 @@ module Line
       module_function
 
       # Entry point for building a message container.
-      # This method initializes a new message {Container} and evaluates the
+      # This method initializes a new message Container and evaluates the
       # provided block within the context of that container.
       #
-      # @param context [Object, nil] An optional context object that can be made
-      #   available within the builder block. This can be useful for accessing
-      #   helper methods or data within the block.
-      # @param mode [Symbol] The mode to use for building messages. Can be either
-      #   `:api` (default) for direct LINE Messaging API format or `:sdkv2` for
-      #   LINE Bot SDK v2 compatible format.
-      # @yield [container] The block is yielded with the newly created {Container}
-      #   instance, allowing you to define the message structure using the DSL.
-      # @return [Container] The initialized message container with the defined structure.
-      # @example
+      # [context]
+      #   An optional context object that can be made available within the builder
+      #   block. This can be useful for accessing helper methods or data within the
+      #   block.
+      # [mode]
+      #   The mode to use for building messages. Can be either <code>:api</code> (default) for
+      #   direct LINE Messaging API format or <code>:sdkv2</code> for LINE Bot SDK v2 compatible
+      #   format.
+      #
+      # :yields: container
+      #
+      # == Example
+      #
       #   message = Line::Message::Builder.with do
       #     text "Hello, world!"
       #   end
