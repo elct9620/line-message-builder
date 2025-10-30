@@ -18,9 +18,10 @@ module Line
       # and consistent way to create and manage different types of interactive
       # elements in messages.
       #
-      # @see Line::Message::Builder::Actions::Message
-      # @see Line::Message::Builder::Actions::Postback
-      # @see https://developers.line.biz/en/reference/messaging-api/#action-objects
+      # See also:
+      # - Actions::Message
+      # - Actions::Postback
+      # - https://developers.line.biz/en/reference/messaging-api/#action-objects
       module Actions
         require_relative "actions/message"
         require_relative "actions/postback"
