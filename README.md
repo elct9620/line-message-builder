@@ -42,7 +42,7 @@ You can get it from [http://aotoki.me/line-message-builder/llm.txt](http://aotok
 ### Builder
 
 ```ruby
-builder = Line::MessageBuilder::Builder.with do
+builder = Line::Message::Builder.with do
   text "Hello, world!"
 end
 
@@ -50,13 +50,13 @@ pp builder.build
 # => [{ type: "text", text: "Hello, world!" }]
 
 puts builder.to_json
-# => "[{\"type\":\"text",\"text\":\"Hello, world!\"}"
+# => "[{\"type\":\"text\",\"text\":\"Hello, world!\"}]"
 ```
 
 To use with [line-bot-sdk-ruby](https://github.com/line/line-bot-sdk-ruby) v2, you can set mode to `sdkv2`:
 
 ```ruby
-builder = Line::MessageBuilder::Builder.with(mode: :sdkv2) do
+builder = Line::Message::Builder.with(mode: :sdkv2) do
   text "Hello, world!"
 end
 ```
@@ -70,7 +70,7 @@ context = OpenStruct.new(
   name: "John Doe",
 )
 
-builder = Line::MessageBuilder::Builder.with(context) do
+builder = Line::Message::Builder.with(context) do
   text "Hello, #{name}!"
 end
 
@@ -78,14 +78,14 @@ pp builder.build
 # => [{ type: "text", text: "Hello, John Doe!" }]
 
 puts builder.to_json
-# => "[{\"type\":\"text\",\"text\":\"Hello, John Doe!\"}"
+# => "[{\"type\":\"text\",\"text\":\"Hello, John Doe!\"}]"
 ```
 
 For Rails, you can use `view_context` to make `Builder` to access Rails helpers.
 
 ```ruby
 # app/controllers/line_controller.rb
-builder = Line::MessageBuilder::Builder.with(view_context) do
+builder = Line::Message::Builder.with(view_context) do
   text "Anything you want?" do
     quick_reply do
       message "Yes", label: "Yes", image_url: image_url("yes.png")
@@ -105,7 +105,7 @@ context = ActionView::Base.new(
   ActionController::Base.new,
 )
 
-builder = Line::MessageBuilder::Builder.with(context) do
+builder = Line::Message::Builder.with(context) do
   text "Anything you want?" do
     quick_reply do
       message "Yes", label: "Yes", image_url: image_url("yes.png")
@@ -132,7 +132,7 @@ class CardPartial < Line::Message::Builder::Flex::Partial
   end
 end
 
-builder = Line::MessageBuilder::Builder.with do
+builder = Line::Message::Builder.with do
   carousel do
     3.times do |i|
       bubble do
@@ -154,7 +154,7 @@ class CardPartial < Line::Message::Builder::Flex::Partial
   end
 end
 
-builder = Line::MessageBuilder::Builder.with do
+builder = Line::Message::Builder.with do
   carousel do
     3.times do |i|
       bubble do
@@ -200,7 +200,7 @@ Then the matchers are available in your specs:
 
 ```ruby
 let(:builder) do
-  Line::MessageBuilder::Builder.with do
+  Line::Message::Builder.with do
     text "Hello, world!"
     text "Nice to meet you!"
   end

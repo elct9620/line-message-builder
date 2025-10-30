@@ -24,10 +24,11 @@ We enforce use RDoc syntax not YARD syntax, do not use `@` tags which are not su
 #   # => [{ type: "text", text: "Hello, world!" }]
 ```
 
-- The RDoc have it's own syntax, check [ExampleRDoc](https://raw.githubusercontent.com/ruby/rdoc/refs/heads/master/ExampleRDoc.rdoc) if needed.
+- The RDoc have it's own syntax, check [ExampleRDoc](https://raw.githubusercontent.com/ruby/rdoc/refs/heads/master/ExampleRDoc.rdoc) and [RDoc Markup Documentation](https://ruby.github.io/rdoc/RDoc/MarkupReference.html) for details.
+- Use directives like `:method:`, `:call-seq:`, `:args:`, `:yields:`, etc. Make sure read markup documentation for details first.
 - Do not use YARD syntax such as `@param`, `@return`, etc.
 - Consider heading, links is different in Markdown and RDoc.
-`
+
 ### Return Types Documented (1 points)
 
 To help users understand expected outputs, all public methods must have documented return types.
@@ -37,7 +38,7 @@ To help users understand expected outputs, all public methods must have document
 # The Line::Message::Builder.with method create a container as a DSL context.
 #
 # [params]
-#   context: an optional context object to be used within the DSL block
+#   *context*: an optional context object to be used within the DSL block
 #
 # [return]
 #   returns Line::Message::Container instance
@@ -45,6 +46,8 @@ To help users understand expected outputs, all public methods must have document
 
 - Each public method must have a `[return]` label describing the return type.
 - The return type should use `Line::Message::Container` style to make RDoc link the class properly.
+- `[label]` content must be indented with 2 spaces to properly associate with the label.
+- Use `*text*:` for sub-items within label content (e.g., parameter names, exception types).
 
 ### Examples Provided (1 points)
 
