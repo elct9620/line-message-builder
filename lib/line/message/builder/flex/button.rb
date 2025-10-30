@@ -6,14 +6,15 @@ module Line
       module Flex
         # Represents a "button" component in a LINE Flex Message.
         #
-        # Buttons are interactive elements that users can tap to trigger an {Actionable#action action}
+        # Buttons are interactive elements that users can tap to trigger an action
         # (e.g., open a URL, send a message, or trigger a postback). They have
-        # various styling options, including `style` (primary, secondary, link) and
-        # `height`.
+        # various styling options, including +style+ (primary, secondary, link) and
+        # +height+.
         #
         # An action is mandatory for a button component.
         #
-        # @example Creating a button that sends a message
+        # == Example
+        #
         #   Line::Message::Builder.with do
         #     flex alt_text: "Button Example" do
         #       bubble do
@@ -26,14 +27,15 @@ module Line
         #     end
         #   end
         #
-        # @see https://developers.line.biz/en/reference/messaging-api/#button
-        # @see Actionable For defining the button's action (mandatory).
-        # @see Position::Vertical For `gravity` property.
-        # @see Position::Padding For padding properties.
-        # @see Position::Margin For margin property.
-        # @see Position::Offset For offset properties.
-        # @see Size::Flex For flex sizing property.
-        # @see Size::AdjustMode For `adjust_mode` property.
+        # See also:
+        # - https://developers.line.biz/en/reference/messaging-api/#button
+        # - Actionable for defining the button's action (mandatory)
+        # - Position::Vertical for +gravity+ property
+        # - Position::Padding for padding properties
+        # - Position::Margin for +margin+ property
+        # - Position::Offset for offset properties
+        # - Size::Flex for flex sizing property
+        # - Size::AdjustMode for +adjust_mode+ property
         class Button < Line::Message::Builder::Base
           include Actionable # Defines the action performed when the button is tapped.
           include Position::Vertical # Adds `gravity` option for vertical alignment.
@@ -43,37 +45,49 @@ module Line
           include Size::Flex         # Adds `flex` option for sizing within a parent box.
           include Size::AdjustMode   # Adds `adjust_mode` option.
 
-          # Specifies the style of the button.
-          # @!method style(value)
-          #   @param value [Symbol, String] Button style.
-          #     Can be `:primary`, `:secondary`, `:link` (default).
-          #     String values should match these keywords.
-          #   @return [Symbol, String] The current button style.
+          # :method: style
+          # :call-seq:
+          #   style() -> Symbol
+          #   style(value) -> Symbol
+          #
+          # Sets or gets the button style.
+          #
+          # [value]
+          #   Button style. Can be +:primary+, +:secondary+, or +:link+ (default).
+          #   String values should match these keywords.
           option :style, default: :link
 
-          # Specifies the height of the button.
-          # @!method height(value)
-          #   @param value [Symbol, String] Button height.
-          #     Can be `:sm` (small) or `:md` (medium, default).
-          #   @return [Symbol, String] The current button height.
+          # :method: height
+          # :call-seq:
+          #   height() -> Symbol
+          #   height(value) -> Symbol
+          #
+          # Sets or gets the button height.
+          #
+          # [value]
+          #   Button height. Can be +:sm+ (small) or +:md+ (medium, default).
           option :height, default: :md, validator: Validators::Enum.new(:sm, :md)
 
           # Initializes a new Flex Message Button component.
-          # The provided block is instance-eval'd, primarily used to define the
-          # button's action using methods from the {Actionable} module (e.g., `message "label"`).
           #
-          # @param context [Object, nil] An optional context for the builder.
-          # @param options [Hash] A hash of options to set instance variables
-          #   (e.g., `:style`, `:height`, and options from included modules).
-          # @param block [Proc, nil] A block to define the button's action and other properties.
-          #   This block is where you should call an action method like `message` or `postback`.
+          # The provided block is instance-eval'd, primarily used to define the
+          # button's action using methods from the Actionable module (e.g., +message+).
+          #
+          # [context]
+          #   An optional context for the builder
+          # [options]
+          #   A hash of options to set instance variables
+          #   (e.g., +:style+, +:height+, and options from included modules)
+          # [block]
+          #   A block to define the button's action and other properties.
+          #   This block is where you should call an action method like +message+ or +postback+.
           def initialize(context: nil, **options, &)
             super # Calls Base#initialize, sets options, and evals block (which should define the action)
           end
 
           private
 
-          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          def to_api # :nodoc:
             raise RequiredError, "action is required for a button" if action.nil?
 
             {
@@ -104,7 +118,7 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          def to_sdkv2 # :nodoc:
             raise RequiredError, "action is required for a button" if action.nil?
 
             {

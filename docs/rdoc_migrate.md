@@ -5,9 +5,9 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 ## Migration Status
 
 **Total Files**: 22
-**Completed**: 5
+**Completed**: 10
 **In Progress**: 0
-**Pending**: 17
+**Pending**: 12
 
 ## Table of Contents
 
@@ -31,11 +31,11 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 
 ### Phase 2: Flex Components (5 files)
 
-- [ ] `lib/line/message/builder/flex/box.rb` - Box layouts
-- [ ] `lib/line/message/builder/flex/text.rb` - Flex text components
-- [ ] `lib/line/message/builder/flex/button.rb` - Button components
-- [ ] `lib/line/message/builder/flex/image.rb` - Image components
-- [ ] `lib/line/message/builder/quick_reply.rb` - Quick replies
+- [x] `lib/line/message/builder/flex/box.rb` - Box layouts
+- [x] `lib/line/message/builder/flex/text.rb` - Flex text components
+- [x] `lib/line/message/builder/flex/button.rb` - Button components
+- [x] `lib/line/message/builder/flex/image.rb` - Image components
+- [x] `lib/line/message/builder/quick_reply.rb` - Quick replies
 
 ### Phase 3: Foundation & Context (5 files)
 
@@ -282,7 +282,7 @@ After each file migration:
 
 ```bash
 # Validate RDoc syntax
-bundle exec rdoc lib/path/to/file.rb
+rdoc --main README.md lib/path/to/file.rb
 
 # Run tests to ensure no regressions
 bundle exec rspec
@@ -544,7 +544,7 @@ After migrating each file:
 
 1. **Syntax Validation**
    ```bash
-   bundle exec rdoc lib/path/to/file.rb
+   rdoc --main README.md lib/path/to/file.rb
    ```
    Check terminal output for:
    - RDoc warnings or errors
@@ -596,7 +596,7 @@ After migrating each file:
 
 4. **Test immediately**
    ```bash
-   bundle exec rdoc lib/path/to/file.rb && bundle exec rspec
+   rdoc --main README.md lib/path/to/file.rb && bundle exec rspec
    ```
    Review terminal output for warnings or errors
 
@@ -604,43 +604,56 @@ After migrating each file:
 
 ### Parallel Processing Strategy
 
-Each phase can be done in parallel by multiple people:
+Each phase can be done in parallel using Claude Code sub-agents. Launch multiple `general-purpose` sub-agents simultaneously in a **single message** by making multiple Task tool calls.
 
-**Phase 1: Core Entry Points** - 5 people work in parallel
-- Person 1: `builder.rb`
-- Person 2: `container.rb`
-- Person 3: `text.rb`
-- Person 4: `flex/builder.rb`
-- Person 5: `flex/bubble.rb`
+**Example: Migrating Phase 2 in parallel**
+```
+Launch 5 Task tool calls in a single message:
+- Task 1: Migrate flex/box.rb
+- Task 2: Migrate flex/text.rb
+- Task 3: Migrate flex/button.rb
+- Task 4: Migrate flex/image.rb
+- Task 5: Migrate quick_reply.rb
+```
 
-**Phase 2: Flex Components** - 5 people work in parallel
-- Person 1: `flex/box.rb`
-- Person 2: `flex/text.rb`
-- Person 3: `flex/button.rb`
-- Person 4: `flex/image.rb`
-- Person 5: `quick_reply.rb`
+**Phase 1: Core Entry Points** - 5 sub-agents in parallel
+- Sub-Agent 1: `builder.rb`
+- Sub-Agent 2: `container.rb`
+- Sub-Agent 3: `text.rb`
+- Sub-Agent 4: `flex/builder.rb`
+- Sub-Agent 5: `flex/bubble.rb`
 
-**Phase 3: Foundation & Context** - 5 people work in parallel
-- Person 1: `base.rb` (most complex, needs experienced person)
-- Person 2: `context.rb`
-- Person 3: `flex/carousel.rb`
-- Person 4: `flex/span.rb`
-- Person 5: `flex/separator.rb`
+**Phase 2: Flex Components** - 5 sub-agents in parallel
+- Sub-Agent 1: `flex/box.rb`
+- Sub-Agent 2: `flex/text.rb`
+- Sub-Agent 3: `flex/button.rb`
+- Sub-Agent 4: `flex/image.rb`
+- Sub-Agent 5: `quick_reply.rb`
 
-**Phase 4: Actions & Partials** - 5 people work in parallel
-- Person 1: `flex/partial.rb`
-- Person 2: `actions/message.rb`
-- Person 3: `actions/postback.rb`
-- Person 4: `flex/actionable.rb`
-- Person 5: `flex/position.rb` (13 dynamic methods, needs patience)
+**Phase 3: Foundation & Context** - 5 sub-agents in parallel
+- Sub-Agent 1: `base.rb` (most complex, needs careful attention)
+- Sub-Agent 2: `context.rb`
+- Sub-Agent 3: `flex/carousel.rb`
+- Sub-Agent 4: `flex/span.rb`
+- Sub-Agent 5: `flex/separator.rb`
 
-**Phase 5: Size Modules & Namespace** - 2 people work in parallel
-- Person 1: `flex/size.rb`
-- Person 2: `flex.rb`
+**Phase 4: Actions & Partials** - 5 sub-agents in parallel
+- Sub-Agent 1: `flex/partial.rb`
+- Sub-Agent 2: `actions/message.rb`
+- Sub-Agent 3: `actions/postback.rb`
+- Sub-Agent 4: `flex/actionable.rb`
+- Sub-Agent 5: `flex/position.rb` (13 dynamic methods, needs patience)
 
-**Important Dependencies:**
+**Phase 5: Size Modules & Namespace** - 2 sub-agents in parallel
+- Sub-Agent 1: `flex/size.rb`
+- Sub-Agent 2: `flex.rb`
+
+**Important Notes:**
+- Launch all sub-agents for a phase in a **single message** with multiple Task tool calls
+- Each sub-agent will validate with `rdoc --main README.md` and run tests independently
 - Phase 3 should ideally be done after Phase 1 and 2 (especially `base.rb` and `context.rb`)
 - Other phases can be done in any order
+- Using sub-agents reduces total time from hours to ~60 minutes per phase (parallelized)
 
 ### Estimated Time per File
 
@@ -685,8 +698,8 @@ Each phase can be done in parallel by multiple people:
 Update after each completed file:
 
 **Total Files**: 22
-**Completed**: 5
+**Completed**: 10 (Phase 1: 5/5, Phase 2: 5/5)
 **In Progress**: 0
-**Pending**: 17
+**Pending**: 12 (Phase 3: 5, Phase 4: 5, Phase 5: 2)
 
 Last updated: 2025-10-30

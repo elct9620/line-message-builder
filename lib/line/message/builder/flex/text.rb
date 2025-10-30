@@ -4,19 +4,20 @@ module Line
   module Message
     module Builder
       module Flex
-        # Represents a "text" component in a LINE Flex Message.
+        # Represents a text component in a LINE Flex Message.
         #
         # Text components are used to display strings of text. They offer various
-        # styling options, including font `size`, `weight` (via styles in a {Box}
-        # or {Bubble}), `color`, `align`ment, `gravity`, text `wrap`ping,
-        # `line_spacing`, and more. A text component can also have an
-        # {Actionable#action action} to make it tappable.
+        # styling options, including font +size+, +weight+ (via styles in a Box
+        # or Bubble), +color+, +align+ment, +gravity+, text +wrap+ping,
+        # +line_spacing+, and more. A text component can also have an
+        # action to make it tappable.
         #
-        # Text components also support embedded {Span} components, which allow parts of
+        # Text components also support embedded Span components, which allow parts of
         # the text to have different styling. Spans can be added to a text component
-        # using the {#span} method within the Text component block.
+        # using the +span+ method within the Text component block.
         #
-        # @example Creating a text component within a box
+        # == Example: Creating a text component within a box
+        #
         #   Line::Message::Builder.with do
         #     flex alt_text: "Text Example" do
         #       bubble do
@@ -32,7 +33,8 @@ module Line
         #     end
         #   end
         #
-        # @example Creating a text component with spans
+        # == Example: Creating a text component with spans
+        #
         #   Line::Message::Builder.with do
         #     flex alt_text: "Span Example" do
         #       bubble do
@@ -47,15 +49,16 @@ module Line
         #     end
         #   end
         #
-        # @see https://developers.line.biz/en/reference/messaging-api/#text
-        # @see Actionable For making the text tappable.
-        # @see Position::Horizontal For `align` property.
-        # @see Position::Vertical For `gravity` property.
-        # @see Position::Margin For `margin` property.
-        # @see Position::Offset For offset properties.
-        # @see Size::Flex For `flex` sizing property.
-        # @see Size::Shared For common `size` keywords (e.g., `:xl`, `:sm`).
-        # @see Size::AdjustMode For `adjust_mode` property.
+        # See also:
+        # - https://developers.line.biz/en/reference/messaging-api/#text
+        # - Actionable for making the text tappable
+        # - Position::Horizontal for +align+ property
+        # - Position::Vertical for +gravity+ property
+        # - Position::Margin for +margin+ property
+        # - Position::Offset for offset properties
+        # - Size::Flex for +flex+ sizing property
+        # - Size::Shared for common +size+ keywords (e.g., +:xl+, +:sm+)
+        # - Size::AdjustMode for +adjust_mode+ property
         class Text < Line::Message::Builder::Base
           include Actionable           # Enables defining an action for the text.
           include Position::Horizontal # Adds `align` option.
@@ -66,41 +69,60 @@ module Line
           include Size::Shared         # Adds `size` option (e.g., :sm, :md, :xl).
           include Size::AdjustMode # Adds `adjust_mode` option.
 
-          # @!attribute [r] text
-          #   @return [String] The actual text content to be displayed.
-          #     This is a required attribute.
-          attr_reader :text, :contents
+          # The actual text content to be displayed (required attribute).
+          attr_reader :text
 
-          # Specifies whether the text should wrap or be truncated if it exceeds
+          # Array of Span components for styled text segments.
+          attr_reader :contents
+
+          # :method: wrap
+          # :call-seq:
+          #   wrap() -> Boolean
+          #   wrap(value) -> Boolean
+          #
+          # Sets or gets whether the text should wrap or be truncated if it exceeds
           # the component's width.
-          # @!method wrap(value)
-          #   @param value [Boolean] `true` to enable text wrapping, `false` (default) to disable.
-          #   @return [Boolean] The current wrap setting.
+          #
+          # [value]
+          #   +true+ to enable text wrapping, +false+ (default) to disable
           option :wrap, default: false
 
-          # Specifies the spacing between lines of text.
-          # Can be a pixel value (e.g., "10px") or a keyword.
-          # @!method line_spacing(value)
-          #   @param value [String, nil] The line spacing value (e.g., `"5px"`).
-          #   @return [String, nil] The current line spacing.
+          # :method: line_spacing
+          # :call-seq:
+          #   line_spacing() -> String or nil
+          #   line_spacing(value) -> String
+          #
+          # Sets or gets the spacing between lines of text.
+          # Can be a pixel value or a keyword.
+          #
+          # [value]
+          #   The line spacing value (e.g., <code>"5px"</code>)
           option :line_spacing, default: nil # API key: lineSpacing
 
-          # Specifies the color of the text.
-          # @!method color(value)
-          #   @param value [String, nil] Hexadecimal color code (e.g., `"#RRGGBB"`, `"#RRGGBBAA"`).
-          #   @return [String, nil] The current text color.
+          # :method: color
+          # :call-seq:
+          #   color() -> String or nil
+          #   color(value) -> String
+          #
+          # Sets or gets the color of the text.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>, <code>"#RRGGBBAA"</code>)
           option :color, default: nil
 
           # Initializes a new Flex Message Text component.
           #
-          # @param text_content [String] The text to display. This is required.
-          # @param context [Object, nil] An optional context for the builder.
-          # @param options [Hash] A hash of options to set instance variables
-          #   (e.g., `:wrap`, `:color`, `:size`, and options from included modules).
-          # @param block [Proc, nil] An optional block, typically used to define an
-          #   {Actionable#action action} for the text.
-          # @raise [ArgumentError] if `text_content` is nil (though the more specific
-          #   `RequiredError` is raised in `to_h`).
+          # [text_content]
+          #   The text to display (required)
+          # [context]
+          #   An optional context for the builder
+          # [options]
+          #   A hash of options to set instance variables
+          #   (e.g., +:wrap+, +:color+, +:size+, and options from included modules)
+          # [block]
+          #   An optional block, typically used to define an action for the text
+          #
+          # Raises RequiredError if +text_content+ is nil (in +to_h+).
           def initialize(text_content = nil, context: nil, **options, &)
             @text = text_content # The text content is mandatory.
             @contents = []       # Initialize contents for spans, if any.
@@ -108,27 +130,30 @@ module Line
             super(context: context, **options, &) # Sets options and evals block (for action).
           end
 
-          # A convenience DSL method to set the `wrap` property to `true`.
+          # A convenience DSL method to set the +wrap+ property to +true+.
           #
-          # @example
+          # == Example
+          #
           #   text_component.text "Long text..."
           #   text_component.wrap! # Enables text wrapping
-          #
-          # @return [true]
           def wrap!
             wrap(true) # Use the setter generated by `option`
           end
 
-          # Adds a {Span} component to this text component's contents.
+          # Adds a Span component to this text component's contents.
           #
           # Spans allow different styling for parts of the text, such as color,
           # weight, size, and decoration.
           #
-          # @param text_content [String] The span text content.
-          # @param options [Hash] Options for the span. See {Span#initialize}.
-          # @param block [Proc, nil] An optional block for advanced span configuration.
-          # @return [Flex::Span] The newly created Span object.
-          # @example
+          # [text_content]
+          #   The span text content
+          # [options]
+          #   Options for the span (see Span)
+          # [block]
+          #   An optional block for advanced span configuration
+          #
+          # == Example
+          #
           #   text "Message with spans:" do
           #     span "Important", color: "#FF0000", weight: :bold
           #     span " normal text"
@@ -137,11 +162,11 @@ module Line
             @contents << Span.new(text_content, context: @context, **options, &)
           end
 
-          def any_content?
+          def any_content? # :nodoc:
             !contents.empty? || !text.nil?
           end
 
-          def to_h
+          def to_h # :nodoc:
             raise RequiredError, "text content is required for a text component" unless any_content?
 
             return to_sdkv2 if context.sdkv2?
@@ -151,7 +176,7 @@ module Line
 
           private
 
-          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          def to_api # :nodoc: # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             {
               type: "text",
               text: text,
@@ -180,7 +205,7 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          def to_sdkv2 # :nodoc: # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             {
               type: "text",
               text: text,
