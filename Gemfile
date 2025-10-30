@@ -7,7 +7,7 @@ gemspec
 
 gem "rake", "~> 13.0"
 
-gem "rspec", "~> 3.0"
+gem "rspec", "~> 3.13"
 gem "rspec_junit_formatter", require: false
 gem "simplecov", require: false
 gem "simplecov-cobertura", require: false
