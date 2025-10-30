@@ -3,7 +3,7 @@
     "rules": [
       {
         "name": "RDoc",
-        "pattern": "^lib/.*\\.rb$",
+        "pattern": "lib/.*\\.rb$",
         "path": "docs/rubrics/rdoc.md"
       }
     ]
