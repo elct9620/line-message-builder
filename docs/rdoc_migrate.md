@@ -5,9 +5,9 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 ## Migration Status
 
 **Total Files**: 22
-**Completed**: 15
+**Completed**: 20
 **In Progress**: 0
-**Pending**: 7
+**Pending**: 2
 
 ## Table of Contents
 
@@ -47,11 +47,11 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 
 ### Phase 4: Actions & Partials (5 files)
 
-- [ ] `lib/line/message/builder/flex/partial.rb` - Partial system
-- [ ] `lib/line/message/builder/actions/message.rb` - Message actions
-- [ ] `lib/line/message/builder/actions/postback.rb` - Postback actions
-- [ ] `lib/line/message/builder/flex/actionable.rb` - Mixin module
-- [ ] `lib/line/message/builder/flex/position.rb` - Position modules
+- [x] `lib/line/message/builder/flex/partial.rb` - Partial system
+- [x] `lib/line/message/builder/actions/message.rb` - Message actions
+- [x] `lib/line/message/builder/actions/postback.rb` - Postback actions
+- [x] `lib/line/message/builder/flex/actionable.rb` - Mixin module
+- [x] `lib/line/message/builder/flex/position.rb` - Position modules
 
 ### Phase 5: Size Modules & Namespace (2 files)
 
@@ -698,8 +698,8 @@ Launch 5 Task tool calls in a single message:
 Update after each completed file:
 
 **Total Files**: 22
-**Completed**: 15 (Phase 1: 5/5, Phase 2: 5/5, Phase 3: 5/5)
+**Completed**: 20 (Phase 1: 5/5, Phase 2: 5/5, Phase 3: 5/5, Phase 4: 5/5)
 **In Progress**: 0
-**Pending**: 7 (Phase 4: 5, Phase 5: 2)
+**Pending**: 2 (Phase 5: 2)
 
 Last updated: 2025-10-30

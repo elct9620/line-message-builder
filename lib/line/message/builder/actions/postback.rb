@@ -4,18 +4,19 @@ module Line
   module Message
     module Builder
       module Actions
-        # Represents a "postback action" for LINE messages.
+        # Represents a postback action for LINE messages.
         #
         # A postback action sends a postback event to your bot's webhook when a
         # button associated with this action is tapped. The event contains the
-        # specified `data` payload. Optionally, `displayText` can be provided,
+        # specified +data+ payload. Optionally, +display_text+ can be provided,
         # which will be shown in the chat as a message from the user.
         #
         # This action is useful for triggering specific backend logic or flows
         # without necessarily displaying a message in the chat, or for displaying
         # a different message than the data payload.
         #
-        # @example Creating a postback action for a quick reply button
+        # == Example
+        #
         #   Line::Message::Builder.with do
         #     text "What do you want to do?"
         #     quick_reply do
@@ -26,39 +27,61 @@ module Line
         #     end
         #   end
         #
-        # @see https://developers.line.biz/en/reference/messaging-api/#postback-action
+        # See also:
+        # - https://developers.line.biz/en/reference/messaging-api/#postback-action
         class Postback < Line::Message::Builder::Base
-          # @!attribute [r] data
-          #   @return [String] The data payload to be sent in the postback event
-          #     to the webhook. This is a required attribute. Max 300 characters.
+          # The data payload to be sent in the postback event to the webhook.
+          # This is a required attribute. Max 300 characters.
           attr_reader :data
 
-          # Defines an optional `label` for the action.
+          # :method: label
+          # :call-seq:
+          #   label() -> String or nil
+          #   label(value) -> String or nil
+          #
+          # Sets or gets the label for the action.
+          #
           # The label is recommended by LINE for accessibility. For some message
           # types (e.g., buttons), the button's label itself is used.
           #
-          # @!method label(value = nil)
-          #   @param value [String, nil] The label text for the action.
-          #   @return [String, nil] The current label text.
+          # [value]
+          #   The label text for the action
           option :label, default: nil
 
-          # Defines an optional `displayText` for the action.
+          # :method: display_text
+          # :call-seq:
+          #   display_text() -> String or nil
+          #   display_text(value) -> String or nil
+          #
+          # Sets or gets the display text for the action.
+          #
           # This is the text that will be displayed in the chat as a message from
           # the user when the action is performed. If not set, no message is displayed.
           #
-          # @!method display_text(value = nil)
-          #   @param value [String, nil] The text to display in the chat. Max 300 characters.
-          #   @return [String, nil] The current display text.
+          # [value]
+          #   The text to display in the chat (max 300 characters)
           option :display_text, default: nil
 
           # Initializes a new Postback action.
           #
-          # @param data [String] The data to be sent in the postback event. This is required.
-          # @param context [Object, nil] An optional context object.
-          # @param options [Hash] Options for the action, including `:label` and `:display_text`.
-          # @param block [Proc, nil] An optional block for instance_eval.
-          # @raise [RequiredError] if `data` is nil. (This check is done in `to_h`
-          #   but `data` is conceptually required on initialization).
+          # [data]
+          #   The data to be sent in the postback event (required)
+          # [context]
+          #   An optional context object (default: +nil+)
+          # [options]
+          #   Options for the action, including +:label+ and +:display_text+
+          #
+          # Raises RequiredError if +data+ is +nil+ (this check is done in +to_h+
+          # but +data+ is conceptually required on initialization).
+          #
+          # == Example
+          #
+          #   postback = Postback.new(
+          #     "action=buy&item=123",
+          #     context: view_context,
+          #     label: "Buy Now",
+          #     display_text: "I want to buy this item"
+          #   )
           def initialize(data, context: nil, **options, &)
             @data = data
 
@@ -67,9 +90,16 @@ module Line
 
           # Converts the Postback action object to a hash suitable for the LINE Messaging API.
           #
-          # @return [Hash] A hash representing the postback action.
-          #   Includes `:type`, `:label` (if set), `:data`, and `:displayText` (if set).
-          # @raise [RequiredError] if `data` is nil.
+          # Returns a hash representing the postback action, including +:type+, +:label+
+          # (if set), +:data+, and +:displayText+ (if set).
+          #
+          # Raises RequiredError if +data+ is +nil+.
+          #
+          # == Example
+          #
+          #   postback = Postback.new("action=track", label: "Track Order")
+          #   postback.to_h
+          #   # => { type: "postback", label: "Track Order", data: "action=track" }
           def to_h
             raise RequiredError, "data is required" if data.nil?
 
@@ -80,7 +110,7 @@ module Line
 
           private
 
-          def to_api
+          def to_api # :nodoc:
             {
               type: "postback",
               label: label,
@@ -89,7 +119,7 @@ module Line
             }.compact
           end
 
-          def to_sdkv2
+          def to_sdkv2 # :nodoc:
             {
               type: "postback",
               label: label,
