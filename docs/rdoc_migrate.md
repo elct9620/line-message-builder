@@ -5,9 +5,9 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 ## Migration Status
 
 **Total Files**: 22
-**Completed**: 20
+**Completed**: 22
 **In Progress**: 0
-**Pending**: 2
+**Pending**: 0
 
 ## Table of Contents
 
@@ -55,8 +55,8 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 
 ### Phase 5: Size Modules & Namespace (2 files)
 
-- [ ] `lib/line/message/builder/flex/size.rb` - Size modules
-- [ ] `lib/line/message/builder/flex.rb` - Namespace docs
+- [x] `lib/line/message/builder/flex/size.rb` - Size modules
+- [x] `lib/line/message/builder/flex.rb` - Namespace docs
 
 ---
 
@@ -698,8 +698,10 @@ Launch 5 Task tool calls in a single message:
 Update after each completed file:
 
 **Total Files**: 22
-**Completed**: 20 (Phase 1: 5/5, Phase 2: 5/5, Phase 3: 5/5, Phase 4: 5/5)
+**Completed**: 22 (Phase 1: 5/5, Phase 2: 5/5, Phase 3: 5/5, Phase 4: 5/5, Phase 5: 2/2)
 **In Progress**: 0
-**Pending**: 2 (Phase 5: 2)
+**Pending**: 0
 
 Last updated: 2025-10-30
+
+**Migration completed!** All 22 files have been successfully migrated from YARD to RDoc format.

@@ -3,31 +3,32 @@
 module Line
   module Message
     module Builder
-      # The `Line::Message::Builder::Flex` module serves as the primary namespace
+      # The Line::Message::Builder::Flex module serves as the primary namespace
       # for all classes, modules, and components related to the construction of
-      # LINE Flex Messages within the `line-message-builder` gem.
+      # LINE Flex Messages within the +line-message-builder+ gem.
       #
       # Flex Messages are highly customizable messages that can display rich content
       # with various layouts, components, and interactive elements. This module
       # organizes the DSL for building these messages.
       #
-      # This file (`lib/line/message/builder/flex.rb`) is responsible for loading
-      # all necessary sub-components and builder logic for Flex Messages, such as:
-      # - {Flex::Builder}: The main class used to construct a complete Flex Message object.
-      # - Container components: {Flex::Bubble}, {Flex::Carousel}.
-      # - Basic components: {Flex::Box}, {Flex::Text}, {Flex::Button}, {Flex::Image}.
-      # - Mixin modules for shared functionality: {Flex::Actionable},
-      #   modules within {Flex::Position} and {Flex::Size}.
-      # - The partial system: {Flex::HasPartial} and {Flex::Partial}.
+      # This file is responsible for loading all necessary sub-components and builder
+      # logic for Flex Messages, such as:
+      # - Flex::Builder - The main class used to construct a complete Flex Message object
+      # - Container components: Flex::Bubble, Flex::Carousel
+      # - Basic components: Flex::Box, Flex::Text, Flex::Button, Flex::Image
+      # - Mixin modules for shared functionality: Flex::Actionable, modules within
+      #   Flex::Position and Flex::Size
+      # - The partial system: Flex::HasPartial and Flex::Partial
       #
       # While this module itself is a namespace, the actual process of building a
-      # Flex Message typically starts within a {Line::Message::Builder::Container}
-      # block, by calling the `flex` method on the container. This method then
-      # instantiates and uses {Flex::Builder} to define the Flex Message structure.
+      # Flex Message typically starts within a Line::Message::Builder::Container
+      # block, by calling the +flex+ method on the container. This method then
+      # instantiates and uses Flex::Builder to define the Flex Message structure.
       #
-      # @example How a Flex Message is typically initiated (conceptual)
+      # == Example
+      #
       #   Line::Message::Builder.with do
-      #     # This `flex` call on root_container would utilize Flex::Builder
+      #     # This +flex+ call on root_container would utilize Flex::Builder
       #     flex alt_text: "My Flex Message"  do
       #       bubble do
       #         # ... define bubble content ...
@@ -35,14 +36,15 @@ module Line
       #     end
       #   end
       #
-      # @see Flex::Builder For the main Flex Message construction entry point.
-      # @see Flex::Bubble
-      # @see Flex::Carousel
-      # @see Flex::Box
-      # @see Flex::Text
-      # @see Flex::Button
-      # @see Flex::Image
-      # @see https://developers.line.biz/en/docs/messaging-api/using-flex-messages/
+      # See also:
+      # - Flex::Builder - For the main Flex Message construction entry point
+      # - Flex::Bubble
+      # - Flex::Carousel
+      # - Flex::Box
+      # - Flex::Text
+      # - Flex::Button
+      # - Flex::Image
+      # - https://developers.line.biz/en/docs/messaging-api/using-flex-messages/
       module Flex
         # Main builder for the entire Flex Message object
         require_relative "flex/builder"
