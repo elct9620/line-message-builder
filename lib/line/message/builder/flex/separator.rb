@@ -4,13 +4,14 @@ module Line
   module Message
     module Builder
       module Flex
-        # Represents a "separator" component in a LINE Flex Message.
+        # Represents a separator component in a LINE Flex Message.
         #
         # Separator components are used to create a visual separation between components
         # within a container. They draw a horizontal line that helps organize the layout
         # and improve readability.
         #
-        # @example Creating a separator within a box
+        # == Example
+        #
         #   Line::Message::Builder.with do
         #     flex alt_text: "Separator Example" do
         #       bubble do
@@ -23,12 +24,19 @@ module Line
         #     end
         #   end
         #
-        # @see https://developers.line.biz/en/reference/messaging-api/#separator
+        # See also:
+        # - https://developers.line.biz/en/reference/messaging-api/#separator
         class Separator < Line::Message::Builder::Base
           # Converts the separator component to a hash representation compatible with
           # the LINE Messaging API.
           #
-          # @return [Hash] A hash containing the separator component's type.
+          # Returns a hash containing the separator component's type.
+          #
+          # == Example
+          #
+          #   separator = Separator.new
+          #   separator.to_h
+          #   # => { type: "separator" }
           def to_h
             {
               type: "separator"

@@ -5,9 +5,9 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 ## Migration Status
 
 **Total Files**: 22
-**Completed**: 10
+**Completed**: 15
 **In Progress**: 0
-**Pending**: 12
+**Pending**: 7
 
 ## Table of Contents
 
@@ -39,11 +39,11 @@ This document tracks the migration progress from YARD to RDoc documentation synt
 
 ### Phase 3: Foundation & Context (5 files)
 
-- [ ] `lib/line/message/builder/base.rb` - Foundation (complex DSL)
-- [ ] `lib/line/message/builder/context.rb` - Context handling
-- [ ] `lib/line/message/builder/flex/carousel.rb` - Carousels
-- [ ] `lib/line/message/builder/flex/span.rb` - Text spans
-- [ ] `lib/line/message/builder/flex/separator.rb` - Separators
+- [x] `lib/line/message/builder/base.rb` - Foundation (complex DSL)
+- [x] `lib/line/message/builder/context.rb` - Context handling
+- [x] `lib/line/message/builder/flex/carousel.rb` - Carousels
+- [x] `lib/line/message/builder/flex/span.rb` - Text spans
+- [x] `lib/line/message/builder/flex/separator.rb` - Separators
 
 ### Phase 4: Actions & Partials (5 files)
 
@@ -698,8 +698,8 @@ Launch 5 Task tool calls in a single message:
 Update after each completed file:
 
 **Total Files**: 22
-**Completed**: 10 (Phase 1: 5/5, Phase 2: 5/5)
+**Completed**: 15 (Phase 1: 5/5, Phase 2: 5/5, Phase 3: 5/5)
 **In Progress**: 0
-**Pending**: 12 (Phase 3: 5, Phase 4: 5, Phase 5: 2)
+**Pending**: 7 (Phase 4: 5, Phase 5: 2)
 
 Last updated: 2025-10-30

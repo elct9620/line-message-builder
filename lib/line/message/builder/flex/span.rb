@@ -4,14 +4,15 @@ module Line
   module Message
     module Builder
       module Flex
-        # Represents a "span" component in a LINE Flex Message.
+        # Represents a span component in a LINE Flex Message.
         #
         # Span components are used within a Text component to apply different styling
         # to specific portions of text. They offer various styling options, including
-        # `size`, `weight`, `color`, and `decoration`. Unlike Text components, spans
+        # +size+, +weight+, +color+, and +decoration+. Unlike Text components, spans
         # cannot have actions attached to them.
         #
-        # @example Creating a text component with spans
+        # == Example
+        #
         #   Line::Message::Builder.with do
         #     flex alt_text: "Span Example" do
         #       bubble do
@@ -26,44 +27,74 @@ module Line
         #     end
         #   end
         #
-        # @see https://developers.line.biz/en/reference/messaging-api/#span
-        # @see Size::Shared For common `size` keywords (e.g., `:xl`, `:sm`).
+        # See also:
+        # - https://developers.line.biz/en/reference/messaging-api/#span
+        # - Size::Shared for common size keywords (e.g., +:xl+, +:sm+)
         class Span < Line::Message::Builder::Base
           include Size::Shared # Adds `size` option (e.g., :sm, :md, :xl).
 
-          # @!attribute [r] text
-          #   @return [String] The actual text content to be displayed.
-          #     This is a required attribute.
+          # The actual text content to be displayed. This is a required attribute.
           attr_reader :text
 
-          # Specifies the color of the text.
-          # @!method color(value)
-          #   @param value [String, nil] Hexadecimal color code (e.g., `"#RRGGBB"`, `"#RRGGBBAA"`).
-          #   @return [String, nil] The current text color.
+          # :method: color
+          # :call-seq:
+          #   color() -> String or nil
+          #   color(value) -> String
+          #
+          # Sets or gets the text color.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>, <code>"#RRGGBBAA"</code>)
+          #
+          # == Example
+          #
+          #   span "Hello", color: "#FF0000"
           option :color, default: nil
 
-          # Specifies the weight of the text.
-          # @!method weight(value)
-          #   @param value [Symbol, String, nil] Text weight. Valid values are `:regular` and `:bold`.
-          #   @return [Symbol, String, nil] The current text weight.
+          # :method: weight
+          # :call-seq:
+          #   weight() -> Symbol, String, or nil
+          #   weight(value) -> Symbol or String
+          #
+          # Sets or gets the text weight.
+          #
+          # [value]
+          #   Text weight. Valid values are +:regular+ and +:bold+
+          #
+          # == Example
+          #
+          #   span "Bold text", weight: :bold
           option :weight, default: nil, validator: Validators::Enum.new(:regular, :bold)
 
-          # Specifies the decoration of the text.
-          # @!method decoration(value)
-          #   @param value [Symbol, String, nil] Text decoration.
-          #     Valid values are `:none`, `:underline`, and `:line-through`.
-          #   @return [Symbol, String, nil] The current text decoration.
+          # :method: decoration
+          # :call-seq:
+          #   decoration() -> Symbol, String, or nil
+          #   decoration(value) -> Symbol or String
+          #
+          # Sets or gets the text decoration.
+          #
+          # [value]
+          #   Text decoration. Valid values are +:none+, +:underline+, and <code>:line-through</code>
+          #
+          # == Example
+          #
+          #   span "Underlined", decoration: :underline
           option :decoration, default: nil, validator: Validators::Enum.new(:none, :underline, :"line-through")
 
           # Initializes a new Flex Message Span component.
           #
-          # @param text_content [String] The text to display. This is required.
-          # @param context [Object, nil] An optional context for the builder.
-          # @param options [Hash] A hash of options to set instance variables
-          #   (e.g., `:color`, `:weight`, `:decoration`, and options from included modules).
-          # @param block [Proc, nil] An optional block, typically not used for spans.
-          # @raise [ArgumentError] if `text_content` is nil (though the more specific
-          #   `RequiredError` is raised in `to_h`).
+          # [text_content]
+          #   The text to display. This is required
+          # [context]
+          #   An optional context for the builder
+          # [options]
+          #   A hash of options to set instance variables (e.g., +:color+, +:weight+, +:decoration+, and options from included modules)
+          # [block]
+          #   An optional block, typically not used for spans
+          #
+          # == Example
+          #
+          #   span "Hello", color: "#FF0000", weight: :bold
           def initialize(text_content, context: nil, **options, &)
             @text = text_content # The text content is mandatory.
 
@@ -72,26 +103,38 @@ module Line
 
           # Sets weight to bold.
           #
-          # @return [Symbol] Returns `:bold`.
+          # == Example
+          #
+          #   span "Bold text" do
+          #     bold!
+          #   end
           def bold!
             weight(:bold)
           end
 
           # Sets decoration to underline.
           #
-          # @return [Symbol] Returns `:underline`.
+          # == Example
+          #
+          #   span "Underlined text" do
+          #     underline!
+          #   end
           def underline!
             decoration(:underline)
           end
 
           # Sets decoration to line-through.
           #
-          # @return [Symbol] Returns `:line-through`.
+          # == Example
+          #
+          #   span "Strikethrough text" do
+          #     line_through!
+          #   end
           def line_through!
             decoration(:"line-through")
           end
 
-          def to_h
+          def to_h # :nodoc:
             raise RequiredError, "text content is required for a span component" if text.nil?
 
             {
