@@ -87,7 +87,8 @@ module Line
 
           private
 
-          def to_api # :nodoc:
+          # :nodoc:
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "action is required for a button" if action.nil?
 
             {
@@ -118,7 +119,8 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # :nodoc:
+          # :nodoc:
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "action is required for a button" if action.nil?
 
             {

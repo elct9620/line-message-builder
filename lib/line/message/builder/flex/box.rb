@@ -100,7 +100,8 @@ module Line
           # Not applicable if +layout+ is +:baseline+ or if the box contains only one component.
           #
           # [value]
-          #   <code>"md"</code>, +:lg+, <code>"10px"</code>, or keywords: +:none+, +:xs+, +:sm+, +:md+, +:lg+, +:xl+, +:xxl+
+          #   <code>"md"</code>, +:lg+, <code>"10px"</code>, or keywords:
+          #   +:none+, +:xs+, +:sm+, +:md+, +:lg+, +:xl+, +:xxl+
           option :spacing, default: nil, validator: Validators::Size.new(:pixel, :keyword)
 
           # :method: width
@@ -258,7 +259,8 @@ module Line
 
           private
 
-          def to_api # :nodoc: # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          # :nodoc:
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             {
               type: "box",
               layout: layout,
@@ -293,7 +295,8 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # :nodoc: # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          # :nodoc:
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             {
               type: "box",
               layout: layout,

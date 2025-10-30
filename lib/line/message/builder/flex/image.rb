@@ -57,7 +57,8 @@ module Line
           # Sets or gets the aspect ratio of the image (width:height).
           #
           # [value]
-          #   The aspect ratio string (e.g., <code>"1:1"</code>, <code>"16:9"</code>, <code>"20:13"</code>). Default is <code>"1:1"</code>.
+          #   The aspect ratio string (e.g., <code>"1:1"</code>, <code>"16:9"</code>,
+          #   <code>"20:13"</code>). Default is <code>"1:1"</code>.
           option :aspect_ratio, default: nil
 
           # :method: aspect_mode
@@ -78,7 +79,8 @@ module Line
           # [context]
           #   An optional context for the builder (default: +nil+)
           # [options]
-          #   A hash of options to set instance variables (e.g., +:aspect_ratio+, +:aspect_mode+, +:size+, and options from included modules)
+          #   A hash of options to set instance variables (e.g., +:aspect_ratio+,
+          #   +:aspect_mode+, +:size+, and options from included modules)
           # [block]
           #   An optional block, typically used to define an action for the image
           #
@@ -99,7 +101,8 @@ module Line
 
           private
 
-          def to_api # :nodoc:  rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          # :nodoc:
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "url is required for an image component" if url.nil?
 
             {
@@ -127,7 +130,8 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # :nodoc:  rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          # :nodoc:
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             raise RequiredError, "url is required for an image component" if url.nil?
 
             {

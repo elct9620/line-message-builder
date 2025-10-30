@@ -32,7 +32,8 @@ module Line
         # See also:
         # - https://developers.line.biz/en/reference/messaging-api/#carousel
         # - Bubble for the structure of individual items within the carousel
-        # - HasPartial (included but direct usage on Carousel is limited; partials are more commonly used within bubbles)
+        # - HasPartial (included but direct usage on Carousel is limited; partials
+        #   are more commonly used within bubbles)
         class Carousel < Line::Message::Builder::Base
           include HasPartial
 
@@ -89,7 +90,8 @@ module Line
             @contents << Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
           end
 
-          def to_h # :nodoc:
+          # :nodoc:
+          def to_h
             raise RequiredError, "Carousel contents must have at least 1 bubble." if @contents.empty?
             # LINE API as of 2023-10-10 allows up to 12 bubbles in a carousel.
             raise ValidationError, "Carousel contents can have at most 12 bubbles." if @contents.size > 12
@@ -101,14 +103,16 @@ module Line
 
           private
 
-          def to_api # :nodoc:
+          # :nodoc:
+          def to_api
             {
               type: "carousel",
               contents: @contents.map(&:to_h) # Serializes each Bubble in the array
             }.compact # compact is likely unnecessary here as contents is always present.
           end
 
-          def to_sdkv2 # :nodoc:
+          # :nodoc:
+          def to_sdkv2
             {
               type: "carousel",
               contents: @contents.map(&:to_h) # Serializes each Bubble in the array

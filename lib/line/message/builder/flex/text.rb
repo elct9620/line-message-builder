@@ -162,11 +162,13 @@ module Line
             @contents << Span.new(text_content, context: @context, **options, &)
           end
 
-          def any_content? # :nodoc:
+          # :nodoc:
+          def any_content?
             !contents.empty? || !text.nil?
           end
 
-          def to_h # :nodoc:
+          # :nodoc:
+          def to_h
             raise RequiredError, "text content is required for a text component" unless any_content?
 
             return to_sdkv2 if context.sdkv2?
@@ -176,7 +178,8 @@ module Line
 
           private
 
-          def to_api # :nodoc: # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          # :nodoc:
+          def to_api # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             {
               type: "text",
               text: text,
@@ -205,7 +208,8 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # :nodoc: # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          # :nodoc:
+          def to_sdkv2 # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             {
               type: "text",
               text: text,

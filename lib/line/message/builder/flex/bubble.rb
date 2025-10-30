@@ -39,7 +39,8 @@ module Line
           # Specifies the size of the bubble.
           #
           # [value]
-          #   Bubble size. Keywords: <code>:nano</code>, <code>:micro</code>, <code>:kilo</code>, <code>:mega</code>, <code>:giga</code>.
+          #   Bubble size. Keywords: <code>:nano</code>, <code>:micro</code>,
+          #   <code>:kilo</code>, <code>:mega</code>, <code>:giga</code>.
           #   Pixel/percentage values are not directly supported for bubble
           #   size by LINE; use keywords.
           option :size, default: nil # E.g., :nano, :micro, :kilo, :mega, :giga
@@ -140,7 +141,8 @@ module Line
 
           private
 
-          def to_api # :nodoc:
+          # :nodoc:
+          def to_api
             {
               type: "bubble",
               size: size, # From option
@@ -152,7 +154,8 @@ module Line
             }.compact
           end
 
-          def to_sdkv2 # :nodoc:
+          # :nodoc:
+          def to_sdkv2
             {
               type: "bubble",
               size: size, # From option

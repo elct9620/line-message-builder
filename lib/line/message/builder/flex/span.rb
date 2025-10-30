@@ -88,7 +88,8 @@ module Line
           # [context]
           #   An optional context for the builder
           # [options]
-          #   A hash of options to set instance variables (e.g., +:color+, +:weight+, +:decoration+, and options from included modules)
+          #   A hash of options to set instance variables (e.g., +:color+, +:weight+,
+          #   +:decoration+, and options from included modules)
           # [block]
           #   An optional block, typically not used for spans
           #
@@ -134,7 +135,8 @@ module Line
             decoration(:"line-through")
           end
 
-          def to_h # :nodoc:
+          # :nodoc:
+          def to_h
             raise RequiredError, "text content is required for a span component" if text.nil?
 
             {
