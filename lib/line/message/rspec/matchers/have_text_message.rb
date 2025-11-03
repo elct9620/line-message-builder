@@ -38,7 +38,7 @@ module Line
           end
         end
 
-        def have_line_text_message(*expected) # rubocop:disable Naming/PredicateName
+        def have_line_text_message(*expected) # rubocop:disable Naming/PredicatePrefix
           HaveTextMessage.new(expected)
         end
       end

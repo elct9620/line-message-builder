@@ -14,3 +14,8 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+# RSpec matchers often return booleans but shouldn't be named with '?'
+Naming/PredicateMethod:
+  Exclude:
+    - 'lib/line/message/rspec/**/*'

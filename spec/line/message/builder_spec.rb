@@ -89,13 +89,13 @@ RSpec.describe Line::Message::Builder do
     context "with conditional" do
       let(:builder) do
         described_class.with(ctx) do
-          text "This is a message." if condition
+          text "This is a message." if condition?
         end
       end
 
       let(:ctx) do
         Class.new do
-          def condition
+          def condition?
             true
           end
         end.new

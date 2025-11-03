@@ -37,7 +37,7 @@ module Line
           end
         end
 
-        def have_line_flex_message(expected = nil) # rubocop:disable Naming/PredicateName
+        def have_line_flex_message(expected = nil) # rubocop:disable Naming/PredicatePrefix
           HaveFlexMessage.new(expected)
         end
       end

@@ -51,7 +51,7 @@ module Line
           end
         end
 
-        def have_line_flex_bubble(expected = nil) # rubocop:disable Naming/PredicateName
+        def have_line_flex_bubble(expected = nil) # rubocop:disable Naming/PredicatePrefix
           HaveFlexBubble.new(expected)
         end
       end

@@ -69,11 +69,11 @@ module Line
           end
         end
 
-        def have_line_flex_component(&) # rubocop:disable Naming/PredicateName
+        def have_line_flex_component(&) # rubocop:disable Naming/PredicatePrefix
           HaveFlexComponent.new(&)
         end
 
-        def have_line_flex_box(**options) # rubocop:disable Naming/PredicateName
+        def have_line_flex_box(**options) # rubocop:disable Naming/PredicatePrefix
           options = Utils.stringify_keys!(options, deep: true)
 
           HaveFlexComponent.new(expected_desc: "box(#{options.inspect})") do |content|
@@ -83,7 +83,7 @@ module Line
           end
         end
 
-        def have_line_flex_text(text, **options) # rubocop:disable Naming/PredicateName
+        def have_line_flex_text(text, **options) # rubocop:disable Naming/PredicatePrefix
           options = Utils.stringify_keys!(options, deep: true)
 
           HaveFlexComponent.new(expected_desc: "text(#{text.inspect})") do |content|
@@ -93,7 +93,7 @@ module Line
           end
         end
 
-        def have_line_flex_button(type, **options) # rubocop:disable Naming/PredicateName
+        def have_line_flex_button(type, **options) # rubocop:disable Naming/PredicatePrefix
           options = Utils.stringify_keys!(options, deep: true)
 
           HaveFlexComponent.new(expected_desc: "#{type} button(#{options.inspect})") do |content|
@@ -106,7 +106,7 @@ module Line
           end
         end
 
-        def have_line_flex_image(url, **options) # rubocop:disable Naming/PredicateName
+        def have_line_flex_image(url, **options) # rubocop:disable Naming/PredicatePrefix
           options = Utils.stringify_keys!(options, deep: true)
 
           HaveFlexComponent.new(expected_desc: "image(#{url.inspect})") do |content|
@@ -116,7 +116,7 @@ module Line
           end
         end
 
-        def have_line_flex_span(text, **options) # rubocop:disable Naming/PredicateName
+        def have_line_flex_span(text, **options) # rubocop:disable Naming/PredicatePrefix
           options = Utils.stringify_keys!(options, deep: true)
 
           HaveFlexComponent.new(expected_desc: "span(#{text.inspect})") do |content|

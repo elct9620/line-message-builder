@@ -44,7 +44,7 @@ module Line
           end
         end
 
-        def have_line_quick_reply(expected = nil) # rubocop:disable Naming/PredicateName
+        def have_line_quick_reply(expected = nil) # rubocop:disable Naming/PredicatePrefix
           HaveQuickReply.new(expected)
         end
       end
