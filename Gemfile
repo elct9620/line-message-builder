@@ -12,6 +12,6 @@ gem "rspec_junit_formatter", require: false
 gem "simplecov", require: false
 gem "simplecov-cobertura", require: false
 
-gem "rubocop", "~> 1.85"
+gem "rubocop", "~> 1.86"
 gem "rubocop-rake"
 gem "rubocop-rspec"
