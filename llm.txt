@@ -4,34 +4,36 @@ This document provides a comprehensive guide on using the Line Message Builder D
 
 ## Project Status
 
-**Version:** 0.9.0  
-**Current State:** Production-ready Ruby gem with comprehensive Flex Message support
+**Current State:** Production-ready Ruby gem with comprehensive Flex Message support. Consult the Component Support Status below before using a property — anything not listed is not implemented, and an undeclared option raises.
 
-### Recent Major Updates (v0.9.0)
-- ✅ **Enhanced Separator Component**: Full separator support with comprehensive RSpec matchers
-- ✅ **Improved Span Integration**: Refined span component integration within Text components
-- ✅ **Complete RSpec Matcher Suite**: Added `have_line_flex_separator` and enhanced span testing
-- ✅ **Flex Message Partials**: Reusable component system for complex layouts  
-- ✅ **LINE Bot SDK v2 Compatibility**: Support for both standard and SDK v2 modes
-- ✅ **Comprehensive Flex Components**: Box, Text, Button, Image, Separator, Carousel, Bubble
-- ✅ **Advanced Layout Options**: Positioning, spacing, padding, margins, flexbox properties
+### Recent Major Updates
+- **Unknown options now raise**: passing an option a component does not declare raises `ValidationError` instead of being silently dropped
+- **URI action**: link a component to a web page without a webhook
+- **Icon component**: icon-and-text pairs inside a baseline box
+- **Text styling**: `weight`, `max_lines`, `style`, `decoration`, `scaling`
+- **Box appearance**: background colour, border, corner radius and linear gradients
+- **Button `color` and `scaling`**; Button no longer accepts `padding` (LINE defines none)
+- **Image `background_color` and `animated`**; **Span `style`**; **Separator `margin` and `color`**
 
 ### Component Support Status
-- **Text Messages**: ✅ Full support with Quick Reply
-- **Flex Messages**: ✅ Production-ready with rich layout capabilities
-- **Flex Components**: 
-  - Bubble: ✅ Complete
-  - Carousel: ✅ Complete  
-  - Box: ✅ Complete with advanced layout
-  - Text: ✅ Complete with Span support
-  - Span: ✅ Complete with enhanced integration
-  - Button: ✅ Complete with actions
-  - Image: ✅ Complete
-  - Separator: ✅ Complete with enhanced matcher support
-- **Actions**: Message ✅, Postback ✅, URI/Custom ✅
-- **Quick Replies**: ✅ Full support
-- **Partials**: ✅ Reusable component system
-- **RSpec Matchers**: ✅ Complete suite including separator and span matchers
+
+Anything not listed as supported below is not implemented. There is no raw-hash
+escape hatch — an undeclared option raises.
+
+- **Text Messages**: supported, with Quick Reply
+- **Flex Containers**: Bubble, Carousel
+- **Flex Components**: Box, Text, Span, Button, Image, Icon, Separator
+- **Actions**: `message`, `postback`, `uri`
+- **Quick Replies**: supported (`message`, `postback`, `uri`)
+- **Partials**: supported
+- **RSpec Matchers**: text, flex message, bubble, box, text, button, image, icon, span, separator, quick reply
+
+**Not supported yet**: the `video` component; `Bubble#direction` and a bubble-level
+action; the Datetime Picker, Camera, Camera Roll, Location, Rich Menu Switch and
+Clipboard actions.
+
+**Deliberately not supported**: the `filler` component — LINE has deprecated it.
+Use the spacing properties of each component instead.
 
 ## Installation and Setup
 
@@ -100,6 +102,28 @@ Line::Message::Builder.with do |builder|
 end
 ```
 
+### Unknown Options Raise
+
+Every component accepts only the options it declares. Passing anything else
+raises `Line::Message::Builder::ValidationError`, naming the offending option and
+listing the ones that component accepts:
+
+```ruby
+text "Title", colour: "#FF0000"
+# => Line::Message::Builder::ValidationError:
+#    Unknown option: colour for Line::Message::Builder::Flex::Text.
+#    Allowed options are: wrap, line_spacing, color, weight, max_lines, ...
+```
+
+This is deliberate. A misspelled or unsupported property used to be dropped in
+silence, producing a message that was missing the styling that was asked for
+while every check downstream reported success. Read the error, correct the
+option name against the list it prints, and rebuild.
+
+Two consequences worth remembering:
+- There is no `action:` option on any component. Declare actions inside the block.
+- A `button` has no `label` option. The label belongs to its action.
+
 ### Context
 
 The builder can accept a context object. Methods called within the builder block will first attempt to resolve against this context object. This allows for dynamic message content based on your application's data.
@@ -161,40 +185,69 @@ You can also include emojis in text messages. A `quick_reply` can be attached (s
 
 Actions define what happens when a user interacts with a button or a tappable area in a message. They are used in Flex Message components (like buttons, or even entire boxes/images) and Quick Reply buttons.
 
-The primary action types defined by helper methods are:
+**An action is declared inside the component's block, not passed as an `action:` keyword.** No component accepts an `action:` option; writing one raises `ValidationError`.
+
+Three action types are supported: `message`, `postback` and `uri`.
 
 ### Message Action
 Sends a text message from the user's perspective.
-- `label`: (String, Required for Flex Buttons, Optional for Quick Reply if `text` is short) The text displayed on the button.
-- `text`: (String, Required) The text message to be sent when the button is tapped.
+- First argument: (String, Required) The text message to be sent when tapped.
+- `label`: (String, Optional) The text displayed on the button.
 
 ```ruby
-# Example in a Flex Button (action is a required parameter for button)
-button label: "Say Hello", action: message(label: "Say Hello", text: "Hello there!")
+# In a Flex component — declared inside the block
+button do
+  message "Hello there!", label: "Say Hello"
+end
 
-# Example in a Quick Reply
-# For quick reply, the first argument to `message` is the text to be sent.
+# In a Quick Reply — label is required here
 quick_reply do
-  message "Yes, please!", label: "Yes" # label is optional if text is short
+  message "Yes, please!", label: "Yes"
 end
 ```
 
 ### Postback Action
-Sends a postback event to your bot's webhook. This is useful for triggering backend logic without displaying a message in the chat.
-- `label`: (String, Required for Flex Buttons, Optional for Quick Reply) The text displayed on the button.
-- `data`: (String, Required) The data string sent in the postback event to your webhook.
-- `display_text`: (String, Optional) Text displayed in the chat as if the user had typed it after tapping the button.
+Sends a postback event to your bot's webhook. Useful for triggering backend logic without displaying a message in the chat. A postback whose event your webhook does not handle is a dead button.
+- First argument: (String, Required) The data string sent in the postback event.
+- `label`: (String, Optional) The text displayed on the button.
+- `display_text`: (String, Optional) Text displayed in the chat as if the user had typed it.
 
 ```ruby
-# Example in a Flex Button
-button label: "Add to Cart", action: postback(label: "Add to Cart", data: "action=add_item&item_id=101", display_text: "Added to cart!")
+# In a Flex component
+button do
+  postback "action=add_item&item_id=101", label: "Add to Cart", display_text: "Added to cart!"
+end
 
-# Example in a Quick Reply
+# In a Quick Reply
 quick_reply do
   postback "action=view_profile", label: "View Profile"
 end
 ```
-Other action types like URI, Datetime Picker, Camera, Camera Roll, Location can also be defined by passing a hash that conforms to the LINE API's action object structure directly to the `action` parameter of a component (e.g., `action: { type: :uri, label: "Visit Website", uri: "https://example.com" }`).
+
+### URI Action
+Opens a URI when tapped. Needs no webhook handling, so this is the action to use for linking a card to a web page.
+- First argument: (String, Required) The URI to open. Schemes `http`, `https`, `line`, `tel`. Max 1000 characters.
+- `label`: (String, Optional in Flex, Required in Quick Reply) The text displayed on the button.
+- `alt_uri_desktop`: (String, Optional) A different URI opened on LINE for macOS and Windows. Maps to `altUri.desktop`. Has no effect in a Quick Reply.
+
+```ruby
+# In a Flex component
+button style: :primary do
+  uri "https://example.com/event", label: "View event"
+end
+
+# Opening a different page on desktop
+button do
+  uri "https://example.com/mobile", label: "Open", alt_uri_desktop: "https://example.com/desktop"
+end
+
+# In a Quick Reply
+quick_reply do
+  uri "tel:+81312345678", label: "Call us"
+end
+```
+
+The remaining LINE action types (Datetime Picker, Camera, Camera Roll, Location, Rich Menu Switch, Clipboard) are **not yet supported**. There is no raw-hash escape hatch.
 
 ## Quick Replies
 
@@ -288,7 +341,9 @@ flex alt_text: "Recipe Card" do
       end
     end
     footer do
-      button label: "View Recipe", action: { type: :uri, label: "View Recipe", uri: "http://example.com/recipe" }
+      button style: :primary do
+        uri "https://example.com/recipe", label: "View Recipe"
+      end
     end
   end
 end
@@ -314,12 +369,28 @@ A `box` arranges other components.
 - Sizing:
     - `width`, `max_width`, `height`, `max_height`: (String, Optional) Pixel or percentage strings (e.g., `'100px'`, `'50%'`).
     - `flex`: (Integer, Optional) Flex factor determining how much space this box takes relative to siblings.
-- `action`: (Action Object, Optional) Makes the entire box tappable. See Actions section.
+- Appearance:
+    - `background_color`: (String, Optional) Hex colour, alpha channel allowed (e.g., `'#RRGGBBAA'`).
+    - `border_color`: (String, Optional) Hex colour of the border.
+    - `border_width`: (Symbol or String, Optional) `:none`, `:light`, `:normal`, `:medium`, `:"semi-bold"`, `:bold`, or a pixel value.
+    - `corner_radius`: (Symbol or String, Optional) `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, or a pixel value.
+    - `background_angle`, `background_start_color`, `background_end_color`: (String, Optional) A linear gradient. Setting any one of them makes all three required, otherwise a `RequiredError` is raised.
+    - `background_center_color`, `background_center_position`: (String, Optional) An intermediate colour stop, e.g. `'#00FF00'` at `'30%'`.
+- Tappable: declare an action inside the block to make the whole box tappable.
 
 ```ruby
-box layout: :vertical, spacing: :md, padding_all: :lg, action: message(text: "Box tapped!") do
+box layout: :vertical, spacing: :md, padding_all: :lg do
+  message "Box tapped!", label: "Open"
   text "Item 1"
   text "Item 2"
+end
+
+# A rounded card with a gradient background
+box layout: :vertical, corner_radius: :lg, padding_all: :lg,
+    background_angle: "90deg",
+    background_start_color: "#3F51B5",
+    background_end_color: "#2196F3" do
+  text "Gradient card", color: "#FFFFFF", weight: :bold
 end
 ```
 
@@ -330,21 +401,33 @@ Displays text.
     - `wrap`: (Boolean, Optional) `true` to allow text to wrap. Default `false`.
     - `line_spacing`: (String, Optional) Spacing between lines, e.g., `'4px'`, `'1.5em'`.
     - `color`: (String, Optional) Hex color code (e.g., `'#RRGGBB'`, `'#RRGGBBAA'`).
+    - `weight`: (Symbol, Optional) `:regular` (default) or `:bold`.
+    - `style`: (Symbol, Optional) `:normal` (default) or `:italic`.
+    - `decoration`: (Symbol, Optional) `:none` (default), `:underline` or `:"line-through"`. A decoration set here cannot be overridden by a nested span.
+    - `max_lines`: (Integer, Optional) Truncate after this many lines with an ellipsis. `0` (default) shows the whole text.
+    - `scaling`: (Boolean, Optional) `true` to follow the reader's LINE font size setting. Nested spans scale too.
 - Layout:
     - `align`: (Symbol, Optional) Horizontal alignment of the text. Valid values: `:start`, `:center`, `:end`.
     - `gravity`: (Symbol, Optional) Vertical alignment of the text within its allocated space. Valid values: `:top`, `:center`, `:bottom`.
     - `margin`: (Symbol or String, Optional) Margin around the text component. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
 - Sizing:
-    - `size`: (Symbol or String, Optional) Font size. Valid keywords: `:xxs`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:3xl`, `:4xl`, `:5xl`. Also accepts pixel values (e.g., `'16px'`).
-    - `weight`: (Symbol, Optional) Font weight. Valid values: `:regular`, `:bold`.
+    - `size`: (Symbol or String, Optional) Font size. Accepted keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, or a pixel value (e.g., `'16px'`). Note: LINE also defines `:xxs` and `:3xl`–`:5xl`, but this gem does not accept them yet.
     - `flex`: (Integer, Optional) Flex factor.
     - `adjust_mode`: (Symbol, Optional) How text adjusts when it overflows. Valid value: `:shrink_to_fit` (reduces font size).
-- `action`: (Action Object, Optional) Makes the text tappable.
+- Tappable: declare an action inside the block.
 - `span`: Within a Text component, you can add Span components to style parts of the text differently.
 
 ```ruby
 # Simple text component
-text "Special Offer!", size: :xl, weight: :bold, color: "#FF0000", align: :center, action: postback(data: "offer_details")
+text "Special Offer!", size: :xl, weight: :bold, color: "#FF0000", align: :center
+
+# Truncating a long body
+text article_body, wrap: true, max_lines: 3
+
+# Making the text tappable
+text "See details" do
+  postback "offer_details", label: "Details"
+end
 
 # Text with spans for different styling of segments
 text "Welcome to our service:" do
@@ -355,19 +438,28 @@ end
 ```
 
 #### Button Component
-An actionable button.
-- `action`: (Action Object, **Required**) Defines the action performed on tap. See Actions section.
+An actionable button. **The action is declared inside the block and is required.** The button's visible text comes from the action's `label`; a button has no `label` option of its own.
 - `style`: (Symbol, Optional) Visual style of the button. Valid values: `:primary`, `:secondary`, `:link`. Default is `:link`.
+- `color`: (String, Optional) Hex colour. Text colour when `style` is `:link`, background colour when `:primary` or `:secondary`.
 - `height`: (Symbol, Optional) Height of the button. Valid values: `:sm`, `:md`. Default is `:md`.
+- `scaling`: (Boolean, Optional) `true` to follow the reader's LINE font size setting.
 - Layout:
     - `gravity`: (Symbol, Optional) Vertical alignment if the box containing it has extra space. Valid values: `:top`, `:center`, `:bottom`.
     - `margin`: (Symbol or String, Optional) Margin around the button. Valid keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`. Also accepts pixel values (e.g., `'10px'`).
 - Sizing:
     - `flex`: (Integer, Optional) Flex factor.
     - `adjust_mode`: (Symbol, Optional) How the button adjusts its content. Valid value: `:shrink_to_fit`.
+- **No padding**: LINE defines no padding properties for a button. Pad the surrounding box instead.
 
 ```ruby
-button label: "Confirm", style: :primary, height: :md, action: postback(data: "confirm_order", label: "Confirm")
+button style: :primary, color: "#1DB446" do
+  postback "action=confirm_order", label: "Confirm"
+end
+
+# Linking to a web page
+button style: :link do
+  uri "https://example.com/event", label: "View event"
+end
 ```
 
 #### Image Component
@@ -376,6 +468,8 @@ Displays an image.
 - Styling:
     - `aspect_ratio`: (String, Optional) Aspect ratio as `"width:height"`, e.g., `"1:1"`, `"16:9"`, `"4:3"`.
     - `aspect_mode`: (Symbol, Optional) How the image fits the `aspect_ratio`. Valid values: `:cover` (default, crops to fill) or `:fit` (fits within, may letterbox).
+    - `background_color`: (String, Optional) Hex colour shown behind the image.
+    - `animated`: (Boolean, Optional) `true` plays an APNG. At most 10 animated images per message; frames over 300 KB are not played.
 - Layout:
     - `align`: (Symbol, Optional) Horizontal alignment of the image. Valid values: `:start`, `:center`, `:end`.
     - `gravity`: (Symbol, Optional) Vertical alignment of the image. Valid values: `:top`, `:center`, `:bottom`.
@@ -383,10 +477,33 @@ Displays an image.
 - Sizing:
     - `size`: (Symbol or String, Optional) Size of the image. Valid keywords: `:xxs`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:3xl`, `:4xl`, `:5xl`, `:full`. Also accepts pixel or percentage strings (e.g. `'100px'`, `'50%'`).
     - `flex`: (Integer, Optional) Flex factor.
-- `action`: (Action Object, Optional) Makes the image tappable.
+- Tappable: declare an action inside the block.
 
 ```ruby
-image "https://example.com/product_image.png", size: :full, aspect_ratio: "1:1", aspect_mode: :cover, action: message(text: "View product")
+image "https://example.com/product_image.png", size: :full, aspect_ratio: "1:1", aspect_mode: :cover
+
+# Making the image tappable
+image "https://example.com/product_image.png", size: :full do
+  uri "https://example.com/product", label: "View product"
+end
+```
+
+#### Icon Component
+An `icon` renders a small graphic that decorates the text beside it — rating stars, labelled metadata rows. **It can only be used inside a box whose `layout` is `:baseline`.** An icon takes no action and no `flex`.
+
+- `url`: (String, Required) URL of the icon image (HTTPS).
+- `size`: (Symbol or String, Optional) Icon width. Same keywords as text size. Default `:md`.
+- `aspect_ratio`: (String, Optional) `"width:height"`, default `"1:1"`.
+- `scaling`: (Boolean, Optional) `true` to follow the reader's LINE font size setting.
+- `margin`, `position`, `offset_top`, `offset_bottom`, `offset_start`, `offset_end`: as for other components.
+
+```ruby
+box layout: :baseline do
+  icon "https://example.com/star_on.png", size: :sm
+  icon "https://example.com/star_on.png", size: :sm
+  icon "https://example.com/star_off.png", size: :sm
+  text "3.0", size: :sm, margin: :md
+end
 ```
 
 #### Span Component
@@ -395,12 +512,14 @@ Spans are used within a Text component to apply different styling to specific po
 - `text`: (String, Required) The text content of the span.
 - Styling:
     - `color`: (String, Optional) Hex color code (e.g., `'#RRGGBB'`, `'#RRGGBBAA'`).
-    - `size`: (Symbol or String, Optional) Font size. Valid keywords: `:xxs`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, `:3xl`, `:4xl`, `:5xl`. Also accepts pixel values (e.g., `'16px'`).
+    - `size`: (Symbol or String, Optional) Font size. Accepted keywords: `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, or a pixel value (e.g., `'16px'`).
     - `weight`: (Symbol, Optional) Font weight. Valid values: `:regular`, `:bold`.
-    - `decoration`: (Symbol, Optional) Text decoration. Valid values: `:none`, `:underline`, `:line-through`.
+    - `style`: (Symbol, Optional) `:normal` (default) or `:italic`.
+    - `decoration`: (Symbol, Optional) Text decoration. Valid values: `:none`, `:underline`, `:"line-through"`. Ignored when the surrounding text sets its own `decoration`.
 
 Spans also support helper methods to easily apply common styles:
 - `bold!`: Sets the weight to `:bold`.
+- `italic!`: Sets the style to `:italic`.
 - `underline!`: Sets the decoration to `:underline`.
 - `line_through!`: Sets the decoration to `:line-through`.
 
@@ -427,12 +546,15 @@ end
 ```
 
 #### Separator Component
-A `separator` draws a horizontal line to create visual separation between components.
+A `separator` draws a horizontal line to create visual separation between components. LINE defines exactly three properties for it; nothing else is accepted.
+
+- `margin`: (Symbol or String, Optional) Space before the line. Keywords `:none`, `:xs`, `:sm`, `:md`, `:lg`, `:xl`, `:xxl`, or a pixel value.
+- `color`: (String, Optional) Hex colour of the line.
 
 ```ruby
 box layout: :vertical do
   text "Section 1"
-  separator
+  separator margin: :xl, color: "#F0F0F0"
   text "Section 2"
 end
 ```
@@ -442,6 +564,8 @@ Create space between components using:
 - `spacing` property on a parent `box` container.
 - `margin` property on individual components (e.g., `text "Hello", margin: :xl`).
 - An empty `box` with a defined `flex` value or `height`/`width` (e.g., `box height: "30px"`).
+
+Do not reach for a `filler` component — LINE has deprecated it and this gem does not provide one.
 
 ### Flex Message Partials
 
@@ -456,7 +580,9 @@ Partials allow you to define reusable segments of Flex Message layouts. This is 
         # which are made available from the `assigns` hash passed to `partial!`.
         box layout: :vertical do
           text title_text, weight: :bold # 'title_text' from assigns
-          button label: button_label, action: message(text: "Action for #{title_text}") # 'button_label' from assigns
+          button do # 'button_label' from assigns
+            message "Action for #{title_text}", label: button_label
+          end
         end
       end
     end
@@ -512,8 +638,9 @@ describe "LINE Messages" do
   it { is_expected.to have_line_flex_message }
   it { is_expected.to have_line_flex_bubble }
   it { is_expected.to have_line_flex_text("Welcome!") }
-  it { is_expected.to have_line_flex_separator }  # Available in v0.9.0+
-  it { is_expected.to have_line_flex_span }       # Available in v0.9.0+
+  it { is_expected.to have_line_flex_separator }
+  it { is_expected.to have_line_flex_span }
+  it { is_expected.to have_line_flex_icon("https://example.com/star.png") }
 
   # Works with webmock for API testing
   it "sends correct message" do

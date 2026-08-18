@@ -180,6 +180,7 @@ end
 | `have_line_flex_button`     | Match a flex message with button     |
 | `have_line_flex_box`        | Match a flex message with box        |
 | `have_line_flex_separator`  | Match a flex message with separator  |
+| `have_line_flex_icon`       | Match a flex message with icon       |
 
 
 Add `line/message/rspec` to your `spec_helper.rb` or `rails_helper.rb`:
@@ -261,7 +262,7 @@ end
 | -----------     | --------- |
 | Postback        | 🚧        |
 | Message         | ✅        |
-| Uri             | ❌        |
+| Uri             | ✅        |
 | Datetime        | ❌        |
 | Camera          | ❌        |
 | CameraRoll      | ❌        |
@@ -275,15 +276,22 @@ end
 | --------- | ---------     |
 | Bubble    | 🚧            |
 | Carousel  | ✅            |
-| Box       | 🚧            |
-| Button    | 🚧            |
-| Image     | 🚧            |
+| Box       | ✅            |
+| Button    | ✅            |
+| Image     | ✅            |
 | Video     | ❌            |
-| Icon      | ❌            |
+| Icon      | 🚧            |
 | Text      | 🚧            |
-| Span      | ✅            |
+| Span      | 🚧            |
 | Separator | ✅            |
 | Filler    | ❌ Deprecated |
+
+Text, Span and Icon are marked partial only because their `size` option accepts
+the `none`–`xxl` keywords and pixel values, while LINE also defines `xxs` and
+`3xl`–`5xl`. Every other property of these components is supported.
+
+Bubble is missing `direction` and a bubble-level action. Postback is missing
+`inputOption` and `fillInText`.
 
 ## Development
 

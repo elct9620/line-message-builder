@@ -26,7 +26,7 @@ module Line
         #                size: :xl,
         #                color: "#FF0000",
         #                wrap: true do
-        #                  message "More info", text: "Tell me more about text"
+        #                  message "Tell me more about text", label: "More info"
         #           end
         #         end
         #       end

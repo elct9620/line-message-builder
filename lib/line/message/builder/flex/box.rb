@@ -306,7 +306,7 @@ module Line
           # === Example: Text with an action
           #
           #   text "Click me" do
-          #     message "Action", text: "You clicked me!"
+          #     message "You clicked me!", label: "Action"
           #   end
           #
           # === Example: Text with spans
