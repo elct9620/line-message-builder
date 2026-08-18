@@ -8,8 +8,10 @@ module Line
         #
         # Span components are used within a Text component to apply different styling
         # to specific portions of text. They offer various styling options, including
-        # +size+, +weight+, +color+, and +decoration+. Unlike Text components, spans
-        # cannot have actions attached to them.
+        # +size+, +weight+, +color+, +style+ and +decoration+. Unlike Text
+        # components, spans cannot have actions attached to them.
+        #
+        # A +decoration+ set on the surrounding Text cannot be overridden by a span.
         #
         # == Example
         #
@@ -81,6 +83,21 @@ module Line
           #   span "Underlined", decoration: :underline
           option :decoration, default: nil, validator: Validators::Enum.new(:none, :underline, :"line-through")
 
+          # :method: style
+          # :call-seq:
+          #   style() -> Symbol, String, or nil
+          #   style(value) -> Symbol or String
+          #
+          # Sets or gets the text style.
+          #
+          # [value]
+          #   Text style. Valid values are +:normal+ (default) and +:italic+
+          #
+          # == Example
+          #
+          #   span "Emphasised", style: :italic
+          option :style, default: nil, validator: Validators::Enum.new(:normal, :italic)
+
           # Initializes a new Flex Message Span component.
           #
           # [text_content]
@@ -111,6 +128,17 @@ module Line
           #   end
           def bold!
             weight(:bold)
+          end
+
+          # Sets style to italic.
+          #
+          # == Example
+          #
+          #   span "Emphasised text" do
+          #     italic!
+          #   end
+          def italic!
+            style(:italic)
           end
 
           # Sets decoration to underline.
@@ -145,6 +173,7 @@ module Line
               color: color,
               size: size,
               weight: weight,
+              style: style,
               decoration: decoration
             }.compact
           end

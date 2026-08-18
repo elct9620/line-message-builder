@@ -226,4 +226,60 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::RequiredError, /text content is required/) }
   end
+
+  context "with span style" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              text do
+                span "Emphasised", style: :italic
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_span(/Emphasised/, style: :italic) }
+  end
+
+  context "with span italic helper" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              text do
+                span "Emphasised" do
+                  italic!
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_span(/Emphasised/, style: :italic) }
+  end
+
+  context "with invalid span style" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              text do
+                span "Emphasised", style: :oblique
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: oblique/) }
+  end
 end
