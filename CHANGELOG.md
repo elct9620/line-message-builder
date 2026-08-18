@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.10.0](https://github.com/elct9620/line-message-builder/compare/v0.9.0...v0.10.0) (2026-08-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **builder:** passing an option a component does not declare now raises ValidationError instead of being ignored.
+* **flex:** Flex buttons no longer accept padding, padding_all, padding_top, padding_bottom, padding_start or padding_end. Apply padding to the surrounding box instead.
+
+### Features
+
+* **actions:** add uri action ([d5fdb26](https://github.com/elct9620/line-message-builder/commit/d5fdb261014e927c58b5ae16e29c2b46d934b758))
+* **builder:** reject options a component does not declare ([0e236b3](https://github.com/elct9620/line-message-builder/commit/0e236b35ee9a562d031c474e23dc819055fdea4d))
+* **flex:** add box appearance properties and gradient background ([809e84a](https://github.com/elct9620/line-message-builder/commit/809e84a1faf6d84c15a20964c5fd78ab43907ead))
+* **flex:** add button color and scaling, drop padding ([2ef15fd](https://github.com/elct9620/line-message-builder/commit/2ef15fd09b2a441fb2f17c938497861906570f83))
+* **flex:** add icon component ([cbd1eda](https://github.com/elct9620/line-message-builder/commit/cbd1edacbef8a377b3c7ad72059833915f1ea010))
+* **flex:** add image background_color and animated ([c7f2102](https://github.com/elct9620/line-message-builder/commit/c7f21028640a47d171823e0d047e2c228f5c9844))
+* **flex:** add separator margin and color ([073c039](https://github.com/elct9620/line-message-builder/commit/073c0391d2a1092b0c4886588123491fa260b946))
+* **flex:** add span style ([ef80a4b](https://github.com/elct9620/line-message-builder/commit/ef80a4b8236bef920cc87af7cf051dd3dff5044a))
+* **flex:** add text weight, max_lines, style, decoration and scaling ([d6a83b4](https://github.com/elct9620/line-message-builder/commit/d6a83b41415e95e69cf746d5d628d48dcefb8390))
+
 ## [0.9.0](https://github.com/elct9620/line-message-builder/compare/v0.8.0...v0.9.0) (2025-06-03)
 
 
