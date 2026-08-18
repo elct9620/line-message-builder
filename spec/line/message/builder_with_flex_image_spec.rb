@@ -194,4 +194,40 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
   end
+
+  context "with image background color" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                image "https://example.com/image.jpg", background_color: "#FFFFFF"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_image("https://example.com/image.jpg", backgroundColor: "#FFFFFF") }
+  end
+
+  context "with animated image" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                image "https://example.com/image.png", animated: true
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_image("https://example.com/image.png", animated: true) }
+  end
 end

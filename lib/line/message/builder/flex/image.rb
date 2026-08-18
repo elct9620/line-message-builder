@@ -9,8 +9,8 @@ module Line
         # Images are specified by a URL and can be included in various parts of a
         # Flex Message, such as a box, a bubble's hero section, etc. They offer
         # several properties to control their appearance, including +size+,
-        # +aspect_ratio+, and +aspect_mode+. An image can also have an
-        # action to make it tappable.
+        # +aspect_ratio+, +aspect_mode+ and +background_color+. An image can also
+        # have an action to make it tappable.
         #
         # == Example
         #
@@ -24,6 +24,18 @@ module Line
         #                 size: :full
         #           end
         #         end
+        #       end
+        #     end
+        #   end
+        #
+        # === Example: Playing an animated image on a tinted backdrop
+        #
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Image Example" do
+        #       bubble do
+        #         hero_image "https://example.com/loading.png",
+        #                    animated: true,
+        #                    background_color: "#FFFFFF"
         #       end
         #     end
         #   end
@@ -71,6 +83,30 @@ module Line
           # [value]
           #   The aspect mode (can be +:cover+ (default) or +:fit+)
           option :aspect_mode, default: nil # :cover, :fit
+
+          # :method: background_color
+          # :call-seq:
+          #   background_color() -> String or nil
+          #   background_color(value) -> String
+          #
+          # Sets or gets the background color shown behind the image.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>)
+          option :background_color, default: nil # API key: backgroundColor
+
+          # :method: animated
+          # :call-seq:
+          #   animated() -> Boolean or nil
+          #   animated(value) -> Boolean
+          #
+          # Sets or gets whether an animated image (APNG) is played back. A single
+          # message may mark at most 10 images as animated, and frames larger than
+          # 300 KB are not played.
+          #
+          # [value]
+          #   +true+ to play the animation, +false+ (default) to show a still frame
+          option :animated, default: nil
 
           # Initializes a new Flex Message Image component.
           #
@@ -125,6 +161,8 @@ module Line
               size: size,
               aspectRatio: aspect_ratio, # From option
               aspectMode: aspect_mode,   # From option
+              backgroundColor: background_color, # From option (maps to API key)
+              animated: animated, # From option
               # Actionable
               action: action&.to_h # From Actionable module
             }.compact
@@ -154,6 +192,8 @@ module Line
               size: size,
               aspect_ratio: aspect_ratio, # From option
               aspect_mode: aspect_mode,   # From option
+              background_color: background_color, # From option (maps to API key)
+              animated: animated, # From option
               # Actionable
               action: action&.to_h # From Actionable module
             }.compact
