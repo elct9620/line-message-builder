@@ -270,4 +270,152 @@ RSpec.describe Line::Message::Builder do
 
     it { is_expected.to have_line_flex_text(/Nested box/, adjustMode: :"shrink-to-fit") }
   end
+
+  context "with text weight" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", weight: :bold
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, weight: :bold) }
+  end
+
+  context "with invalid text weight" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", weight: :heavy
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: heavy/) }
+  end
+
+  context "with text max lines" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", wrap: true, max_lines: 3
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, maxLines: 3) }
+  end
+
+  context "with text style" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", style: :italic
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, style: :italic) }
+  end
+
+  context "with invalid text style" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", style: :oblique
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: oblique/) }
+  end
+
+  context "with text decoration" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", decoration: :underline
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, decoration: :underline) }
+  end
+
+  context "with invalid text decoration" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", decoration: :blink
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: blink/) }
+  end
+
+  context "with text scaling" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box", scaling: true
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_text(/Nested box/, scaling: true) }
+  end
+
+  context "without optional text styling" do
+    it { is_expected.not_to have_line_flex_text(/Nested box/, weight: :bold) }
+  end
 end
