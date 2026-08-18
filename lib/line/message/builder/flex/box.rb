@@ -148,6 +148,117 @@ module Line
           #   <code>"100px"</code> or <code>"50%"</code>
           option :max_height, default: nil, validator: Validators::Size.new(:pixel, :percentage)
 
+          # :method: background_color
+          # :call-seq:
+          #   background_color() -> String or nil
+          #   background_color(value) -> String
+          #
+          # Background color of the box. An alpha channel may be included.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>, <code>"#RRGGBBAA"</code>)
+          option :background_color, default: nil # API key: backgroundColor
+
+          # :method: border_color
+          # :call-seq:
+          #   border_color() -> String or nil
+          #   border_color(value) -> String
+          #
+          # Color of the box border.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>)
+          option :border_color, default: nil # API key: borderColor
+
+          # :method: border_width
+          # :call-seq:
+          #   border_width() -> String, Symbol, or nil
+          #   border_width(value) -> String or Symbol
+          #
+          # Width of the box border. Listed keywords increase in width.
+          #
+          # [value]
+          #   <code>"2px"</code>, or one of +:none+, +:light+, +:normal+,
+          #   +:medium+, <code>:"semi-bold"</code>, +:bold+
+          option :border_width, default: nil # API key: borderWidth
+
+          # :method: corner_radius
+          # :call-seq:
+          #   corner_radius() -> String, Symbol, or nil
+          #   corner_radius(value) -> String or Symbol
+          #
+          # Radius used when rounding the corners of the box.
+          #
+          # [value]
+          #   <code>"4px"</code>, or one of +:none+, +:xs+, +:sm+, +:md+, +:lg+,
+          #   +:xl+, +:xxl+
+          option :corner_radius, default: nil, # API key: cornerRadius
+                                 validator: Validators::Size.new(:pixel, :keyword)
+
+          # :method: background_angle
+          # :call-seq:
+          #   background_angle() -> String or nil
+          #   background_angle(value) -> String
+          #
+          # Angle at which the linear gradient background moves. +0deg+ runs from
+          # bottom to top and the direction rotates clockwise as the angle grows.
+          #
+          # Required when any other +background_*+ property is set.
+          #
+          # [value]
+          #   An angle in the half-open interval [0, 360) (e.g., <code>"90deg"</code>)
+          option :background_angle, default: nil
+
+          # :method: background_start_color
+          # :call-seq:
+          #   background_start_color() -> String or nil
+          #   background_start_color(value) -> String
+          #
+          # Color at the starting point of the linear gradient background.
+          #
+          # Required when any other +background_*+ property is set.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>)
+          option :background_start_color, default: nil
+
+          # :method: background_end_color
+          # :call-seq:
+          #   background_end_color() -> String or nil
+          #   background_end_color(value) -> String
+          #
+          # Color at the ending point of the linear gradient background.
+          #
+          # Required when any other +background_*+ property is set.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>)
+          option :background_end_color, default: nil
+
+          # :method: background_center_color
+          # :call-seq:
+          #   background_center_color() -> String or nil
+          #   background_center_color(value) -> String
+          #
+          # Intermediate color of the linear gradient background. Setting it makes
+          # the gradient run through three colors.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>)
+          option :background_center_color, default: nil
+
+          # :method: background_center_position
+          # :call-seq:
+          #   background_center_position() -> String or nil
+          #   background_center_position(value) -> String
+          #
+          # Position of the intermediate color stop, between the start and end of
+          # the gradient. Defaults to <code>"50%"</code>.
+          #
+          # [value]
+          #   A percentage between <code>"0%"</code> and <code>"100%"</code>
+          option :background_center_position, default: nil
+
           # Initializes a new Flex Message Box component.
           # The provided block is instance-eval'd, allowing DSL methods for adding
           # child components (e.g., +text+, +button+, nested +box+) to be called.
@@ -286,6 +397,12 @@ module Line
             {
               type: "box",
               layout: layout,
+              # Appearance
+              backgroundColor: background_color,
+              borderColor: border_color,
+              borderWidth: border_width,
+              cornerRadius: corner_radius,
+              background: api_background,
               # Position & Layout
               justifyContent: justify_content,
               alignItems: align_items,
@@ -322,6 +439,12 @@ module Line
             {
               type: "box",
               layout: layout,
+              # Appearance
+              background_color: background_color,
+              border_color: border_color,
+              border_width: border_width,
+              corner_radius: corner_radius,
+              background: sdkv2_background,
               # Position & Layout
               justify_content: justify_content,
               align_items: align_items,
@@ -351,6 +474,57 @@ module Line
               contents: contents.map(&:to_h),
               action: action&.to_h # From Actionable module
             }.compact
+          end
+
+          # Builds the nested +background+ object for a linear gradient, or +nil+
+          # when no gradient is configured.
+          def api_background # :nodoc:
+            return if no_gradient?
+
+            validate_gradient!
+
+            {
+              type: "linearGradient",
+              angle: background_angle,
+              startColor: background_start_color,
+              endColor: background_end_color,
+              centerColor: background_center_color,
+              centerPosition: background_center_position
+            }.compact
+          end
+
+          # :nodoc:
+          def sdkv2_background
+            return if no_gradient?
+
+            validate_gradient!
+
+            {
+              type: "linearGradient",
+              angle: background_angle,
+              start_color: background_start_color,
+              end_color: background_end_color,
+              center_color: background_center_color,
+              center_position: background_center_position
+            }.compact
+          end
+
+          def no_gradient? # :nodoc:
+            (gradient_required + [background_center_color, background_center_position]).compact.empty?
+          end
+
+          def gradient_required # :nodoc:
+            [background_angle, background_start_color, background_end_color]
+          end
+
+          # Raises RequiredError when the gradient is only partly specified, since
+          # LINE rejects a background that is missing its angle or end colors.
+          def validate_gradient! # :nodoc:
+            return unless gradient_required.any?(&:nil?)
+
+            raise RequiredError,
+                  "background_angle, background_start_color and background_end_color " \
+                  "are required for a linear gradient"
           end
         end
       end

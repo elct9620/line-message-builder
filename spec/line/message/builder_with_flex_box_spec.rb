@@ -384,4 +384,135 @@ RSpec.describe Line::Message::Builder do
 
     it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: superBig/) }
   end
+
+  context "with box appearance options" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box background_color: "#F7F7F7",
+                  border_color: "#DDDDDD",
+                  border_width: :normal,
+                  corner_radius: :md do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_box(backgroundColor: "#F7F7F7") }
+    it { is_expected.to have_line_flex_box(borderColor: "#DDDDDD") }
+    it { is_expected.to have_line_flex_box(borderWidth: :normal) }
+    it { is_expected.to have_line_flex_box(cornerRadius: :md) }
+  end
+
+  context "with invalid corner radius" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box corner_radius: :huge do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: huge/) }
+  end
+
+  context "with linear gradient background" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box background_angle: "90deg",
+                  background_start_color: "#FF0000",
+                  background_end_color: "#0000FF" do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    let(:gradient) do
+      { type: "linearGradient", angle: "90deg", startColor: "#FF0000", endColor: "#0000FF" }
+    end
+
+    it { expect(build).to have_line_flex_box(background: gradient) }
+  end
+
+  context "with three colour linear gradient" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box background_angle: "0deg",
+                  background_start_color: "#FF0000",
+                  background_end_color: "#0000FF",
+                  background_center_color: "#00FF00",
+                  background_center_position: "30%" do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    let(:gradient) do
+      {
+        type: "linearGradient", angle: "0deg", startColor: "#FF0000",
+        endColor: "#0000FF", centerColor: "#00FF00", centerPosition: "30%"
+      }
+    end
+
+    it { expect(build).to have_line_flex_box(background: gradient) }
+  end
+
+  context "with partially specified gradient" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box background_start_color: "#FF0000" do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::RequiredError, /required for a linear gradient/) }
+  end
+
+  context "without appearance options" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            body do
+              box do
+                text "Nested box"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.not_to have_line_flex_box(backgroundColor: "#F7F7F7") }
+  end
 end
