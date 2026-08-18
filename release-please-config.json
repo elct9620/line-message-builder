@@ -1,10 +1,12 @@
 {
   "release-type": "ruby",
+  "bump-minor-pre-major": true,
   "packages": {
     ".":{
         "component": "line-message-builder",
         "include-component-in-tag": false,
-        "release-type": "ruby"
+        "release-type": "ruby",
+        "bump-minor-pre-major": true
       }
   }
 }
