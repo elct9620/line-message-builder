@@ -94,10 +94,10 @@ module Line
           #     "https://example.com/star.png",
           #     size: :sm
           #   )
-          def initialize(url, context: nil, **options, &)
+          def initialize(url, context: nil, **, &)
             @url = url # The icon URL is mandatory.
 
-            super(context: context, **options, &)
+            super(context: context, **, &)
           end
 
           private

@@ -196,11 +196,11 @@ module Line
           #   An optional block, typically used to define an action for the text
           #
           # Raises RequiredError if +text_content+ is nil (in +to_h+).
-          def initialize(text_content = nil, context: nil, **options, &)
+          def initialize(text_content = nil, context: nil, **, &)
             @text = text_content # The text content is mandatory.
             @contents = []       # Initialize contents for spans, if any.
 
-            super(context: context, **options, &) # Sets options and evals block (for action).
+            super(context: context, **, &) # Sets options and evals block (for action).
           end
 
           # A convenience DSL method to set the +wrap+ property to +true+.
@@ -231,8 +231,8 @@ module Line
           #     span "Important", color: "#FF0000", weight: :bold
           #     span " normal text"
           #   end
-          def span(text_content, **options, &)
-            @contents << Span.new(text_content, context: @context, **options, &)
+          def span(text_content, **, &)
+            @contents << Span.new(text_content, context: @context, **, &)
           end
 
           # :nodoc:

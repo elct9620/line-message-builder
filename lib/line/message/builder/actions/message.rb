@@ -66,10 +66,10 @@ module Line
           #
           #   action = Message.new("Hello, world!")
           #   action = Message.new("Pizza", label: "Select Pizza")
-          def initialize(text, context: nil, **options, &)
+          def initialize(text, context: nil, **, &)
             @text = text
 
-            super(context: context, **options, &)
+            super(context: context, **, &)
           end
 
           # Converts the Message action object to a hash suitable for the LINE

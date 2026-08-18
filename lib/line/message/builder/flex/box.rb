@@ -283,8 +283,8 @@ module Line
           #   A block to define the contents of the nested box
           #
           # Returns the newly created nested Box object.
-          def box(**options, &)
-            @contents << Flex::Box.new(context: context, **options, &)
+          def box(**, &)
+            @contents << Flex::Box.new(context: context, **, &)
           end
 
           # Adds a Flex Text component to this box's contents.
@@ -315,8 +315,8 @@ module Line
           #     span "styled", color: "#FF0000"
           #     span " parts"
           #   end
-          def text(text = nil, **options, &)
-            @contents << Flex::Text.new(text, context: context, **options, &)
+          def text(text = nil, **, &)
+            @contents << Flex::Text.new(text, context: context, **, &)
           end
 
           # Adds a Flex Button component to this box's contents.
@@ -327,8 +327,8 @@ module Line
           #   A block to define the button's action and properties
           #
           # Returns the newly created Button object.
-          def button(**options, &)
-            @contents << Flex::Button.new(context: context, **options, &)
+          def button(**, &)
+            @contents << Flex::Button.new(context: context, **, &)
           end
 
           # Adds a Flex Image component to this box's contents.
@@ -341,8 +341,8 @@ module Line
           #   An optional block for the image component (e.g., for an action)
           #
           # Returns the newly created Image object.
-          def image(url, **options, &)
-            @contents << Flex::Image.new(url, context: context, **options, &)
+          def image(url, **, &)
+            @contents << Flex::Image.new(url, context: context, **, &)
           end
 
           # Adds an Icon component to this box's contents.
@@ -363,8 +363,8 @@ module Line
           #     icon "https://example.com/star.png", size: :sm
           #     text "4.0", margin: :md
           #   end
-          def icon(url, **options, &)
-            @contents << Flex::Icon.new(url, context: context, **options, &)
+          def icon(url, **, &)
+            @contents << Flex::Icon.new(url, context: context, **, &)
           end
 
           # Adds a Flex Separator component to this box's contents.
@@ -378,8 +378,8 @@ module Line
           #   An optional block for advanced separator configuration
           #
           # Returns the newly created Separator object.
-          def separator(**options, &)
-            @contents << Flex::Separator.new(context: context, **options, &)
+          def separator(**, &)
+            @contents << Flex::Separator.new(context: context, **, &)
           end
 
           def to_h # :nodoc:

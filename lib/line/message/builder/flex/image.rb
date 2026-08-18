@@ -129,10 +129,10 @@ module Line
           #     aspect_ratio: "16:9",
           #     aspect_mode: :cover
           #   )
-          def initialize(url, context: nil, **options, &)
+          def initialize(url, context: nil, **, &)
             @url = url # The image URL is mandatory.
 
-            super(context: context, **options, &) # Sets options and evals block (for action).
+            super(context: context, **, &) # Sets options and evals block (for action).
           end
 
           private

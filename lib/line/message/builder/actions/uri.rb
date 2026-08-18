@@ -81,10 +81,10 @@ module Line
           # == Example
           #
           #   Uri.new("https://example.com", label: "Open")
-          def initialize(uri, context: nil, **options, &)
+          def initialize(uri, context: nil, **, &)
             @uri = uri
 
-            super(context: context, **options, &)
+            super(context: context, **, &)
           end
 
           # Converts the Uri action object to a hash suitable for the LINE

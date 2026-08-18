@@ -85,9 +85,9 @@ module Line
           #       body { text "Product 2" }
           #     end
           #   end
-          def bubble(**options, &)
+          def bubble(**, &)
             # The maximum number of bubbles is validated in `to_h` as per LINE API limits.
-            @contents << Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
+            @contents << Line::Message::Builder::Flex::Bubble.new(context: context, **, &)
           end
 
           # :nodoc:

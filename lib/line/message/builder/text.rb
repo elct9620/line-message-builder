@@ -74,10 +74,10 @@ module Line
         #       button action: :message, label: "Hi", text: "Hi back!"
         #     end
         #   end
-        def initialize(text, context: nil, **options, &block)
+        def initialize(text, context: nil, **, &)
           @text = text
 
-          super(context: context, **options, &block)
+          super(context: context, **, &)
         end
 
         private

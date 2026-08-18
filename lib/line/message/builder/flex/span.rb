@@ -113,10 +113,10 @@ module Line
           # == Example
           #
           #   span "Hello", color: "#FF0000", weight: :bold
-          def initialize(text_content, context: nil, **options, &)
+          def initialize(text_content, context: nil, **, &)
             @text = text_content # The text content is mandatory.
 
-            super(context: context, **options, &) # Sets options and evals block
+            super(context: context, **, &) # Sets options and evals block
           end
 
           # Sets weight to bold.

@@ -55,11 +55,11 @@ module Line
         # [block]
         #   A block containing DSL calls to define messages
         #   (e.g., <code>text "Hello"</code>, <code>flex { ... }</code>).
-        def initialize(context: nil, mode: :api, &block)
+        def initialize(context: nil, mode: :api, &)
           @messages = [] # Initializes an empty array to store message objects
           @context = Context.new(context, mode:)
 
-          instance_eval(&block) if ::Kernel.block_given?
+          instance_eval(&) if ::Kernel.block_given?
         end
 
         # Creates a new Text message and adds it to this container.
@@ -81,8 +81,8 @@ module Line
         #       button action: :message, label: "Hi!", text: "Hi!"
         #     end
         #   end
-        def text(text, **options, &)
-          @messages << Text.new(text, context: context, **options, &)
+        def text(text, **, &)
+          @messages << Text.new(text, context: context, **, &)
         end
 
         # Creates a new Flex::Builder for constructing a Flex Message and adds it
@@ -108,8 +108,8 @@ module Line
         #       body   { text "Body" }
         #     end
         #   end
-        def flex(**options, &)
-          @messages << Flex::Builder.new(context: context, **options, &)
+        def flex(**, &)
+          @messages << Flex::Builder.new(context: context, **, &)
         end
 
         # Converts all messages held by this container into their hash representations.
@@ -128,8 +128,8 @@ module Line
         # [arg]
         #   Optional arguments that are passed along to +to_json+
         #   method of the underlying array.
-        def to_json(*args)
-          build.to_json(*args)
+        def to_json(*)
+          build.to_json(*)
         end
 
         # :nodoc:

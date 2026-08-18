@@ -90,8 +90,8 @@ module Line
           #   Options for the header Box. See Box#initialize.
           # [block]
           #   A block to define the contents of the header Box.
-          def header(**options, &)
-            @header = Box.new(**options, context: context, &)
+          def header(**, &)
+            @header = Box.new(**, context: context, &)
           end
 
           # Defines the hero section of the bubble using a Box component.
@@ -101,8 +101,8 @@ module Line
           #   Options for the hero Box. See Box#initialize.
           # [block]
           #   A block to define the contents of the hero Box.
-          def hero(**options, &)
-            @hero = Box.new(**options, context: context, &)
+          def hero(**, &)
+            @hero = Box.new(**, context: context, &)
           end
 
           # Defines the hero section of the bubble using an Image component.
@@ -114,8 +114,8 @@ module Line
           #   Options for the Image component. See Image#initialize.
           # [block]
           #   An optional block for the Image component (e.g., for an action).
-          def hero_image(url, **options, &)
-            @hero = Image.new(url, **options, context: context, &)
+          def hero_image(url, **, &)
+            @hero = Image.new(url, **, context: context, &)
           end
 
           # Defines the body section of the bubble using a Box component.
@@ -125,8 +125,8 @@ module Line
           #   Options for the body Box. See Box#initialize.
           # [block]
           #   A block to define the contents of the body Box.
-          def body(**options, &)
-            @body = Box.new(**options, context: context, &)
+          def body(**, &)
+            @body = Box.new(**, context: context, &)
           end
 
           # Defines the footer section of the bubble using a Box component.
@@ -135,8 +135,8 @@ module Line
           #   Options for the footer Box. See Box#initialize.
           # [block]
           #   A block to define the contents of the footer Box.
-          def footer(**options, &)
-            @footer = Box.new(**options, context: context, &)
+          def footer(**, &)
+            @footer = Box.new(**, context: context, &)
           end
 
           private

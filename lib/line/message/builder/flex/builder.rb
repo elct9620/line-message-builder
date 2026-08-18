@@ -71,8 +71,8 @@ module Line
           #   Options for the Bubble. See Bubble#initialize.
           # [block]
           #   A block to define the sections of the Bubble.
-          def bubble(**options, &)
-            @contents = Line::Message::Builder::Flex::Bubble.new(context: context, **options, &)
+          def bubble(**, &)
+            @contents = Line::Message::Builder::Flex::Bubble.new(context: context, **, &)
           end
 
           # Defines the content of this Flex Message as a Carousel of bubbles.
@@ -82,8 +82,8 @@ module Line
           #   Options for the Carousel. See Carousel#initialize.
           # [block]
           #   A block to define the bubbles within the Carousel.
-          def carousel(**options, &)
-            @contents = Line::Message::Builder::Flex::Carousel.new(context: context, **options, &)
+          def carousel(**, &)
+            @contents = Line::Message::Builder::Flex::Carousel.new(context: context, **, &)
           end
 
           private

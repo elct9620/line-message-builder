@@ -82,10 +82,10 @@ module Line
           #     label: "Buy Now",
           #     display_text: "I want to buy this item"
           #   )
-          def initialize(data, context: nil, **options, &)
+          def initialize(data, context: nil, **, &)
             @data = data
 
-            super(context: context, **options, &)
+            super(context: context, **, &)
           end
 
           # Converts the Postback action object to a hash suitable for the LINE Messaging API.

@@ -45,8 +45,8 @@ module Line
           # == Example
           #
           #   button_component.message "Hello User!", label: "Send Greeting"
-          def message(text, **options, &)
-            @action = Actions::Message.new(text, context: context, **options, &)
+          def message(text, **, &)
+            @action = Actions::Message.new(text, context: context, **, &)
           end
 
           # Defines a postback action for the component.
@@ -62,8 +62,8 @@ module Line
           # == Example
           #
           #   button_component.postback "action=buy&item_id=123", label: "Buy Item"
-          def postback(data, **options, &)
-            @action = Actions::Postback.new(data, context: context, **options, &)
+          def postback(data, **, &)
+            @action = Actions::Postback.new(data, context: context, **, &)
           end
 
           # Defines a URI action for the component.
@@ -80,8 +80,8 @@ module Line
           # == Example
           #
           #   button_component.uri "https://example.com", label: "Learn more"
-          def uri(uri, **options, &)
-            @action = Actions::Uri.new(uri, context: context, **options, &)
+          def uri(uri, **, &)
+            @action = Actions::Uri.new(uri, context: context, **, &)
           end
         end
       end

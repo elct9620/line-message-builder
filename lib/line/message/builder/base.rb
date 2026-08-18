@@ -97,7 +97,7 @@ module Line
         #   builder = MyBuilder.new(context: view_context) do
         #     text "Hello from context"
         #   end
-        def initialize(context: nil, **options, &block)
+        def initialize(context: nil, **options, &)
           @context = context
           @quick_reply = nil
 
@@ -107,7 +107,7 @@ module Line
             send(option, options[option]) if options.key?(option)
           end
 
-          instance_eval(&block) if ::Kernel.block_given?
+          instance_eval(&) if ::Kernel.block_given?
         end
 
         # Defines a quick reply for the message.
