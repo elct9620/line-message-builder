@@ -8,10 +8,13 @@ module Line
         #
         # Buttons are interactive elements that users can tap to trigger an action
         # (e.g., open a URL, send a message, or trigger a postback). They have
-        # various styling options, including +style+ (primary, secondary, link) and
-        # +height+.
+        # various styling options, including +style+ (primary, secondary, link),
+        # +color+ and +height+.
         #
         # An action is mandatory for a button component.
+        #
+        # Buttons have no padding properties of their own; use the padding of the
+        # surrounding Box to inset a button.
         #
         # == Example
         #
@@ -27,11 +30,24 @@ module Line
         #     end
         #   end
         #
+        # === Example: Tinting a primary button
+        #
+        #   Line::Message::Builder.with do
+        #     flex alt_text: "Button Example" do
+        #       bubble do
+        #         body do
+        #           button style: :primary, color: "#1DB446" do
+        #             message "Buy Now", label: "Buy"
+        #           end
+        #         end
+        #       end
+        #     end
+        #   end
+        #
         # See also:
         # - https://developers.line.biz/en/reference/messaging-api/#button
         # - Actionable for defining the button's action (mandatory)
         # - Position::Vertical for +gravity+ property
-        # - Position::Padding for padding properties
         # - Position::Margin for +margin+ property
         # - Position::Offset for offset properties
         # - Size::Flex for flex sizing property
@@ -39,7 +55,6 @@ module Line
         class Button < Line::Message::Builder::Base
           include Actionable # Defines the action performed when the button is tapped.
           include Position::Vertical # Adds `gravity` option for vertical alignment.
-          include Position::Padding  # Adds padding options.
           include Position::Margin   # Adds `margin` option.
           include Position::Offset   # Adds offset options.
           include Size::Flex         # Adds `flex` option for sizing within a parent box.
@@ -67,6 +82,31 @@ module Line
           # [value]
           #   Button height. Can be +:sm+ (small) or +:md+ (medium, default).
           option :height, default: :md, validator: Validators::Enum.new(:sm, :md)
+
+          # :method: color
+          # :call-seq:
+          #   color() -> String or nil
+          #   color(value) -> String
+          #
+          # Sets or gets the button color. This is the character color when
+          # +style+ is <code>:link</code>, and the background color when +style+
+          # is <code>:primary</code> or <code>:secondary</code>.
+          #
+          # [value]
+          #   Hexadecimal color code (e.g., <code>"#RRGGBB"</code>)
+          option :color, default: nil
+
+          # :method: scaling
+          # :call-seq:
+          #   scaling() -> Boolean or nil
+          #   scaling(value) -> Boolean
+          #
+          # Sets or gets whether the label font size follows the font size setting
+          # of the LINE app.
+          #
+          # [value]
+          #   +true+ to scale the font size, +false+ (default) to keep it fixed
+          option :scaling, default: nil
 
           # Initializes a new Flex Message Button component.
           #
@@ -96,14 +136,10 @@ module Line
               action: action.to_h, # From Actionable module
               style: style,         # From option
               height: height,       # From option
+              color: color,         # From option
+              scaling: scaling,     # From option
               # Position::Vertical
               gravity: gravity,
-              # Position::Padding
-              paddingAll: padding || padding_all,
-              paddingTop: padding_top,
-              paddingBottom: padding_bottom,
-              paddingStart: padding_start,
-              paddingEnd: padding_end,
               # Position::Margin
               margin: margin,
               # Position::Offset
@@ -128,14 +164,10 @@ module Line
               action: action.to_h, # From Actionable module
               style: style,         # From option
               height: height,       # From option
+              color: color,         # From option
+              scaling: scaling,     # From option
               # Position::Vertical
               gravity: gravity,
-              # Position::Padding
-              padding_all: padding || padding_all,
-              padding_top: padding_top,
-              padding_bottom: padding_bottom,
-              padding_start: padding_start,
-              padding_end: padding_end,
               # Position::Margin
               margin: margin,
               # Position::Offset

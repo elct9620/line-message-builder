@@ -126,13 +126,13 @@ RSpec.describe Line::Message::Builder do
     it { is_expected.to have_line_flex_button("postback", flex: 2) }
   end
 
-  context "with button padding" do
+  context "without padding properties" do
     let(:builder) do
       described_class.with do
         flex alt_text: "Simple Flex Message" do
           bubble do
             footer do
-              button padding: :md do
+              button do
                 postback "action=submit", label: "Submit"
               end
             end
@@ -141,16 +141,22 @@ RSpec.describe Line::Message::Builder do
       end
     end
 
-    it { is_expected.to have_line_flex_button("postback", paddingAll: :md) }
+    let(:padding_keys) { %w[paddingAll paddingTop paddingBottom paddingStart paddingEnd] }
+
+    it {
+      expect(build).to(have_line_flex_component do |content|
+        content["type"] == "button" && padding_keys.none? { |key| content.key?(key) }
+      end)
+    }
   end
 
-  context "with invalid button padding" do
+  context "with button color" do
     let(:builder) do
       described_class.with do
         flex alt_text: "Simple Flex Message" do
           bubble do
             footer do
-              button padding: :invalid do
+              button style: :primary, color: "#1DB446" do
                 postback "action=submit", label: "Submit"
               end
             end
@@ -159,7 +165,25 @@ RSpec.describe Line::Message::Builder do
       end
     end
 
-    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: invalid/) }
+    it { is_expected.to have_line_flex_button("postback", color: "#1DB446") }
+  end
+
+  context "with button scaling" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button scaling: true do
+                postback "action=submit", label: "Submit"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_button("postback", scaling: true) }
   end
 
   context "with button offset" do
