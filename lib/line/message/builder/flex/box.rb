@@ -41,7 +41,7 @@ module Line
         # - Position::Margin for margin properties
         # - Position::Offset for offset properties
         # - Size::Flex for flex sizing property
-        class Box < Line::Message::Builder::Base
+        class Box < Line::Message::Builder::Base # rubocop:disable Metrics/ClassLength
           include HasPartial # Allows including predefined partial component sets.
           include Actionable # Enables defining an action for the entire box.
           include Position::Padding  # Adds padding options like +padding_all+, +padding_top+, etc.
@@ -232,6 +232,28 @@ module Line
           # Returns the newly created Image object.
           def image(url, **options, &)
             @contents << Flex::Image.new(url, context: context, **options, &)
+          end
+
+          # Adds an Icon component to this box's contents.
+          #
+          # Icons decorate the text next to them and can only be used in a box
+          # whose +layout+ is +:baseline+.
+          #
+          # [url]
+          #   The HTTPS URL of the icon image
+          # [options]
+          #   Options for the icon component (e.g., +:size+, +:aspect_ratio+)
+          # [block]
+          #   An optional block for further configuration
+          #
+          # == Example
+          #
+          #   box layout: :baseline do
+          #     icon "https://example.com/star.png", size: :sm
+          #     text "4.0", margin: :md
+          #   end
+          def icon(url, **options, &)
+            @contents << Flex::Icon.new(url, context: context, **options, &)
           end
 
           # Adds a Flex Separator component to this box's contents.

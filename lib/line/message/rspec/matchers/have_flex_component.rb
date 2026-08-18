@@ -116,6 +116,16 @@ module Line
           end
         end
 
+        def have_line_flex_icon(url, **options) # rubocop:disable Naming/PredicatePrefix
+          options = Utils.stringify_keys!(options, deep: true)
+
+          HaveFlexComponent.new(expected_desc: "icon(#{url.inspect})") do |content|
+            next false unless content["type"] == "icon"
+
+            ::RSpec::Matchers::BuiltIn::Include.new({ "url" => url, **options }).matches?(content)
+          end
+        end
+
         def have_line_flex_span(text, **options) # rubocop:disable Naming/PredicatePrefix
           options = Utils.stringify_keys!(options, deep: true)
 

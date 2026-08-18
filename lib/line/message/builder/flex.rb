@@ -66,6 +66,7 @@ module Line
         require_relative "flex/text"     # Text display
         require_relative "flex/button"   # Interactive button
         require_relative "flex/image"    # Image display
+        require_relative "flex/icon"     # Icon decorating adjacent text
         require_relative "flex/separator" # Visual separator
         require_relative "flex/span" # Text span for styling parts of text
       end
