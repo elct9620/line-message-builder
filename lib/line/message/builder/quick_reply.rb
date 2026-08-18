@@ -63,7 +63,8 @@ module Line
         # [context]
         #   An optional context object for method delegation (default: +nil+)
         # [block]
-        #   Block for configuring quick reply buttons using +message+ and +postback+ methods
+        #   Block for configuring quick reply buttons using +message+, +postback+
+        #   and +uri+ methods
         #
         # == Example
         #
@@ -155,6 +156,41 @@ module Line
         def postback(data, label: nil, display_text: nil, image_url: nil, &)
           action(
             Actions::Postback.new(data, context: context, label: label, display_text: display_text, &),
+            image_url
+          )
+        end
+
+        # Adds a URI action button to the quick reply.
+        #
+        # URI actions open the given URI when the button is tapped, without any
+        # webhook handling. The <code>altUri.desktop</code> property is not
+        # supported in a quick reply, so Actions::Uri#alt_uri_desktop has no
+        # effect here.
+        #
+        # [uri]
+        #   The URI to open. Schemes +http+, +https+, +line+ and +tel+
+        # [label]
+        #   The label text displayed on the button (required)
+        # [image_url]
+        #   Optional icon image URL for the button (default: +nil+)
+        # [block]
+        #   Optional block for additional configuration
+        #
+        # == Example: Basic URI button
+        #
+        #   quick_reply do
+        #     uri "https://example.com/menu", label: "See menu"
+        #   end
+        #
+        # == Example: URI button with icon
+        #
+        #   quick_reply do
+        #     uri "tel:+81312345678", label: "Call us",
+        #         image_url: "https://example.com/phone.png"
+        #   end
+        def uri(uri, label:, image_url: nil, &)
+          action(
+            Actions::Uri.new(uri, context: context, label: label, &),
             image_url
           )
         end

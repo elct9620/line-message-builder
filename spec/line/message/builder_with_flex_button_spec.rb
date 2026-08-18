@@ -126,6 +126,62 @@ RSpec.describe Line::Message::Builder do
     it { is_expected.to have_line_flex_button("postback", flex: 2) }
   end
 
+  context "with uri action" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button style: :link do
+                uri "https://example.com/event", label: "View event"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_button("uri", uri: "https://example.com/event", label: "View event") }
+  end
+
+  context "with uri action for desktop" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button do
+                uri "https://example.com/mobile",
+                    label: "Open",
+                    alt_uri_desktop: "https://example.com/desktop"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_button("uri", altUri: { desktop: "https://example.com/desktop" }) }
+  end
+
+  context "without uri" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Simple Flex Message" do
+          bubble do
+            footer do
+              button do
+                uri nil, label: "Broken"
+              end
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::RequiredError, /uri is required/) }
+  end
+
   context "without padding properties" do
     let(:builder) do
       described_class.with do

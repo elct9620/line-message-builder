@@ -21,10 +21,12 @@ module Line
       # See also:
       # - Actions::Message
       # - Actions::Postback
+      # - Actions::Uri
       # - https://developers.line.biz/en/reference/messaging-api/#action-objects
       module Actions
         require_relative "actions/message"
         require_relative "actions/postback"
+        require_relative "actions/uri"
       end
     end
   end

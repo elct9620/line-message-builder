@@ -20,4 +20,19 @@ RSpec.describe Line::Message::Builder do
   it { is_expected.to have_line_quick_reply(text: "Yes") }
   it { is_expected.to have_line_quick_reply(type: "postback", label: "No") }
   it { is_expected.to have_line_text_message(/With Quick Reply/) }
+
+  context "with uri action" do
+    let(:builder) do
+      described_class.with do
+        text "With Quick Reply" do
+          quick_reply do
+            uri "https://example.com/menu", label: "See menu"
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_quick_reply(type: "uri", label: "See menu") }
+    it { is_expected.to have_line_quick_reply(uri: "https://example.com/menu") }
+  end
 end
