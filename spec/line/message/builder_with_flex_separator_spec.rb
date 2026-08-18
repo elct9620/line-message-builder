@@ -62,4 +62,62 @@ RSpec.describe Line::Message::Builder do
 
     it { is_expected.to have_line_flex_separator }
   end
+
+  context "with separator margin" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Separator Example" do
+          bubble do
+            body do
+              text "Section 1"
+              separator margin: :xl
+              text "Section 2"
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_separator(margin: :xl) }
+  end
+
+  context "with separator color" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Separator Example" do
+          bubble do
+            body do
+              text "Section 1"
+              separator color: "#F0F0F0"
+              text "Section 2"
+            end
+          end
+        end
+      end
+    end
+
+    it { is_expected.to have_line_flex_separator(color: "#F0F0F0") }
+  end
+
+  context "with invalid separator margin" do
+    let(:builder) do
+      described_class.with do
+        flex alt_text: "Separator Example" do
+          bubble do
+            body do
+              text "Section 1"
+              separator margin: :huge
+              text "Section 2"
+            end
+          end
+        end
+      end
+    end
+
+    it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Invalid value: huge/) }
+  end
+
+  context "without separator styling" do
+    it { is_expected.not_to have_line_flex_separator(color: "#F0F0F0") }
+  end
 end
