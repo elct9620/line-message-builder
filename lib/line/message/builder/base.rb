@@ -101,6 +101,8 @@ module Line
           @context = context
           @quick_reply = nil
 
+          validate_options!(options)
+
           self.class.options.each do |option|
             send(option, options[option]) if options.key?(option)
           end
@@ -164,6 +166,27 @@ module Line
         end
 
         private
+
+        # Rejects options the builder does not declare.
+        #
+        # An undeclared option is almost always a typo or a property the LINE API
+        # spells differently. Ignoring it produces a message that is silently
+        # missing the styling that was asked for, which nothing downstream can
+        # detect, so it is refused here instead.
+        #
+        # [options]
+        #   The hash of options passed to the constructor
+        #
+        # Raises ValidationError listing the unknown option and the ones this
+        # builder accepts.
+        def validate_options!(options) # :nodoc:
+          unknown = options.keys - self.class.options
+          return if unknown.empty?
+
+          raise ValidationError,
+                "Unknown option: #{unknown.join(", ")} for #{self.class}. " \
+                "Allowed options are: #{self.class.options.join(", ")}"
+        end
 
         def to_api # :nodoc:
           raise NotImplementedError, "#{self.class} must implement #to_api"

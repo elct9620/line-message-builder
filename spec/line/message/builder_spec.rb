@@ -124,4 +124,56 @@ RSpec.describe Line::Message::Builder do
     it { is_expected.to include('"type":"text"') }
     it { is_expected.to include('"text":"Hello, world!"') }
   end
+
+  describe "unknown options" do
+    subject(:build) { builder.build }
+
+    context "with an option the component does not declare" do
+      let(:builder) do
+        described_class.with do
+          flex alt_text: "Simple Flex Message" do
+            bubble do
+              body do
+                text "Nested box", colour: "#FF0000"
+              end
+            end
+          end
+        end
+      end
+
+      it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Unknown option: colour/) }
+    end
+
+    context "with an option that belongs to another component" do
+      let(:builder) do
+        described_class.with do
+          flex alt_text: "Simple Flex Message" do
+            bubble do
+              body do
+                separator padding: :md
+              end
+            end
+          end
+        end
+      end
+
+      it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Unknown option: padding/) }
+    end
+
+    context "when reporting the allowed options" do
+      let(:builder) do
+        described_class.with do
+          flex alt_text: "Simple Flex Message" do
+            bubble do
+              body do
+                separator padding: :md
+              end
+            end
+          end
+        end
+      end
+
+      it { expect { build }.to raise_error(Line::Message::Builder::ValidationError, /Allowed options are: margin, color/) }
+    end
+  end
 end
